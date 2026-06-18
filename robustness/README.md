@@ -9,7 +9,7 @@ SuperServe + Monid. Each prints a `RESULT: PASS` line.
 | Provider error | `provider-error.sh` | A bad model id yields a clean `turn.failed` (`MODEL_CALL_FAILED`); server stays healthy. | OpenRouter |
 | Sandbox crash recovery | `sandbox-crash.sh` | If the VM is destroyed mid-session, the backend provisions a fresh VM; the turn still completes. | SuperServe |
 | Durable resume | `scripts/durable_test.sh` | Session + sandbox filesystem survive a **full process restart**. | OpenRouter + SuperServe |
-| Tool timeout (egress) | `../archetypes/22-security` | A timed-out sandbox command (`curl -m 8`, exit 28) is returned as a tool result the agent handles, not a crash. | SuperServe |
+| Tool timeout (egress) | `../legacy/archetypes/22-security` | A timed-out sandbox command (`curl -m 8`, exit 28) is returned as a tool result the agent handles, not a crash. | SuperServe |
 | HITL | `scripts/hitl_test.sh` | `needsApproval` parks durably; approve resumes and executes the tool. | OpenRouter |
 
 ## Run

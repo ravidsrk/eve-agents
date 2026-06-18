@@ -1,0 +1,25 @@
+{"data":{"runtime":{"agentId":"08-hitl","agentName":"08-hitl","eveVersion":"0.11.4","modelId":"openrouter/openai/gpt-oss-120b"}},"type":"session.started","meta":{"at":"2026-06-18T11:17:40.167Z"}}
+{"data":{"sequence":0,"turnId":"turn_0"},"type":"turn.started","meta":{"at":"2026-06-18T11:17:40.168Z"}}
+{"data":{"message":"Please refund charge ch_123 for $40.","sequence":0,"turnId":"turn_0"},"type":"message.received","meta":{"at":"2026-06-18T11:17:40.180Z"}}
+{"data":{"sequence":0,"stepIndex":0,"turnId":"turn_0"},"type":"step.started","meta":{"at":"2026-06-18T11:17:40.214Z"}}
+{"data":{"reasoning":"We need to issue a refund using refund_charge tool. According to instructions, refunds require human approval before they run. We must call refund_charge with amount 40 and chargeId \"ch_123\". Then system will pause for human approval. After approval we confirm. So we just call the tool.","sequence":0,"stepIndex":0,"turnId":"turn_0"},"type":"reasoning.completed","meta":{"at":"2026-06-18T11:17:41.420Z"}}
+{"data":{"finishReason":"tool-calls","sequence":0,"stepIndex":0,"turnId":"turn_0","usage":{"inputTokens":2110,"outputTokens":99,"cacheReadTokens":64}},"type":"step.completed","meta":{"at":"2026-06-18T11:17:41.421Z"}}
+{"data":{"requests":[{"action":{"callId":"chatcmpl-tool-aaa9660f026243f6","input":{"chargeId":"ch_123","amount":40},"kind":"tool-call","toolName":"refund_charge"},"allowFreeform":false,"display":"confirmation","options":[{"id":"approve","label":"Yes"},{"id":"deny","label":"No"}],"prompt":"Approve tool call: refund_charge","requestId":"aitxt-3X4lXyiA0eOqDDH0hho7nkHr"}],"sequence":0,"stepIndex":0,"turnId":"turn_0"},"type":"input.requested","meta":{"at":"2026-06-18T11:17:41.434Z"}}
+{"data":{"sequence":0,"turnId":"turn_0"},"type":"turn.completed","meta":{"at":"2026-06-18T11:17:41.444Z"}}
+{"data":{"wait":"next-user-message"},"type":"session.waiting","meta":{"at":"2026-06-18T11:17:41.456Z"}}
+{"data":{"runtime":{"agentId":"08-hitl","agentName":"08-hitl","eveVersion":"0.11.4","modelId":"openrouter/openai/gpt-oss-120b"}},"type":"session.started","meta":{"at":"2026-06-18T11:17:40.167Z"}}
+{"data":{"sequence":0,"turnId":"turn_0"},"type":"turn.started","meta":{"at":"2026-06-18T11:17:40.168Z"}}
+{"data":{"message":"Please refund charge ch_123 for $40.","sequence":0,"turnId":"turn_0"},"type":"message.received","meta":{"at":"2026-06-18T11:17:40.180Z"}}
+{"data":{"sequence":0,"stepIndex":0,"turnId":"turn_0"},"type":"step.started","meta":{"at":"2026-06-18T11:17:40.214Z"}}
+{"data":{"reasoning":"We need to issue a refund using refund_charge tool. According to instructions, refunds require human approval before they run. We must call refund_charge with amount 40 and chargeId \"ch_123\". Then system will pause for human approval. After approval we confirm. So we just call the tool.","sequence":0,"stepIndex":0,"turnId":"turn_0"},"type":"reasoning.completed","meta":{"at":"2026-06-18T11:17:41.420Z"}}
+{"data":{"finishReason":"tool-calls","sequence":0,"stepIndex":0,"turnId":"turn_0","usage":{"inputTokens":2110,"outputTokens":99,"cacheReadTokens":64}},"type":"step.completed","meta":{"at":"2026-06-18T11:17:41.421Z"}}
+{"data":{"requests":[{"action":{"callId":"chatcmpl-tool-aaa9660f026243f6","input":{"chargeId":"ch_123","amount":40},"kind":"tool-call","toolName":"refund_charge"},"allowFreeform":false,"display":"confirmation","options":[{"id":"approve","label":"Yes"},{"id":"deny","label":"No"}],"prompt":"Approve tool call: refund_charge","requestId":"aitxt-3X4lXyiA0eOqDDH0hho7nkHr"}],"sequence":0,"stepIndex":0,"turnId":"turn_0"},"type":"input.requested","meta":{"at":"2026-06-18T11:17:41.434Z"}}
+{"data":{"sequence":0,"turnId":"turn_0"},"type":"turn.completed","meta":{"at":"2026-06-18T11:17:41.444Z"}}
+{"data":{"wait":"next-user-message"},"type":"session.waiting","meta":{"at":"2026-06-18T11:17:41.456Z"}}
+{"data":{"sequence":1,"turnId":"turn_1"},"type":"turn.started","meta":{"at":"2026-06-18T11:18:20.299Z"}}
+{"data":{"sequence":1,"stepIndex":0,"turnId":"turn_1"},"type":"step.started","meta":{"at":"2026-06-18T11:18:20.299Z"}}
+{"data":{"result":{"callId":"chatcmpl-tool-aaa9660f026243f6","kind":"tool-result","output":{"chargeId":"ch_123","amount":40,"status":"refunded","refundId":"re_ch_123_1781781500314"},"toolName":"refund_charge"},"sequence":1,"stepIndex":0,"status":"completed","turnId":"turn_1"},"type":"action.result","meta":{"at":"2026-06-18T11:18:20.314Z"}}
+{"data":{"finishReason":"stop","message":"The charge **ch_123** has been refunded for **$40**. 🎉","sequence":1,"stepIndex":0,"turnId":"turn_1"},"type":"message.completed","meta":{"at":"2026-06-18T11:18:21.337Z"}}
+{"data":{"finishReason":"stop","sequence":1,"stepIndex":0,"turnId":"turn_1","usage":{"inputTokens":2180,"outputTokens":22,"cacheReadTokens":64}},"type":"step.completed","meta":{"at":"2026-06-18T11:18:21.350Z"}}
+{"data":{"sequence":1,"turnId":"turn_1"},"type":"turn.completed","meta":{"at":"2026-06-18T11:18:21.365Z"}}
+{"data":{"wait":"next-user-message"},"type":"session.waiting","meta":{"at":"2026-06-18T11:18:21.374Z"}}

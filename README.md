@@ -3,10 +3,6 @@
 A real-world catalog of 50 Vercel eve agents wired for OpenRouter inference, SuperServe sandbox
 execution, and optional Monid-powered live tool research.
 
-This repo is a rebuild of the original toy catalog. The goal is no longer "show one eve feature per
-folder." The goal is a practical operating manual for building useful durable backend agents: finance,
-support, engineering, security, legal, data, logistics, healthcare operations, education, and more.
-
 ## Current status
 
 - 50 archetypes generated from [AGENT_MATRIX.md](AGENT_MATRIX.md).
@@ -17,17 +13,25 @@ support, engineering, security, legal, data, logistics, healthcare operations, e
 - Live validation passes for all 50 agents: each has a captured `run.log` with `load_dossier`,
   `analyze_records`, `write_report`, and a completion marker.
 - Monid live discovery and representative inspect calls work; see [MONID_RESEARCH.md](MONID_RESEARCH.md).
+- Official eve fixtures are ported in [`agents/official/`](agents/official/).
+- Production-grade P01-P10 agents live in [`agents/production/`](agents/production/).
+- Superseded v1 demos are preserved in [`legacy/archetypes/`](legacy/archetypes/).
+- See [AGENT_CATALOG.md](AGENT_CATALOG.md) for the research-driven roadmap.
 
 ## Architecture
 
 ```text
 packages/
-  openrouter/            OpenRouter LanguageModel provider for eve
-  superserve-backend/    Custom eve SandboxBackend for SuperServe microVMs
-  monid-tools/           Monid HTTP tools and cost guard
+  openrouter/            @lab/openrouter OpenRouter LanguageModel provider for eve
+  superserve-backend/    @lab/superserve-backend custom eve SandboxBackend for SuperServe microVMs
+  monid-tools/           @lab/monid-tools Monid HTTP tools and cost guard
   agent-kit/             Shared deterministic tools for the 50 archetypes
-eve-lab/                 Canonical minimal eve lab app
-archetypes/01..50/       Real-world eve agents
+eve-lab/                 Canonical minimal eve lab app and eval suite
+archetypes/01..50/       Real-world 50-agent catalog from this PR
+agents/official/         Ported vercel/eve fixtures
+agents/production/       Production agents P01-P10 with domain tools
+legacy/archetypes/       Deprecated v1 primitive demos
+robustness/              Failure-mode tests
 scripts/
   generate-real-world-archetypes.mjs
   verify-real-world-archetypes.mjs

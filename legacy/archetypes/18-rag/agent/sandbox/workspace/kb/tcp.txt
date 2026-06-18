@@ -1,0 +1,5 @@
+TCP (Transmission Control Protocol) is a connection-oriented transport protocol that provides
+reliable, ordered, and error-checked delivery of a stream of bytes between applications. It
+establishes a connection using a three-way handshake (SYN, SYN-ACK, ACK), uses sequence numbers and
+acknowledgements to guarantee delivery, and applies flow control and congestion control. Unlike UDP,
+TCP retransmits lost packets and reorders out-of-order segments.

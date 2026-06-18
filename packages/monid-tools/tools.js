@@ -42,7 +42,9 @@ export const monidRunTool = defineTool({
   inputSchema: z.object({
     provider: z.string().min(1),
     endpoint: z.string().min(1),
-    input: z.record(z.string(), z.unknown()).default({}),
+    input: z.record(z.string(), z.unknown()).optional(),
+    query: z.record(z.string(), z.unknown()).optional(),
+    path: z.record(z.string(), z.unknown()).optional(),
     price: z
       .object({
         type: z.string().optional(),
@@ -51,8 +53,8 @@ export const monidRunTool = defineTool({
       })
       .optional(),
   }),
-  async execute({ provider, endpoint, input, price }) {
-    return run({ provider, endpoint, input, price });
+  async execute({ provider, endpoint, input, query, path, price }) {
+    return run({ provider, endpoint, input, query, path, price });
   },
 });
 

@@ -1,0 +1,4 @@
+2026-06-18T03:00:01Z INFO  airflow.task dag=daily_revenue task=extract_stripe run_id=manual__2026-06-18T03:00:00+00:00
+2026-06-18T03:00:45Z INFO  spark.executor stage=0 tasks_complete=120
+2026-06-18T03:01:12Z ERROR spark.executor task=write_parquet path=s3://warehouse/revenue/dt=2026-06-17 err="AnalysisException: Cannot write incompatible data to table 'revenue_daily': cannot safely cast 'amount' from string to double"
+2026-06-18T03:01:12Z ERROR airflow.task task_state=FAILED duration_s=71

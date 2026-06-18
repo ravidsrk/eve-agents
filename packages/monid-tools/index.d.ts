@@ -13,6 +13,8 @@ export declare function run(args: {
   provider: string;
   endpoint: string;
   input?: Record<string, unknown>;
+  query?: Record<string, unknown>;
+  path?: Record<string, unknown>;
   price?: MonidPrice;
 }): Promise<any>;
 export declare const config: {

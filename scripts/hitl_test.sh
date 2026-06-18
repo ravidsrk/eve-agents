@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # shellcheck source=scripts/lib.sh
 source "$ROOT/scripts/lib.sh"
 
-DIR="$ROOT/archetypes/08-hitl"
+DIR="$ROOT/legacy/archetypes/08-hitl"
 PORT=3118
 OUT="$DIR/run.log"
 

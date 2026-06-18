@@ -2,8 +2,17 @@
   "name": "eve-exploration",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
-  "description": "A tested catalog of Vercel eve agents wired to OpenRouter, SuperServe, and Monid.",
+  "description": "Open-source catalog of Vercel eve agents wired to OpenRouter, SuperServe, and Monid.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ravidsrk/eve-exploration.git"
+  },
+  "homepage": "https://github.com/ravidsrk/eve-exploration",
+  "bugs": {
+    "url": "https://github.com/ravidsrk/eve-exploration/issues"
+  },
   "workspaces": [
     "packages/*",
     "eve-lab",

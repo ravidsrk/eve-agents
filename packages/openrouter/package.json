@@ -1,6 +1,7 @@
 {
   "name": "@lab/openrouter",
   "version": "0.0.0",
+  "license": "MIT",
   "type": "module",
   "description": "OpenRouter model provider for eve, via @ai-sdk/openai-compatible (AI SDK v7-beta compatible).",
   "exports": {

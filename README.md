@@ -1,5 +1,9 @@
 # eve-exploration — a tested catalog of agents on Vercel **eve**
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**Open source (MIT).** Free to use, modify, and share. Contributions welcome — see [License](LICENSE).
+
 A deep, hands-on exploration of [Vercel **eve**](https://github.com/vercel/eve) (the open-source,
 filesystem-first framework for durable AI agents, `eve@0.11.4`, public beta) wired to three real
 platforms:
@@ -99,3 +103,11 @@ or are killed after use. Total Monid spend across this lab: ~$0.03.
 ## Secrets
 Read from env / `.env.local` only; **never committed**. `.gitignore` excludes `.env*`, `.secrets/`,
 and secret files. `.env.example` documents the variables.
+
+## License
+
+This project is [MIT licensed](LICENSE). You may use, copy, modify, merge, publish, distribute,
+sublicense, and sell copies of this software without restriction, provided the license notice is
+included in all copies or substantial portions.
+
+Third-party dependencies (eve, SuperServe SDK, etc.) carry their own licenses — see `package-lock.json`.

@@ -1,6 +1,7 @@
 {
   "name": "@lab/superserve-backend",
   "version": "0.0.0",
+  "license": "MIT",
   "type": "module",
   "description": "A custom eve SandboxBackend that runs the agent sandbox on SuperServe Firecracker microVMs (persistent, resumable).",
   "exports": {

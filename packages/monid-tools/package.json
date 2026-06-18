@@ -1,6 +1,7 @@
 {
   "name": "@lab/monid-tools",
   "version": "0.0.0",
+  "license": "MIT",
   "type": "module",
   "description": "Monid (agent-native tool router) client + eve tools, with a per-task USD budget guard and cost logging.",
   "exports": {

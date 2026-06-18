@@ -4,9 +4,16 @@
   "type": "module",
   "private": true,
   "description": "Shared tools and helpers for real-world eve archetypes.",
+  "types": "./index.d.ts",
   "exports": {
-    ".": "./index.js",
-    "./tools": "./tools.js"
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./tools": {
+      "types": "./tools.d.ts",
+      "default": "./tools.js"
+    }
   },
   "peerDependencies": {
     "eve": "^0.11.4",

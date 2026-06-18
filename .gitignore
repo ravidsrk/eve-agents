@@ -1,0 +1,43 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+.secrets/
+/home/ubuntu/.eve_lab_env
+
+# Dependencies
+node_modules/
+.pnp.*
+.yarn/
+
+# eve build/runtime artifacts
+.eve/
+.output/
+.vercel/
+*.pid
+.eve/dev-process.pid
+
+# Next.js (web channel)
+.next/
+out/
+
+# Logs & local data (we keep curated run.log files explicitly via git add -f)
+*.local.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Build caches
+dist/
+.turbo/
+*.tsbuildinfo
+
+# Monid cost ledger (runtime artifact)
+.monid-costs.jsonl

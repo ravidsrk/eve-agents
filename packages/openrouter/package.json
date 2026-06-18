@@ -1,0 +1,18 @@
+{
+  "name": "@lab/openrouter",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "OpenRouter model provider for eve, via @ai-sdk/openai-compatible (AI SDK v7-beta compatible).",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "dependencies": {
+    "@ai-sdk/openai-compatible": "3.0.0-beta.57"
+  },
+  "peerDependencies": {
+    "ai": "7.0.0-beta.178"
+  }
+}

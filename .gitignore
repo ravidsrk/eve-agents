@@ -27,6 +27,9 @@ out/
 # Logs & local data (we keep curated run.log files explicitly via git add -f)
 *.local.log
 npm-debug.log*
+.agent-artifacts/
+archetypes/*/.agent-artifacts/
+archetypes/*/.workflow-data/
 
 # OS / editor
 .DS_Store

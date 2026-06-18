@@ -38,6 +38,7 @@ OUT="$DIR/run.log"
 
 echo "==> $(basename "$DIR") on port $PORT"
 start_eve_dev "$DIR" "$PORT" "$LOG"
+trap 'kill_eve_dev "$DIR"' EXIT
 wait_for_health "$PORT"
 
 RESP=$(curl -s -XPOST "http://127.0.0.1:${PORT}/eve/v1/session" \
@@ -55,8 +56,22 @@ if [ -z "$SID" ]; then
 fi
 
 echo "sessionId=$SID"
-curl -sN -m 120 "http://127.0.0.1:${PORT}/eve/v1/session/${SID}/stream" >"$OUT"
+STREAM_TIMEOUT="${EVE_STREAM_TIMEOUT_SECONDS:-180}"
+set +e
+curl -sN -m "$STREAM_TIMEOUT" "http://127.0.0.1:${PORT}/eve/v1/session/${SID}/stream" >"$OUT"
+CURL_STATUS=$?
+set -e
+
+if [ "$CURL_STATUS" -ne 0 ]; then
+  if grep -q '"type":"session.waiting"\|"type":"session.completed"' "$OUT"; then
+    echo "stream ended with curl status $CURL_STATUS after completion marker"
+  else
+    echo "stream failed with curl status $CURL_STATUS before completion marker"
+    exit "$CURL_STATUS"
+  fi
+fi
 echo "wrote $OUT ($(wc -l <"$OUT" | tr -d ' ') events)"
 
 kill_eve_dev "$DIR"
+trap - EXIT
 echo "done"

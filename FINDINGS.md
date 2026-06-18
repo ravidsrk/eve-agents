@@ -1,7 +1,7 @@
 # Findings
 
-See the [unified catalog](AGENT_CATALOG.md) for how all 92 agents (official, catalog, production,
-legacy) fit together.
+See the [unified catalog](AGENT_CATALOG.md) for how all 92 agents (`agents/reference`,
+`agents/catalog`, `agents/production`, `agents/integrations`) fit together.
 
 ## What changed
 

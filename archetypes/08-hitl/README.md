@@ -8,7 +8,7 @@ protocol. Driven over HTTP with structured `inputResponses`.
 
 ## Run (pause → approve → resume)
 ```bash
-bash /home/ubuntu/hitl_test.sh   # or replicate the 3 curl calls below
+bash scripts/hitl_test.sh        # or: npm run test:hitl
 ```
 1. `POST /eve/v1/session {"message":"Please refund charge ch_123 for $40."}`
 2. Stream → `input.requested` (requestId, options approve/deny) → `session.waiting`.

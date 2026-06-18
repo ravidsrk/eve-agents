@@ -1,5 +1,5 @@
 {
-  "name": "@arch/22-security",
+  "name": "arch-22-security",
   "version": "0.0.0",
   "type": "module",
   "private": true,

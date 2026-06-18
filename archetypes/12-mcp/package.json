@@ -1,5 +1,5 @@
 {
-  "name": "@arch/12-mcp",
+  "name": "arch-12-mcp",
   "version": "0.0.0",
   "type": "module",
   "private": true,

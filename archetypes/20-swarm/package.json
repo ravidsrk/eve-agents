@@ -1,5 +1,5 @@
 {
-  "name": "@arch/20-swarm",
+  "name": "arch-20-swarm",
   "version": "0.0.0",
   "type": "module",
   "private": true,

@@ -1,5 +1,5 @@
 {
-  "name": "@arch/15-etl",
+  "name": "arch-15-etl",
   "version": "0.0.0",
   "type": "module",
   "private": true,

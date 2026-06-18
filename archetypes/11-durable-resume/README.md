@@ -10,7 +10,7 @@ the reconnect metadata captured in `captureState`), so `/workspace` is intact.
 
 ## Run
 ```bash
-bash /home/ubuntu/durable_test.sh
+bash scripts/durable_test.sh     # or: npm run test:durable
 ```
 Flow: server #1 saves `PURPLE-42-<rand>` to `/workspace/state.txt` → server #1 **killed** →
 server #2 (new PID) recalls the value via the same `continuationToken`.

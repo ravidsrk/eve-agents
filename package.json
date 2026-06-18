@@ -15,6 +15,14 @@
   "engines": {
     "node": "24.x"
   },
+  "scripts": {
+    "setup": "bash scripts/setup.sh",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "node robustness/budget-cap.mjs",
+    "test:robustness": "bash scripts/test-robustness.sh",
+    "test:hitl": "bash scripts/hitl_test.sh",
+    "test:durable": "bash scripts/durable_test.sh"
+  },
   "devDependencies": {
     "just-bash": "^3.0.1"
   }

@@ -1,5 +1,5 @@
 {
-  "name": "@arch/01-data-analyst",
+  "name": "arch-01-data-analyst",
   "version": "0.0.0",
   "type": "module",
   "private": true,

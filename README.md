@@ -28,7 +28,20 @@ robustness/            failure-mode tests (budget cap, provider error, sandbox c
 ```
 
 An npm-workspaces monorepo hoists a single `node_modules`; each archetype is still its own eve
-project directory.
+project directory. Archetype packages use unscoped names (`arch-01-data-analyst`, …) so `eve eval`
+matches the running agent id.
+
+## Scripts
+
+| Command | What it does |
+|---------|--------------|
+| `bash scripts/setup.sh` | Write `.secrets/eve.env`, copy `.env.local` to every app, `npm install` |
+| `bash scripts/run_archetype.sh <dir> <port> "<msg>"` | Boot one archetype, drive a session, write `run.log` |
+| `npm run typecheck` | Typecheck all workspaces that define a `typecheck` script |
+| `npm test` | Monid budget-cap robustness test (no API keys) |
+| `npm run test:robustness` | Budget cap + live provider/sandbox tests (needs keys) |
+| `npm run test:hitl` | HITL pause/approve/resume proof (archetype 08) |
+| `npm run test:durable` | Full process restart + VM reconnect proof (archetype 11) |
 
 ## Prerequisites
 - **Node 24+** (eve `engines`). `nvm install 24 && nvm use 24`.
@@ -42,8 +55,8 @@ cd eve-lab && npx eve dev --no-ui --port 3000
 curl -s -XPOST localhost:3000/eve/v1/session -H 'content-type: application/json' \
   -d '{"message":"weather in Brooklyn?"}'      # then stream /eve/v1/session/<id>/stream
 ```
-A helper, `run_archetype.sh <dir> <port> "<message>"` (see any archetype README), boots an app,
-drives one session, and writes `run.log`.
+`bash scripts/run_archetype.sh <dir> <port> "<message>"` (or `./run_archetype.sh` from repo root;
+see any archetype README) boots an app, drives one session, and writes `run.log`.
 
 ## The 22 archetypes
 

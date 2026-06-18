@@ -1,5 +1,5 @@
 {
-  "name": "@arch/11-durable-resume",
+  "name": "arch-11-durable-resume",
   "version": "0.0.0",
   "type": "module",
   "private": true,

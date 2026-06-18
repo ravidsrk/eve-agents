@@ -1,5 +1,5 @@
 {
-  "name": "@arch/08-hitl",
+  "name": "arch-08-hitl",
   "version": "0.0.0",
   "type": "module",
   "private": true,

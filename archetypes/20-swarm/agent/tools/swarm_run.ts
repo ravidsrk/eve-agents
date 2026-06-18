@@ -39,8 +39,9 @@ export default defineTool({
             stdout: r.stdout.trim(),
             stderr: r.stderr.trim().slice(0, 500),
           };
-        } catch (e) {
-          return { name: job.name, error: String(e?.message ?? e) };
+        } catch (e: unknown) {
+          const msg = e instanceof Error ? e.message : String(e);
+          return { name: job.name, error: msg };
         } finally {
           if (sandbox) await sandbox.kill().catch(() => {});
         }

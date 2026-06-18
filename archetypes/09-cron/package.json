@@ -1,5 +1,5 @@
 {
-  "name": "@arch/09-cron",
+  "name": "arch-09-cron",
   "version": "0.0.0",
   "type": "module",
   "private": true,

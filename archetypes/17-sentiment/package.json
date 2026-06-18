@@ -1,5 +1,5 @@
 {
-  "name": "@arch/17-sentiment",
+  "name": "arch-17-sentiment",
   "version": "0.0.0",
   "type": "module",
   "private": true,

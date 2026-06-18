@@ -3,20 +3,29 @@
 Real, reproducible tests for the failure modes that matter when running eve with OpenRouter +
 SuperServe + Monid. Each prints a `RESULT: PASS` line.
 
-| Test | File | What it proves | Result |
-|------|------|----------------|--------|
-| Monid budget cap | `budget-cap.mjs` | Over-cap / over-budget paid runs are refused before any network call. | PASS |
-| Provider error | `provider-error.sh` | A bad model id yields a clean `turn.failed` (`MODEL_CALL_FAILED`); server stays healthy. | PASS |
-| Sandbox crash recovery | `sandbox-crash.sh` | If the VM is destroyed mid-session, the backend's reconnect fails and it provisions a fresh VM; the turn still completes. | PASS |
-| Durable resume | `../archetypes/11-durable-resume` | Session + sandbox filesystem survive a **full process restart**. | PASS |
-| Tool timeout (egress) | `../archetypes/22-security` | A timed-out sandbox command (`curl -m 8`, exit 28) is returned as a tool result the agent handles, not a crash. | PASS |
+| Test | File | What it proves | Keys required |
+|------|------|----------------|---------------|
+| Monid budget cap | `budget-cap.mjs` | Over-cap / over-budget paid runs are refused before any network call. | None |
+| Provider error | `provider-error.sh` | A bad model id yields a clean `turn.failed` (`MODEL_CALL_FAILED`); server stays healthy. | OpenRouter |
+| Sandbox crash recovery | `sandbox-crash.sh` | If the VM is destroyed mid-session, the backend provisions a fresh VM; the turn still completes. | SuperServe |
+| Durable resume | `scripts/durable_test.sh` | Session + sandbox filesystem survive a **full process restart**. | OpenRouter + SuperServe |
+| Tool timeout (egress) | `../archetypes/22-security` | A timed-out sandbox command (`curl -m 8`, exit 28) is returned as a tool result the agent handles, not a crash. | SuperServe |
+| HITL | `scripts/hitl_test.sh` | `needsApproval` parks durably; approve resumes and executes the tool. | OpenRouter |
 
 ## Run
+
 ```bash
-node robustness/budget-cap.mjs
+# No API keys — runs in CI
+npm test
+
+# All robustness tests (live keys via scripts/setup.sh)
+npm run test:robustness
+
+# Individual proofs
+bash scripts/hitl_test.sh
+bash scripts/durable_test.sh
 bash robustness/provider-error.sh
 bash robustness/sandbox-crash.sh
-bash /home/ubuntu/durable_test.sh        # durable resume (archetype 11)
 ```
 
 ## Captured evidence

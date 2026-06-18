@@ -1,5 +1,5 @@
 {
-  "name": "@arch/07-subagents",
+  "name": "arch-07-subagents",
   "version": "0.0.0",
   "type": "module",
   "private": true,

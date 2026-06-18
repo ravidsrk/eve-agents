@@ -1,5 +1,5 @@
 {
-  "name": "@arch/16-eval-self",
+  "name": "arch-16-eval-self",
   "version": "0.0.0",
   "type": "module",
   "private": true,

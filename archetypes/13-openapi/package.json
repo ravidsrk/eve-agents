@@ -1,5 +1,5 @@
 {
-  "name": "@arch/13-openapi",
+  "name": "arch-13-openapi",
   "version": "0.0.0",
   "type": "module",
   "private": true,

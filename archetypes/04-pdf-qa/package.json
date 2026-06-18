@@ -1,5 +1,5 @@
 {
-  "name": "@arch/04-pdf-qa",
+  "name": "arch-04-pdf-qa",
   "version": "0.0.0",
   "type": "module",
   "private": true,

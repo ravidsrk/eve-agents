@@ -5,14 +5,20 @@ import path from "node:path";
 const root = path.resolve(import.meta.dirname, "..");
 const archetypesDir = path.join(root, "archetypes");
 const requiredFiles = [
+  ".env.example",
+  ".vercelignore",
+  "AGENTS.md",
+  "CLAUDE.md",
   "README.md",
   "package.json",
   "tsconfig.json",
   "agent/agent.ts",
+  "agent/channels/eve.ts",
   "agent/instructions.md",
   "agent/data/dossier.json",
   "agent/data/records.json",
-  "agent/skills/operating_playbook.md",
+  "agent/lib/profile.ts",
+  "agent/skills/operating-playbook/SKILL.md",
   "agent/sandbox/sandbox.ts",
   "agent/tools/load_dossier.ts",
   "agent/tools/search_records.ts",

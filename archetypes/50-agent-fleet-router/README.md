@@ -9,6 +9,19 @@ Mission: Routes incoming tasks to the right specialized agent and explains why.
 This is not a toy feature demo: it has a bounded user, local operational records, a playbook skill,
 approval-gated side effects, and report output.
 
+## Template shape
+
+This archetype follows the official Eve template layout:
+
+- root `AGENTS.md`, `CLAUDE.md`, `.env.example`, and `.vercelignore`,
+- `agent/agent.ts` for model/runtime configuration,
+- `agent/channels/eve.ts` for the default authenticated Eve HTTP/TUI channel,
+- `agent/instructions.md` for always-on behavior,
+- `agent/skills/operating-playbook/SKILL.md` for domain procedure,
+- `agent/lib/profile.ts` for reusable static metadata,
+- `agent/tools/*.ts` for typed tools,
+- `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
+
 ## Run
 
 ```bash

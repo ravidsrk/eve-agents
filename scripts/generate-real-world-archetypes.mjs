@@ -134,8 +134,27 @@ function agentTs() {
 import { orModel } from "@lab/openrouter";
 
 export default defineAgent({
+  // Official templates use a single agent-level model config. This lab swaps the
+  // default gateway id for an OpenRouter-backed AI SDK LanguageModel.
   model: orModel(),
   modelContextWindowTokens: 131072,
+});
+`;
+}
+
+function eveChannelTs() {
+  return `import { eveChannel } from "eve/channels/eve";
+import { localDev, placeholderAuth, vercelOidc } from "eve/channels/auth";
+
+export default eveChannel({
+  auth: [
+    // Open on localhost for eve dev and the TUI.
+    localDev(),
+    // Lets Vercel deployments and the Eve TUI reach the deployed agent.
+    vercelOidc(),
+    // Replace with app auth in production, or remove for an intentionally public demo.
+    placeholderAuth(),
+  ],
 });
 `;
 }
@@ -207,6 +226,72 @@ ${rule}
 
 ## Tags
 ${tags.join(", ")}
+`;
+}
+
+function profileTs(spec) {
+  const [num, slug, title, owner, job, tags, rule] = spec;
+  return `// Generated from scripts/generate-real-world-archetypes.mjs.
+// Keep static agent metadata here so tools/channels can share it without
+// duplicating strings across the project.
+
+export const profile = {
+  id: ${JSON.stringify(`${num}-${slug}`)},
+  title: ${JSON.stringify(title)},
+  owner: ${JSON.stringify(owner)},
+  job: ${JSON.stringify(job)},
+  rule: ${JSON.stringify(rule)},
+  tags: ${JSON.stringify(tags)},
+} as const;
+`;
+}
+
+function agentsMd(spec) {
+  const [num, slug, title] = spec;
+  return `# ${title}
+
+This project is an Eve agent app generated from the real-world catalog.
+
+Before changing code:
+
+1. Read \`agent/instructions.md\`.
+2. Read \`agent/skills/operating-playbook/SKILL.md\`.
+3. Keep the official Eve filesystem shape: \`agent/agent.ts\`, \`agent/channels/\`, \`agent/tools/\`,
+   \`agent/skills/\`, \`agent/lib/\`, and \`agent/sandbox/\`.
+4. Never commit \`.env.local\` or captured secrets.
+
+Agent id: ${num}-${slug}
+`;
+}
+
+function claudeMd(spec) {
+  const [, , title] = spec;
+  return `# ${title}
+
+This repo follows the Vercel Eve template shape. Prefer small focused changes,
+keep tools typed, and validate with \`npm run typecheck --workspace $(node -p "require('./package.json').name")\`.
+`;
+}
+
+function envExample() {
+  return `OPENROUTER_API_KEY=
+OPEN_ROUTER_KEY=
+OPENROUTER_MODEL=openai/gpt-oss-120b
+SUPERSERVE_API_KEY=
+MONID_API_KEY=
+VERCEL_API_KEY=
+VERCEL_TOKEN=
+ALLOW_EXTERNAL_FETCH=0
+`;
+}
+
+function vercelIgnore() {
+  return `.env
+.env.*
+.secrets/
+node_modules/
+.agent-artifacts/
+evidence/*.local.json
 `;
 }
 
@@ -291,6 +376,19 @@ Mission: ${job}
 This is not a toy feature demo: it has a bounded user, local operational records, a playbook skill,
 approval-gated side effects, and report output.
 
+## Template shape
+
+This archetype follows the official Eve template layout:
+
+- root \`AGENTS.md\`, \`CLAUDE.md\`, \`.env.example\`, and \`.vercelignore\`,
+- \`agent/agent.ts\` for model/runtime configuration,
+- \`agent/channels/eve.ts\` for the default authenticated Eve HTTP/TUI channel,
+- \`agent/instructions.md\` for always-on behavior,
+- \`agent/skills/operating-playbook/SKILL.md\` for domain procedure,
+- \`agent/lib/profile.ts\` for reusable static metadata,
+- \`agent/tools/*.ts\` for typed tools,
+- \`agent/sandbox/sandbox.ts\` for SuperServe-backed execution.
+
 ## Run
 
 \`\`\`bash
@@ -354,10 +452,16 @@ function writeAgent(spec) {
   const dir = path.join(root, "archetypes", `${num}-${slug}`);
   write(path.join(dir, "package.json"), packageJson(spec));
   write(path.join(dir, "tsconfig.json"), tsconfig());
+  write(path.join(dir, ".env.example"), envExample());
+  write(path.join(dir, ".vercelignore"), vercelIgnore());
+  write(path.join(dir, "AGENTS.md"), agentsMd(spec));
+  write(path.join(dir, "CLAUDE.md"), claudeMd(spec));
   write(path.join(dir, "README.md"), readme(spec));
   write(path.join(dir, "agent", "agent.ts"), agentTs(spec));
+  write(path.join(dir, "agent", "channels", "eve.ts"), eveChannelTs());
   write(path.join(dir, "agent", "instructions.md"), instructions(spec));
-  write(path.join(dir, "agent", "skills", "operating_playbook.md"), skill(spec));
+  write(path.join(dir, "agent", "skills", "operating-playbook", "SKILL.md"), skill(spec));
+  write(path.join(dir, "agent", "lib", "profile.ts"), profileTs(spec));
   write(path.join(dir, "agent", "sandbox", "sandbox.ts"), sandboxTs());
   write(path.join(dir, "agent", "data", "dossier.json"), json(dossier(spec)));
   write(path.join(dir, "agent", "data", "records.json"), json(records(spec)));

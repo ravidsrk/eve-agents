@@ -1,0 +1,6 @@
+.env
+.env.*
+.secrets/
+node_modules/
+.agent-artifacts/
+evidence/*.local.json

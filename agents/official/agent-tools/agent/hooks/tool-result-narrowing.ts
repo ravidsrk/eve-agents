@@ -1,6 +1,7 @@
 import { defineHook, type HookDefinition } from "eve/hooks";
 import { toolResultFrom } from "eve/tools";
-import structuredEcho from "../tools/structured-echo.js";
+// Monorepo snapshots ship .ts sources; workflow workers resolve the literal import path.
+import structuredEcho from "../tools/structured-echo.ts";
 
 const hook: HookDefinition = defineHook({
   events: {

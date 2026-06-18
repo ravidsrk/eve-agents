@@ -14,7 +14,12 @@ for dir in "$ROOT"/agents/official/*/; do
   ensure_env_local "$dir"
   echo ""
   echo "======== $name ========"
-  if (cd "$dir" && rm -rf .eve && npx eve eval --strict); then
+  if (
+    cd "$dir"
+    rm -rf .eve
+    set -a && source .env.local && set +a
+    npx eve eval --strict
+  ); then
     PASS=$((PASS + 1))
   else
     FAIL=$((FAIL + 1))

@@ -25,7 +25,7 @@ export const MODELS = {
   strong: "qwen/qwen3-next-80b-a3b-instruct",
   coder: "openai/gpt-oss-120b",
   // vision-capable
-  vision: "qwen/qwen-2.5-vl-7b-instruct",
+  vision: "google/gemini-2.5-flash",
 };
 
 // Default workhorse; resolved at call time so eve can load .env.local first.

@@ -41,6 +41,7 @@
     "smoke:production": "node scripts/smoke-production-monid.mjs",
     "validate:official": "bash scripts/validate-official.sh",
     "run:production": "bash scripts/run-production-agent.sh",
+    "run:production:all": "bash scripts/run-all-production.sh",
     "agents:list": "ls -1 agents/official",
     "agents:list:production": "ls -1 agents/production"
   },

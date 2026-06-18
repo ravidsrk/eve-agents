@@ -74,7 +74,20 @@ fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');
 # agent.ts — OpenRouter model
 AGENT_TS="$DEST/agent/agent.ts"
 if [ -f "$AGENT_TS" ]; then
-  cat > "$AGENT_TS" << 'AGENTEOF'
+  if [ "$NAME" = "agent-basic-runtime" ]; then
+    cat > "$AGENT_TS" << 'AGENTEOF'
+import { defineAgent } from "eve";
+import { MODELS, orModel } from "@lab/openrouter";
+
+// Ported from vercel/eve e2e/fixtures — model swapped to OpenRouter.
+// Vision model required for runtime/image-attachment eval.
+export default defineAgent({
+  model: orModel("google/gemini-2.5-pro"),
+  modelContextWindowTokens: 131072,
+});
+AGENTEOF
+  else
+    cat > "$AGENT_TS" << 'AGENTEOF'
 import { defineAgent } from "eve";
 import { orModel } from "@lab/openrouter";
 
@@ -85,6 +98,7 @@ export default defineAgent({
   modelContextWindowTokens: 131072,
 });
 AGENTEOF
+  fi
 fi
 
 # README credit
@@ -96,6 +110,14 @@ if [ -f "$DEST/README.md" ]; then
     echo "Source: [vercel/eve e2e/fixtures/$NAME](https://github.com/vercel/eve/tree/main/e2e/fixtures/$NAME)."
     echo "Model provider: OpenRouter via \`@lab/openrouter\`. Run from repo root after \`bash scripts/setup.sh\`."
   } >> "$DEST/README.md"
+fi
+
+# Monorepo: workflow workers load snapshot .ts sources — rewrite cross-imports from .js → .ts.
+if [ -d "$DEST/agent" ]; then
+  find "$DEST/agent" -name '*.ts' -print0 | while IFS= read -r -d '' f; do
+    sed -i '' -E 's|from "(\.\.?/[^"]+)\.js"|from "\1.ts"|g' "$f" 2>/dev/null \
+      || sed -i -E 's|from "(\.\.?/[^"]+)\.js"|from "\1.ts"|g' "$f"
+  done
 fi
 
 # tsconfig if missing agent-only include

@@ -279,11 +279,14 @@ function dossier(spec) {
 
 function readme(spec) {
   const [num, slug, title, owner, job, tags, rule] = spec;
+  const port = `32${num}`;
   return `# ${title}
 
 ## Rationale
 
-${title} is a real-world eve archetype for ${owner}. It exists to ${job.charAt(0).toLowerCase()}${job.slice(1)}
+${title} is a real-world eve archetype for ${owner}.
+
+Mission: ${job}
 
 This is not a toy feature demo: it has a bounded user, local operational records, a playbook skill,
 approval-gated side effects, and report output.
@@ -291,7 +294,7 @@ approval-gated side effects, and report output.
 ## Run
 
 \`\`\`bash
-bash ../../scripts/run_archetype.sh archetypes/${num}-${slug} $((32${num})) "Review the current ${title.toLowerCase()} queue and write a prioritized action report."
+bash ../../scripts/run_archetype.sh archetypes/${num}-${slug} ${port} "Review the current ${title.toLowerCase()} queue and write a prioritized action report."
 \`\`\`
 
 Requires:

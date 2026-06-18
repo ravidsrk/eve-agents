@@ -1,0 +1,41 @@
+[
+  {
+    "id": "08-A",
+    "title": "Cloud cost optimizer priority case",
+    "owner": "Platform",
+    "status": "urgent",
+    "impact": 44536,
+    "risk": 5,
+    "summary": "Finds avoidable spend and proposes low-risk savings actions. This sample record represents the highest-impact open item.",
+    "tags": [
+      "cost",
+      "finops"
+    ]
+  },
+  {
+    "id": "08-B",
+    "title": "Cloud cost optimizer routine queue item",
+    "owner": "Platform",
+    "status": "in_review",
+    "impact": 9904,
+    "risk": 3,
+    "summary": "Lower-risk operational item for cloud-cost-optimizer; useful for comparison and prioritization.",
+    "tags": [
+      "cost",
+      "finops"
+    ]
+  },
+  {
+    "id": "08-C",
+    "title": "Cloud cost optimizer blocked follow-up",
+    "owner": "Platform",
+    "status": "blocked",
+    "impact": 19688,
+    "risk": 3,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "cost",
+      "finops"
+    ]
+  }
+]

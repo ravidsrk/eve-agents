@@ -1,0 +1,30 @@
+{
+  "id": "01-revenue-analyst",
+  "title": "Revenue analyst",
+  "owner": "Finance",
+  "job": "Answers KPI/revenue questions from a warehouse extract and explains assumptions.",
+  "rule": "Use the revenue recognition skill before answering revenue questions.",
+  "tags": [
+    "finance",
+    "analytics"
+  ],
+  "sourceInspiredBy": [
+    "https://vercel.com/blog/introducing-eve",
+    "https://github.com/vercel/eve",
+    "https://github.com/vercel-labs/eve-content-agent-template",
+    "https://github.com/vercel-labs/personal-agent-template",
+    "https://github.com/vercel-labs/eve-pr-triage-agent-template"
+  ],
+  "evidenceRequired": [
+    "loaded dossier",
+    "searched or analyzed records",
+    "named assumptions",
+    "side effects gated by approval"
+  ],
+  "samplePrompt": "Review the current revenue analyst queue and write a prioritized action report.",
+  "liveIntegrations": {
+    "openrouter": "Model inference through @lab/openrouter when OPENROUTER_API_KEY is configured.",
+    "superserve": "Sandbox execution through @lab/superserve-backend when SUPERSERVE_API_KEY is configured.",
+    "monid": "Optional live tool discovery/run when MONID_API_KEY is valid."
+  }
+}

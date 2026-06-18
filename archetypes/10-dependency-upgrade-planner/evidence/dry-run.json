@@ -1,0 +1,11 @@
+{
+  "agent": "10-dependency-upgrade-planner",
+  "samplePrompt": "Review the current dependency upgrade planner queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

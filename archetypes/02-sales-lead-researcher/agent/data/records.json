@@ -1,0 +1,41 @@
+[
+  {
+    "id": "02-A",
+    "title": "Sales lead researcher priority case",
+    "owner": "Sales",
+    "status": "urgent",
+    "impact": 42634,
+    "risk": 4,
+    "summary": "Enriches inbound leads, scores fit, and drafts next-best action. This sample record represents the highest-impact open item.",
+    "tags": [
+      "sales",
+      "research"
+    ]
+  },
+  {
+    "id": "02-B",
+    "title": "Sales lead researcher routine queue item",
+    "owner": "Sales",
+    "status": "in_review",
+    "impact": 9226,
+    "risk": 3,
+    "summary": "Lower-risk operational item for sales-lead-researcher; useful for comparison and prioritization.",
+    "tags": [
+      "sales",
+      "research"
+    ]
+  },
+  {
+    "id": "02-C",
+    "title": "Sales lead researcher blocked follow-up",
+    "owner": "Sales",
+    "status": "blocked",
+    "impact": 18422,
+    "risk": 5,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "sales",
+      "research"
+    ]
+  }
+]

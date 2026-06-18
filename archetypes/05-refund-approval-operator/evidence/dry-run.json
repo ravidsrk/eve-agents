@@ -1,0 +1,11 @@
+{
+  "agent": "05-refund-approval-operator",
+  "samplePrompt": "Review the current refund approval operator queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

@@ -12,7 +12,8 @@ Running log. Newest entries on top.
   - ✅ `AGENT_CATALOG.md` — Tier 1/2/3 plan + Monid query list
   - ✅ `scripts/port-eve-fixture.sh` — automated upstream port
   - ✅ `scripts/research-monid.mjs` — discover sweeps → `research/discover-results.jsonl`
-  - ⬜ Run Monid research (needs valid `MONID_API_KEY` in `.secrets/eve.env`)
+  - ✅ Monid CLI setup (`scripts/setup-monid.sh`, `MONID.md`, `npm run setup:monid`)
+  - ✅ Monid research sweep (20 queries, free discover → `research/discover-results.jsonl`)
 - 🟡 **Phase 1** — Port official fixtures
   - ✅ 10/10 fixtures in `agents/official/`
   - ✅ `agent-tools-sandbox` wired to SuperServe `python-ml`

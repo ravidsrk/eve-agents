@@ -32,6 +32,7 @@
     "test:robustness": "bash scripts/test-robustness.sh",
     "test:hitl": "bash scripts/hitl_test.sh",
     "test:durable": "bash scripts/durable_test.sh",
+    "setup:monid": "bash scripts/setup-monid.sh",
     "research:monid": "node scripts/research-monid.mjs",
     "agents:list": "ls -1 agents/official"
   },

@@ -8,12 +8,38 @@
  * Research budget defaults (override in .secrets/eve.env):
  *   MONID_BUDGET_USD=500  MONID_MAX_CALL_USD=5
  */
-import { appendFileSync, mkdirSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { discover, walletBalance, amountSpent } from "@lab/monid-tools";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const SECRETS = join(ROOT, ".secrets", "eve.env");
+
+function isPlaceholderSecret(value) {
+  if (!value) return true;
+  return /REDACTED|CHANGE_ME|your[_-]?key|\.{3}$/i.test(value);
+}
+
+/** Prefer .secrets/eve.env over placeholder env vars (e.g. REDACTED_USE_ENV). */
+function loadSecretsEnv() {
+  if (!existsSync(SECRETS)) return;
+  const current = process.env.MONID_API_KEY;
+  const needsKey = !current || isPlaceholderSecret(current);
+  for (const line of readFileSync(SECRETS, "utf8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq < 1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    const value = trimmed.slice(eq + 1).trim();
+    if (key === "MONID_API_KEY" && needsKey) process.env.MONID_API_KEY = value;
+    else if (!(key in process.env)) process.env[key] = value;
+  }
+}
+
+loadSecretsEnv();
+
+const { discover, walletBalance, amountSpent } = await import("@lab/monid-tools");
 const OUT = join(ROOT, "research", "discover-results.jsonl");
 
 const QUERIES = [

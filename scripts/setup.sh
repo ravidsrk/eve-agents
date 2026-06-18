@@ -33,7 +33,10 @@ done
 echo "Installing workspace dependencies..."
 npm install
 
+bash scripts/setup-monid.sh 2>/dev/null || echo "(skip monid CLI — set MONID_API_KEY in .secrets/eve.env, then: bash scripts/setup-monid.sh)"
+
 echo "Setup complete."
 echo "  Official agents:  ls agents/official/"
-echo "  Monid research:   npm run research:monid   (needs MONID_API_KEY)"
+echo "  Monid research:   npm run research:monid"
+echo "  Monid workflow:   MONID.md + https://monid.ai/SKILL.md"
 echo "  Happy path:       cd eve-lab && npx eve dev --no-ui --port 3000"

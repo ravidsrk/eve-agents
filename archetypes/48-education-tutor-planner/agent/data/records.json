@@ -1,0 +1,41 @@
+[
+  {
+    "id": "48-A",
+    "title": "Education tutor planner priority case",
+    "owner": "Education",
+    "status": "urgent",
+    "impact": 57216,
+    "risk": 5,
+    "summary": "Builds lesson plans and rubric feedback with safety bounds. This sample record represents the highest-impact open item.",
+    "tags": [
+      "education",
+      "tutoring"
+    ]
+  },
+  {
+    "id": "48-B",
+    "title": "Education tutor planner routine queue item",
+    "owner": "Education",
+    "status": "in_review",
+    "impact": 14424,
+    "risk": 1,
+    "summary": "Lower-risk operational item for education-tutor-planner; useful for comparison and prioritization.",
+    "tags": [
+      "education",
+      "tutoring"
+    ]
+  },
+  {
+    "id": "48-C",
+    "title": "Education tutor planner blocked follow-up",
+    "owner": "Education",
+    "status": "blocked",
+    "impact": 28128,
+    "risk": 3,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "education",
+      "tutoring"
+    ]
+  }
+]

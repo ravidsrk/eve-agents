@@ -1,0 +1,41 @@
+[
+  {
+    "id": "44-A",
+    "title": "Logistics exception monitor priority case",
+    "owner": "Logistics",
+    "status": "urgent",
+    "impact": 55948,
+    "risk": 6,
+    "summary": "Explains delayed shipments and proposes mitigation. This sample record represents the highest-impact open item.",
+    "tags": [
+      "logistics",
+      "shipments"
+    ]
+  },
+  {
+    "id": "44-B",
+    "title": "Logistics exception monitor routine queue item",
+    "owner": "Logistics",
+    "status": "in_review",
+    "impact": 13972,
+    "risk": 3,
+    "summary": "Lower-risk operational item for logistics-exception-monitor; useful for comparison and prioritization.",
+    "tags": [
+      "logistics",
+      "shipments"
+    ]
+  },
+  {
+    "id": "44-C",
+    "title": "Logistics exception monitor blocked follow-up",
+    "owner": "Logistics",
+    "status": "blocked",
+    "impact": 27284,
+    "risk": 3,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "logistics",
+      "shipments"
+    ]
+  }
+]

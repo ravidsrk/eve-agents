@@ -1,0 +1,30 @@
+{
+  "id": "47-real-estate-comp-analyst",
+  "title": "Real estate comp analyst",
+  "owner": "Real Estate",
+  "job": "Compares properties and flags valuation caveats.",
+  "rule": "State adjustment assumptions and uncertainty.",
+  "tags": [
+    "real-estate",
+    "comps"
+  ],
+  "sourceInspiredBy": [
+    "https://vercel.com/blog/introducing-eve",
+    "https://github.com/vercel/eve",
+    "https://github.com/vercel-labs/eve-content-agent-template",
+    "https://github.com/vercel-labs/personal-agent-template",
+    "https://github.com/vercel-labs/eve-pr-triage-agent-template"
+  ],
+  "evidenceRequired": [
+    "loaded dossier",
+    "searched or analyzed records",
+    "named assumptions",
+    "side effects gated by approval"
+  ],
+  "samplePrompt": "Review the current real estate comp analyst queue and write a prioritized action report.",
+  "liveIntegrations": {
+    "openrouter": "Model inference through @lab/openrouter when OPENROUTER_API_KEY is configured.",
+    "superserve": "Sandbox execution through @lab/superserve-backend when SUPERSERVE_API_KEY is configured.",
+    "monid": "Optional live tool discovery/run when MONID_API_KEY is valid."
+  }
+}

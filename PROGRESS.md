@@ -18,13 +18,10 @@ Running log. Newest entries on top.
   - ✅ 10/10 fixtures in `agents/official/`
   - ✅ `agent-tools-sandbox` wired to SuperServe `python-ml`
   - ⬜ `npx eve eval --strict` on each ported agent (needs API keys)
-- 🟡 **Phase 2** — Production agents P01–P10 in `agents/production/`
-  - ✅ P01 incident triage (`parse_logs`, `explain_error` + sample log)
-  - ✅ P02 PR review (`review_code`, `analyze_github_repo`, `generate_pr_description`)
-  - ✅ P03 competitive intel (`web_search`, `web_answer`)
-  - ✅ `@lab/monid-tools` — `run()` supports `query` / `path` params
-  - ⬜ P04–P10
-  - ⬜ `eve eval` / live dev smoke (needs OpenRouter + SuperServe keys)
+- ✅ **Phase 2** — Production agents P01–P10 in `agents/production/`
+  - ✅ All ten agents scaffolded with Monid-backed domain tools + READMEs
+  - ✅ `npm run smoke:production` — live Monid smoke (P01–P03 paths)
+  - ⬜ `npx eve dev` / `eve eval --strict` (needs OpenRouter + SuperServe in `.secrets/eve.env`)
 - ✅ **Legacy** — `archetypes/` → `legacy/archetypes/`
 
 ## v1 (superseded)

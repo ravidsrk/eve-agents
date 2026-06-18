@@ -48,15 +48,15 @@ Run `npm run research:monid` to populate `research/discover-results.jsonl`, then
 | P01 | **Incident triage** | On-call reads logs, checks status, drafts postmortem | tools + Monid | `log-parse`, `error-explain` — **built** `agents/production/p01-incident-triage` |
 | P02 | **PR review** | Clone repo, run tests, comment on diff | tools + Monid | `code-review`, `github-repo-analyze`, `pr-description-generate` — **built** `agents/production/p02-pr-review` |
 | P03 | **Competitive intel digest** | Scheduled scan of competitor news → summary | tools + Monid | `exa/search`, `exa/answer` — **built** `agents/production/p03-competitive-intel` |
-| P04 | **Invoice extractor** | PDF → structured JSON for accounting | sandbox python, outputSchema | OCR/PDF APIs |
-| P05 | **Support ticket router** | Classify, draft reply, escalate with HITL | channels, hitl, skills | CRM/helpdesk APIs |
-| P06 | **SQL analyst** | NL → SQL on seeded warehouse schema | sandbox sqlite/postgres | — |
-| P07 | **Runbook executor** | Follow ops runbook steps with approvals | skills, hitl, durable | internal HTTP via OpenAPI connections |
-| P08 | **Lead enricher** | Company/person → CRM fields | tools + Monid run | enrichment APIs |
-| P09 | **Contract clause checker** | Load policy skill, flag risky clauses | skills, sandbox read | — |
-| P10 | **Data pipeline debugger** | ETL failed → inspect artifacts, fix script | sandbox python, eval self-check | — |
+| P04 | **Invoice extractor** | PDF → structured JSON for accounting | tools + Monid | `invoice-extract`, `pdf-extract` — **built** |
+| P05 | **Support ticket router** | Classify, draft reply, escalate with HITL | tools + Monid | `exa/search`, `exa/answer` — **built** |
+| P06 | **SQL analyst** | NL → SQL on seeded warehouse schema | tools + Monid | `sql-generate`, `sql-explain`, `sql-optimize` — **built** |
+| P07 | **Runbook executor** | Follow ops runbook steps with approvals | tools + HITL instructions | runbook workspace + `log-parse` — **built** |
+| P08 | **Lead enricher** | Company/person → CRM fields | tools + Monid | PDL `company/person enrich` — **built** |
+| P09 | **Contract clause checker** | Load policy skill, flag risky clauses | tools + policy skill | `contract-extract` — **built** |
+| P10 | **Data pipeline debugger** | ETL failed → inspect artifacts, fix script | tools + Monid | `log-parse`, `error-explain` — **built** |
 
-Priority for next sprint: **P01, P02, P03** (ops + engineering + research — highest eve fit).
+All Tier 2 agents (P01–P10) live under `agents/production/`.
 
 ---
 
@@ -93,7 +93,7 @@ Executed by `scripts/research-monid.mjs` (20 queries, results → `research/disc
 ```
 agents/
   official/          # Ported vercel/eve fixtures (Tier 1)
-  production/        # Research-driven real-world agents (Tier 2) — P01–P03 live
+  production/        # Research-driven real-world agents (Tier 2) — P01–P10
 legacy/
   archetypes/        # v1 feature demos (Tier 3)
 packages/            # OpenRouter, SuperServe, Monid integrations
@@ -107,4 +107,4 @@ research/            # Monid discover logs (gitignored)
 1. **You:** Put real API keys in `.secrets/eve.env` (rotate any keys pasted in chat), then `bash scripts/setup.sh`
 2. **Run:** `npm run research:monid` → review `research/discover-results.jsonl`
 3. **Validate:** `npx eve eval --strict` on each `agents/official/*` fixture
-4. **Build:** P04–P10 in `agents/production/` (P01–P03 shipped)
+4. **Validate:** `npx eve eval --strict` + live dev when OpenRouter/SuperServe keys are set

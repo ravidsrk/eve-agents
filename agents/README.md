@@ -31,6 +31,13 @@ Built from [AGENT_CATALOG.md](../AGENT_CATALOG.md) Tier 2 after Monid research (
 | `p01-incident-triage` | On-call log parse + error explain + postmortem draft |
 | `p02-pr-review` | Repo analysis + AI code review + PR description |
 | `p03-competitive-intel` | Live web search digest for competitor monitoring |
+| `p04-invoice-extractor` | Invoice/PDF → structured JSON |
+| `p05-support-router` | Ticket classify + grounded draft reply |
+| `p06-sql-analyst` | NL → SQL with explain/optimize |
+| `p07-runbook-executor` | Ops runbooks with HITL gates |
+| `p08-lead-enricher` | PDL company/person CRM enrichment |
+| `p09-contract-checker` | Contract extract + policy red flags |
+| `p10-pipeline-debugger` | ETL failure log triage |
 
 ```bash
 cd agents/production/p02-pr-review

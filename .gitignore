@@ -41,3 +41,7 @@ dist/
 
 # Monid cost ledger (runtime artifact)
 .monid-costs.jsonl
+
+# Phase 0b research outputs
+research/discover-results.jsonl
+research/discover-summary.md

@@ -1,0 +1,27 @@
+# Agents
+
+Working eve agents for real-world patterns. Two tiers:
+
+## `official/` — ported from [vercel/eve](https://github.com/vercel/eve)
+
+Authoritative reference agents with upstream evals. Ported with:
+
+- OpenRouter inference (`@lab/openrouter`)
+- SuperServe sandbox where the fixture needs real binaries (`agent-tools-sandbox`)
+
+```bash
+bash scripts/setup.sh
+cd agents/official/agent-openapi-swagger
+npx eve dev --no-ui --port 3201
+npx eve eval --strict
+```
+
+Port another fixture:
+
+```bash
+bash scripts/port-eve-fixture.sh agent-tools-hitl
+```
+
+## `production/` — research-driven (coming)
+
+Built from [AGENT_CATALOG.md](../AGENT_CATALOG.md) Tier 2 after Monid research (`npm run research:monid`).

@@ -7,7 +7,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # shellcheck source=scripts/lib.sh
 source "$ROOT/scripts/lib.sh"
 
-DIR="$ROOT/archetypes/11-durable-resume"
+DIR="$ROOT/legacy/archetypes/11-durable-resume"
 PORT=3141
 
 require_node24

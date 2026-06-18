@@ -16,7 +16,8 @@
   "workspaces": [
     "packages/*",
     "eve-lab",
-    "archetypes/*"
+    "agents/official/*",
+    "legacy/archetypes/*"
   ],
   "overrides": {
     "ai": "7.0.0-beta.178"
@@ -30,7 +31,9 @@
     "test": "node robustness/budget-cap.mjs",
     "test:robustness": "bash scripts/test-robustness.sh",
     "test:hitl": "bash scripts/hitl_test.sh",
-    "test:durable": "bash scripts/durable_test.sh"
+    "test:durable": "bash scripts/durable_test.sh",
+    "research:monid": "node scripts/research-monid.mjs",
+    "agents:list": "ls -1 agents/official"
   },
   "devDependencies": {
     "just-bash": "^3.0.1"

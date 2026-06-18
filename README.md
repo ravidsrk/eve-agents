@@ -4,6 +4,8 @@
 
 **Open source (MIT).** Free to use, modify, and share. Contributions welcome — see [License](LICENSE).
 
+> **v2 rebuild in progress.** Real agents live in [`agents/official/`](agents/official/) (ported from [vercel/eve](https://github.com/vercel/eve)). See **[AGENT_CATALOG.md](AGENT_CATALOG.md)** for the research-driven plan. Legacy v1 demos are in [`legacy/archetypes/`](legacy/archetypes/).
+
 A deep, hands-on exploration of [Vercel **eve**](https://github.com/vercel/eve) (the open-source,
 filesystem-first framework for durable AI agents, `eve@0.11.4`, public beta) wired to three real
 platforms:
@@ -27,7 +29,9 @@ packages/
   superserve-backend/  @lab/superserve-backend — custom eve SandboxBackend on SuperServe microVMs
   monid-tools/         @lab/monid-tools        — Monid client + eve tools + USD budget guard
 eve-lab/               canonical happy-path app (get_weather) + eval suite
-archetypes/01..22/     one eve project per archetype (agent/ + README + run.log)
+agents/official/       ported vercel/eve e2e fixtures (Tier 1 — real reference agents)
+agents/production/     research-driven production agents (Tier 2 — coming)
+legacy/archetypes/     v1 primitive demos (deprecated)
 robustness/            failure-mode tests (budget cap, provider error, sandbox crash)
 ```
 

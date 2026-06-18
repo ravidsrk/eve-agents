@@ -1,8 +1,8 @@
 #!/bin/bash
 # Reproducible setup from a fresh clone.
-#   1) requires Node 24+ (eve engines), npm, and the three API keys.
-#   2) creates .secrets/eve.env from your env (or copy .env.example) and each archetype .env.local.
-#   3) installs the npm workspace.
+#   1) requires Node 24+ (eve engines), npm, and API keys in env or .secrets/eve.env
+#   2) copies .secrets/eve.env → .env.local for every agent app
+#   3) npm install
 set -e
 cd "$(dirname "$0")/.."
 
@@ -17,18 +17,23 @@ OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-${OPEN_ROUTER_KEY:-}}
 OPEN_ROUTER_KEY=${OPEN_ROUTER_KEY:-${OPENROUTER_API_KEY:-}}
 SUPERSERVE_API_KEY=${SUPERSERVE_API_KEY:-}
 MONID_API_KEY=${MONID_API_KEY:-}
+VERCEL_API_KEY=${VERCEL_API_KEY:-}
 OPENROUTER_MODEL=${OPENROUTER_MODEL:-openai/gpt-oss-120b}
+MONID_BUDGET_USD=${MONID_BUDGET_USD:-500}
+MONID_MAX_CALL_USD=${MONID_MAX_CALL_USD:-5}
 EOF
   chmod 600 .secrets/eve.env
   echo "Wrote .secrets/eve.env (from environment). Edit it if any key is blank."
 fi
 
-# Give eve-lab and every archetype its own .env.local (gitignored).
-for d in eve-lab archetypes/*/; do
+for d in eve-lab agents/official/*/ legacy/archetypes/*/; do
   [ -d "$d" ] && cp .secrets/eve.env "$d/.env.local"
 done
 
 echo "Installing workspace dependencies..."
 npm install
 
-echo "Setup complete. Try:  cd eve-lab && npx eve dev --no-ui --port 3000"
+echo "Setup complete."
+echo "  Official agents:  ls agents/official/"
+echo "  Monid research:   npm run research:monid   (needs MONID_API_KEY)"
+echo "  Happy path:       cd eve-lab && npx eve dev --no-ui --port 3000"

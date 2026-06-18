@@ -43,11 +43,7 @@
     "run:catalog": "bash scripts/run-catalog-agent.sh"
   },
   "devDependencies": {
-    "@rolldown/binding-darwin-arm64": "1.1.1",
     "just-bash": "^3.0.1",
     "microsandbox": "^0.5.7"
-  },
-  "optionalDependencies": {
-    "@rolldown/binding-darwin-arm64": "1.1.1"
   }
 }

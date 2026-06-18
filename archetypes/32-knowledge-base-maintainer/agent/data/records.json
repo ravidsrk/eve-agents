@@ -1,0 +1,41 @@
+[
+  {
+    "id": "32-A",
+    "title": "Knowledge base maintainer priority case",
+    "owner": "Support Ops",
+    "status": "urgent",
+    "impact": 52144,
+    "risk": 4,
+    "summary": "Finds KB gaps from recurring tickets and drafts article updates. This sample record represents the highest-impact open item.",
+    "tags": [
+      "kb",
+      "support"
+    ]
+  },
+  {
+    "id": "32-B",
+    "title": "Knowledge base maintainer routine queue item",
+    "owner": "Support Ops",
+    "status": "in_review",
+    "impact": 12616,
+    "risk": 3,
+    "summary": "Lower-risk operational item for knowledge-base-maintainer; useful for comparison and prioritization.",
+    "tags": [
+      "kb",
+      "support"
+    ]
+  },
+  {
+    "id": "32-C",
+    "title": "Knowledge base maintainer blocked follow-up",
+    "owner": "Support Ops",
+    "status": "blocked",
+    "impact": 24752,
+    "risk": 3,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "kb",
+      "support"
+    ]
+  }
+]

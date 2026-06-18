@@ -1,0 +1,41 @@
+[
+  {
+    "id": "17-A",
+    "title": "Content pipeline agent priority case",
+    "owner": "Content",
+    "status": "urgent",
+    "impact": 47389,
+    "risk": 4,
+    "summary": "Drafts blog/social/newsletter copy from source notes and style rules. This sample record represents the highest-impact open item.",
+    "tags": [
+      "content",
+      "notion"
+    ]
+  },
+  {
+    "id": "17-B",
+    "title": "Content pipeline agent routine queue item",
+    "owner": "Content",
+    "status": "in_review",
+    "impact": 10921,
+    "risk": 3,
+    "summary": "Lower-risk operational item for content-pipeline-agent; useful for comparison and prioritization.",
+    "tags": [
+      "content",
+      "notion"
+    ]
+  },
+  {
+    "id": "17-C",
+    "title": "Content pipeline agent blocked follow-up",
+    "owner": "Content",
+    "status": "blocked",
+    "impact": 21587,
+    "risk": 4,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "content",
+      "notion"
+    ]
+  }
+]

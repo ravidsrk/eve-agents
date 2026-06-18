@@ -3,7 +3,7 @@ import { superserveBackend } from "@lab/superserve-backend";
 
 export default defineSandbox({
   backend: superserveBackend({
-    fromTemplate: "superserve/node-22",
+    fromTemplate: "superserve/python-ml",
     timeoutSeconds: 1800,
   }),
 });

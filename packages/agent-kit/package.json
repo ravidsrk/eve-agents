@@ -1,0 +1,22 @@
+{
+  "name": "@lab/agent-kit",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Shared tools and helpers for real-world eve archetypes.",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./tools": {
+      "types": "./tools.d.ts",
+      "default": "./tools.js"
+    }
+  },
+  "peerDependencies": {
+    "eve": "^0.11.4",
+    "zod": "^4.0.0"
+  }
+}

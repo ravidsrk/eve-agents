@@ -1,9 +1,9 @@
 {
-  "name": "arch-10-slack",
+  "name": "legacy-arch-10-slack",
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "description": "Slack channel agent (customer support); HTTP-proven logic, Slack via Vercel Connect",
+  "description": "PR triage reviewer: Summarizes diffs, labels risk, and suggests reviewers.",
   "imports": {
     "#*": "./agent/*",
     "#evals/*": "./evals/*"
@@ -19,10 +19,10 @@
     "@lab/openrouter": "*",
     "@lab/superserve-backend": "*",
     "@lab/monid-tools": "*",
+    "@lab/agent-kit": "*",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
-    "zod": "4.4.3",
-    "@vercel/connect": "0.2.2"
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@types/node": "24.x",

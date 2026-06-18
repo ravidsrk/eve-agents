@@ -1,0 +1,11 @@
+{
+  "agent": "48-education-tutor-planner",
+  "samplePrompt": "Review the current education tutor planner queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

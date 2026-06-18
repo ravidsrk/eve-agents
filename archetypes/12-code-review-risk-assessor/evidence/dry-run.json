@@ -1,0 +1,11 @@
+{
+  "agent": "12-code-review-risk-assessor",
+  "samplePrompt": "Review the current code review risk assessor queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

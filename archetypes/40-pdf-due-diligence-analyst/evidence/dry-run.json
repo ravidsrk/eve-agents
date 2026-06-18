@@ -1,0 +1,11 @@
+{
+  "agent": "40-pdf-due-diligence-analyst",
+  "samplePrompt": "Review the current pdf due diligence analyst queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

@@ -1,0 +1,68 @@
+# Procurement vendor comparer
+
+## Rationale
+
+Procurement vendor comparer is a real-world eve archetype for Procurement.
+
+Mission: Scores vendors against requirements, risk, and cost.
+
+This is not a toy feature demo: it has a bounded user, local operational records, a playbook skill,
+approval-gated side effects, and report output.
+
+## Template shape
+
+This archetype follows the official Eve template layout:
+
+- root `AGENTS.md`, `CLAUDE.md`, `.env.example`, and `.vercelignore`,
+- `agent/agent.ts` for model/runtime configuration,
+- `agent/channels/eve.ts` for the default authenticated Eve HTTP/TUI channel,
+- `agent/instructions.md` for always-on behavior,
+- `agent/skills/operating-playbook/SKILL.md` for domain procedure,
+- `agent/lib/profile.ts` for reusable static metadata,
+- `agent/tools/*.ts` for typed tools,
+- `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
+
+## Run
+
+```bash
+bash ../../scripts/run_archetype.sh archetypes/24-procurement-vendor-comparer 3224 "Review the current procurement vendor comparer queue and write a prioritized action report."
+```
+
+Requires:
+
+- `OPENROUTER_API_KEY` for model inference.
+- `SUPERSERVE_API_KEY` for sandbox-backed eve file/code execution.
+- Optional valid `MONID_API_KEY` for live external research in follow-up work.
+
+## Tools and data
+
+- `load_dossier`: loads `agent/data/dossier.json`.
+- `search_records`: searches `agent/data/records.json`.
+- `analyze_records`: scores local records for risk and opportunity.
+- `write_report`: writes a markdown artifact under `.agent-artifacts/`.
+- `record_decision`: approval-gated simulated side effect.
+- `fetch_live_json`: guarded HTTPS JSON fetch, disabled unless `ALLOW_EXTERNAL_FETCH=1`.
+
+## Sample prompt
+
+> Review the current procurement vendor comparer queue and write a prioritized action report.
+
+## Expected behavior
+
+The agent should load the dossier, inspect records, identify the highest-priority item, state
+assumptions and uncertainty, and write a report. For any action that changes an external system, it
+must use `record_decision`, which pauses for human approval.
+
+## Evidence status
+
+- Deterministic fixtures: included in `agent/data/`.
+- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
+- Monid live research: pending because the currently available Monid key is rejected by the API.
+
+## Domain rule
+
+Separate hard requirements from weighted preferences.
+
+## Tags
+
+procurement, vendor

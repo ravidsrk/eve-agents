@@ -16,6 +16,7 @@
   "workspaces": [
     "packages/*",
     "eve-lab",
+    "archetypes/*",
     "agents/official/*",
     "agents/production/*",
     "legacy/archetypes/*"
@@ -28,6 +29,8 @@
   },
   "scripts": {
     "setup": "bash scripts/setup.sh",
+    "generate:archetypes": "node scripts/generate-real-world-archetypes.mjs --clean",
+    "verify:catalog": "node scripts/verify-real-world-archetypes.mjs",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "node robustness/budget-cap.mjs",
     "test:robustness": "bash scripts/test-robustness.sh",

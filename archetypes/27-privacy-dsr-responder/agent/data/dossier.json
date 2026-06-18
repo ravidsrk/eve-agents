@@ -1,0 +1,30 @@
+{
+  "id": "27-privacy-dsr-responder",
+  "title": "Privacy DSR responder",
+  "owner": "Privacy",
+  "job": "Builds data-subject request task plans without exposing sensitive data.",
+  "rule": "Minimize personal data and use placeholders in reports.",
+  "tags": [
+    "privacy",
+    "dsr"
+  ],
+  "sourceInspiredBy": [
+    "https://vercel.com/blog/introducing-eve",
+    "https://github.com/vercel/eve",
+    "https://github.com/vercel-labs/eve-content-agent-template",
+    "https://github.com/vercel-labs/personal-agent-template",
+    "https://github.com/vercel-labs/eve-pr-triage-agent-template"
+  ],
+  "evidenceRequired": [
+    "loaded dossier",
+    "searched or analyzed records",
+    "named assumptions",
+    "side effects gated by approval"
+  ],
+  "samplePrompt": "Review the current privacy dsr responder queue and write a prioritized action report.",
+  "liveIntegrations": {
+    "openrouter": "Model inference through @lab/openrouter when OPENROUTER_API_KEY is configured.",
+    "superserve": "Sandbox execution through @lab/superserve-backend when SUPERSERVE_API_KEY is configured.",
+    "monid": "Optional live tool discovery/run when MONID_API_KEY is valid."
+  }
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "04-A",
+    "title": "Support ticket triage priority case",
+    "owner": "Support",
+    "status": "urgent",
+    "impact": 43268,
+    "risk": 6,
+    "summary": "Classifies tickets, finds likely answer paths, and escalates risk. This sample record represents the highest-impact open item.",
+    "tags": [
+      "support",
+      "triage"
+    ]
+  },
+  {
+    "id": "04-B",
+    "title": "Support ticket triage routine queue item",
+    "owner": "Support",
+    "status": "in_review",
+    "impact": 9452,
+    "risk": 2,
+    "summary": "Lower-risk operational item for support-ticket-triage; useful for comparison and prioritization.",
+    "tags": [
+      "support",
+      "triage"
+    ]
+  },
+  {
+    "id": "04-C",
+    "title": "Support ticket triage blocked follow-up",
+    "owner": "Support",
+    "status": "blocked",
+    "impact": 18844,
+    "risk": 3,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "support",
+      "triage"
+    ]
+  }
+]

@@ -1,0 +1,56 @@
+# Live catalog verification
+
+Date: 2026-06-18T15:02:30Z
+
+| Agent | Port | Result | Events |
+| --- | ---: | --- | ---: |
+| `01-revenue-analyst` | 3201 | PASS | 488 |
+| `02-sales-lead-researcher` | 3202 | PASS | 377 |
+| `03-crm-hygiene-auditor` | 3203 | PASS | 347 |
+| `04-support-ticket-triage` | 3204 | PASS | 399 |
+| `05-refund-approval-operator` | 3205 | PASS | 402 |
+| `06-incident-commander` | 3206 | PASS | 390 |
+| `07-oncall-runbook-executor` | 3207 | PASS | 349 |
+| `08-cloud-cost-optimizer` | 3208 | PASS | 373 |
+| `09-security-cve-triager` | 3209 | PASS | 252 |
+| `10-dependency-upgrade-planner` | 3210 | PASS | 439 |
+| `11-pr-triage-reviewer` | 3211 | PASS | 327 |
+| `12-code-review-risk-assessor` | 3212 | PASS | 290 |
+| `13-release-notes-drafter` | 3213 | PASS | 410 |
+| `14-migration-planner` | 3214 | PASS | 464 |
+| `15-test-failure-debugger` | 3215 | PASS | 287 |
+| `16-documentation-qa` | 3216 | PASS | 363 |
+| `17-content-pipeline-agent` | 3217 | PASS | 453 |
+| `18-brand-voice-reviewer` | 3218 | PASS | 306 |
+| `19-social-sentiment-monitor` | 3219 | PASS | 308 |
+| `20-competitor-intelligence-brief` | 3220 | PASS | 426 |
+| `21-market-news-briefing` | 3221 | PASS | 408 |
+| `22-finance-kpi-analyst` | 3222 | PASS | 511 |
+| `23-invoice-anomaly-auditor` | 3223 | PASS | 282 |
+| `24-procurement-vendor-comparer` | 3224 | PASS | 331 |
+| `25-contract-clause-reviewer` | 3225 | PASS | 640 |
+| `26-compliance-policy-checker` | 3226 | PASS | 401 |
+| `27-privacy-dsr-responder` | 3227 | PASS | 369 |
+| `28-hr-onboarding-assistant` | 3228 | PASS | 499 |
+| `29-recruiting-resume-screener` | 3229 | PASS | 565 |
+| `30-employee-it-helpdesk` | 3230 | PASS | 426 |
+| `31-access-request-approver` | 3231 | PASS | 311 |
+| `32-knowledge-base-maintainer` | 3232 | PASS | 411 |
+| `33-rag-support-search` | 3233 | PASS | 319 |
+| `34-product-feedback-synthesizer` | 3234 | PASS | 445 |
+| `35-roadmap-prioritizer` | 3235 | PASS | 465 |
+| `36-experiment-analyst` | 3236 | PASS | 426 |
+| `37-etl-data-quality-monitor` | 3237 | PASS | 464 |
+| `38-data-catalog-steward` | 3238 | PASS | 416 |
+| `39-code-interpreter-analyst` | 3239 | PASS | 437 |
+| `40-pdf-due-diligence-analyst` | 3240 | PASS | 517 |
+| `41-insurance-claims-triage` | 3241 | PASS | 619 |
+| `42-healthcare-intake-summarizer` | 3242 | PASS | 381 |
+| `43-travel-operations-assistant` | 3243 | PASS | 641 |
+| `44-logistics-exception-monitor` | 3244 | PASS | 381 |
+| `45-ecommerce-merchandising-analyst` | 3245 | PASS | 374 |
+| `46-inventory-replenishment-planner` | 3246 | PASS | 280 |
+| `47-real-estate-comp-analyst` | 3247 | PASS | 270 |
+| `48-education-tutor-planner` | 3248 | PASS | 341 |
+| `49-research-literature-mapper` | 3249 | PASS | 315 |
+| `50-agent-fleet-router` | 3250 | PASS | 386 |

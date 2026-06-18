@@ -1,0 +1,11 @@
+{
+  "agent": "26-compliance-policy-checker",
+  "samplePrompt": "Review the current compliance policy checker queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

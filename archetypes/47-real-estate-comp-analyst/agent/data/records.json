@@ -1,0 +1,41 @@
+[
+  {
+    "id": "47-A",
+    "title": "Real estate comp analyst priority case",
+    "owner": "Real Estate",
+    "status": "urgent",
+    "impact": 56899,
+    "risk": 4,
+    "summary": "Compares properties and flags valuation caveats. This sample record represents the highest-impact open item.",
+    "tags": [
+      "real-estate",
+      "comps"
+    ]
+  },
+  {
+    "id": "47-B",
+    "title": "Real estate comp analyst routine queue item",
+    "owner": "Real Estate",
+    "status": "in_review",
+    "impact": 14311,
+    "risk": 3,
+    "summary": "Lower-risk operational item for real-estate-comp-analyst; useful for comparison and prioritization.",
+    "tags": [
+      "real-estate",
+      "comps"
+    ]
+  },
+  {
+    "id": "47-C",
+    "title": "Real estate comp analyst blocked follow-up",
+    "owner": "Real Estate",
+    "status": "blocked",
+    "impact": 27917,
+    "risk": 6,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "real-estate",
+      "comps"
+    ]
+  }
+]

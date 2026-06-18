@@ -1,9 +1,9 @@
 {
-  "name": "arch-06-multi-tool",
+  "name": "legacy-arch-06-multi-tool",
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "description": "Multi-tool orchestrator that sequences several typed tools",
+  "description": "Finance KPI analyst: Analyzes margin, cash, runway, and anomalies.",
   "imports": {
     "#*": "./agent/*",
     "#evals/*": "./evals/*"
@@ -19,6 +19,7 @@
     "@lab/openrouter": "*",
     "@lab/superserve-backend": "*",
     "@lab/monid-tools": "*",
+    "@lab/agent-kit": "*",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
     "zod": "4.4.3"

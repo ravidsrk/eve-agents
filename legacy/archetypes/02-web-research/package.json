@@ -1,9 +1,9 @@
 {
-  "name": "arch-02-web-research",
+  "name": "legacy-arch-02-web-research",
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "description": "Live web-research agent that discovers and runs data endpoints via Monid",
+  "description": "Travel operations assistant: Handles itinerary disruption options and traveler comms.",
   "imports": {
     "#*": "./agent/*",
     "#evals/*": "./evals/*"
@@ -19,6 +19,7 @@
     "@lab/openrouter": "*",
     "@lab/superserve-backend": "*",
     "@lab/monid-tools": "*",
+    "@lab/agent-kit": "*",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
     "zod": "4.4.3"
@@ -27,5 +28,7 @@
     "@types/node": "24.x",
     "@typescript/native-preview": "7.0.0-dev.20260523.1"
   },
-  "engines": { "node": "24.x" }
+  "engines": {
+    "node": "24.x"
+  }
 }

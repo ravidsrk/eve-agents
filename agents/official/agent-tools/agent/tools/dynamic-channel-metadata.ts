@@ -14,7 +14,11 @@ export default defineDynamic({
     "turn.started": (_event, ctx) => {
       if (!isChannel(ctx.channel, metadataProvider)) return null;
 
-      const { topic, contextMessages } = ctx.channel.metadata;
+      const channel = ctx.channel as unknown as {
+        kind?: string;
+        metadata: { topic: string | null; contextMessages: string[] };
+      };
+      const { topic, contextMessages } = channel.metadata;
       if (!topic) return null;
 
       return defineTool({
@@ -24,7 +28,7 @@ export default defineDynamic({
         inputSchema: z.object({}),
         async execute() {
           return {
-            channelKind: ctx.channel.kind ?? null,
+            channelKind: channel.kind ?? null,
             topic,
             contextMessages,
           };

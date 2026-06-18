@@ -1,0 +1,41 @@
+[
+  {
+    "id": "21-A",
+    "title": "Market/news briefing priority case",
+    "owner": "Strategy",
+    "status": "urgent",
+    "impact": 48657,
+    "risk": 3,
+    "summary": "Generates daily sector brief with confidence and source gaps. This sample record represents the highest-impact open item.",
+    "tags": [
+      "news",
+      "schedule"
+    ]
+  },
+  {
+    "id": "21-B",
+    "title": "Market/news briefing routine queue item",
+    "owner": "Strategy",
+    "status": "in_review",
+    "impact": 11373,
+    "risk": 1,
+    "summary": "Lower-risk operational item for market-news-briefing; useful for comparison and prioritization.",
+    "tags": [
+      "news",
+      "schedule"
+    ]
+  },
+  {
+    "id": "21-C",
+    "title": "Market/news briefing blocked follow-up",
+    "owner": "Strategy",
+    "status": "blocked",
+    "impact": 22431,
+    "risk": 4,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "news",
+      "schedule"
+    ]
+  }
+]

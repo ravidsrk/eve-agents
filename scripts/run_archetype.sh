@@ -38,6 +38,7 @@ OUT="$DIR/run.log"
 
 echo "==> $(basename "$DIR") on port $PORT"
 start_eve_dev "$DIR" "$PORT" "$LOG"
+trap 'kill_eve_dev "$DIR"' EXIT
 wait_for_health "$PORT"
 
 RESP=$(curl -s -XPOST "http://127.0.0.1:${PORT}/eve/v1/session" \
@@ -55,8 +56,13 @@ if [ -z "$SID" ]; then
 fi
 
 echo "sessionId=$SID"
-curl -sN -m 120 "http://127.0.0.1:${PORT}/eve/v1/session/${SID}/stream" >"$OUT"
+STREAM_TIMEOUT="${EVE_STREAM_TIMEOUT_SECONDS:-180}"
+node "$ROOT/scripts/stream_until_done.mjs" \
+  "http://127.0.0.1:${PORT}/eve/v1/session/${SID}/stream" \
+  "$OUT" \
+  "$STREAM_TIMEOUT"
 echo "wrote $OUT ($(wc -l <"$OUT" | tr -d ' ') events)"
 
 kill_eve_dev "$DIR"
+trap - EXIT
 echo "done"

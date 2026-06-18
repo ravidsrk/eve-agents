@@ -1,160 +1,125 @@
-# RESEARCH — Vercel **eve**, SuperServe, Monid
+# Research notes
 
-> Research log for building a tested catalog of agents on Vercel's `eve` framework, wired to
-> OpenRouter (inference), SuperServe (sandbox), and Monid (tool router).
-> Date of research: 2026-06-18. **eve is public beta** (released 2026-06-17) — APIs may churn.
+Date: 2026-06-18
 
-## Sources
-- eve announcement — https://vercel.com/blog/introducing-eve
-- eve changelog — https://vercel.com/changelog/introducing-eve-an-open-source-agent-framework
-- eve docs — https://vercel.com/docs/eve and `.../docs/eve/concepts`
-- eve repo — https://github.com/vercel/eve
-- eve bundled docs — `node_modules/eve/docs/**` (read directly from the published package)
-- SuperServe — https://docs.superserve.ai (`/introduction`, `/quickstart`, `/sandbox/create`, `/sdk-reference/sandbox`, `/llms.txt`)
-- Monid — https://docs.monid.ai (`/`, `/api/overview.html`, `/api/discover.html`, `/guide/quickstart-mcp.html`)
+## Purpose
 
-## Version pins (exact, as used by this lab)
-| Component | Version | Notes |
-|-----------|---------|-------|
-| `eve` | `0.11.4` | Filesystem-first durable-agent framework. Apache-2.0. Public beta. |
-| `ai` (AI SDK) | `7.0.0-beta.178` | eve **peer-pins** this. AI SDK **v7 beta**. |
-| `zod` | `^3.25 \|\| ^4` | tool/input schemas |
-| `@superserve/sdk` | `0.7.4` | TS SDK; Python pkg `superserve` (PyPI). |
-| `@openrouter/ai-sdk-provider` | `2.9.1` | peer `ai: ^6` → **mismatch with eve's v7** (see friction). |
-| `@ai-sdk/openai-compatible` | `2.0.51` | fallback provider path |
-| Node | `>= 24` | eve `engines`. (Lab host installs `v24.17.0` via nvm.) |
+This repository now targets a catalog of real-world eve agents, not a feature checklist. The research
+baseline is: what agent shapes Vercel publicly recommends, which production workflows are plausible,
+and where OpenRouter, SuperServe, and Monid fit without pretending unverified live runs happened.
 
-> **Beta/churn note:** because `eve` shipped one day before this research, pin every version and
-> commit the lockfile. The `ai@7.0.0-beta.178` peer is the single most important pin — it drives
-> which model-provider package is compatible (see "OpenRouter integration").
+## eve
 
----
+Primary sources:
 
-## eve mental model
+- Vercel announcement: <https://vercel.com/blog/introducing-eve>
+- Vercel docs: <https://vercel.com/docs/eve>
+- eve GitHub repository: <https://github.com/vercel/eve>
 
-An eve agent is **a directory of files under `agent/`**. eve discovers files by name, validates them,
-compiles a manifest, and serves a deployable app. Adding a capability = adding a file.
+Current mental model:
 
-| Path | Defines | Helper |
-|------|---------|--------|
-| `agent/instructions.md` (or `.ts`) | always-on system prompt (required) | — |
-| `agent/agent.ts` | runtime config (model, compaction, …) | `defineAgent` (from `eve`) |
-| `agent/tools/*.ts` | one typed tool per file; filename = tool name (snake_case) | `defineTool` (from `eve/tools`) |
-| `agent/skills/*` | on-demand markdown procedures (seeded to `/workspace/skills/`) | — |
-| `agent/channels/*` | entry points (HTTP, Slack, Discord, GitHub, Linear, Twilio, Telegram, Teams) | `eveChannel`, `*Channel` (from `eve/channels/*`) |
-| `agent/connections/*` | external MCP / OpenAPI integrations | `defineMcpClientConnection`, `defineOpenAPIConnection` (from `eve/connections`) |
-| `agent/sandbox/sandbox.ts` (or `agent/sandbox.ts`) | the agent's isolated compute env | `defineSandbox` (from `eve/sandbox`) |
-| `agent/sandbox/workspace/**` | files seeded into `/workspace` at session start | — |
-| `agent/schedules/*.ts\|.md` | recurring cron jobs (root-only) | `defineSchedule` (from `eve/schedules`) |
-| `agent/subagents/<id>/` | declared specialist child agents | `defineAgent` (with required `description`) |
-| `agent/hooks/`, `agent/instrumentation.ts` | lifecycle hooks, OpenTelemetry | — |
-| `evals/*.eval.ts` + `evals/evals.config.ts` | scored test suites (app root, **not** under `agent/`) | `defineEval`, `defineEvalConfig` (from `eve/evals`) |
+- eve is a filesystem-first framework for durable backend agents.
+- An agent is authored under `agent/`.
+- Common files:
+  - `agent/agent.ts` for model/runtime config.
+  - `agent/instructions.md` for the always-on prompt.
+  - `agent/tools/*.ts` for typed tools.
+  - `agent/skills/*` for load-on-demand procedures.
+  - `agent/channels/*` for Slack/Discord/Teams/Telegram/Twilio/GitHub/Linear style entry points.
+  - `agent/connections/*` for MCP or OpenAPI services.
+  - `agent/sandbox/*` for isolated code/file execution.
+  - `agent/schedules/*` for cron-like work.
+  - `agent/subagents/*` for delegated specialists.
+  - `evals/*.eval.ts` for scored tests.
+- Sessions are durable workflows. Model/tool steps are checkpointed so a session can pause on approval
+  or interruption and resume later.
+- The default HTTP surface is useful for verification:
+  - `POST /eve/v1/session`
+  - `POST /eve/v1/session/:sessionId`
+  - `GET /eve/v1/session/:sessionId/stream`
 
-If `agent.ts` is omitted, eve defaults to `anthropic/claude-sonnet-4.6`. If present, `model` is required.
+The Vercel announcement also names production-style internal agent classes: data analyst, autonomous
+SDR, sales cockpit, support engineer, content agent, and routing agent. Those informed the first
+columns of [AGENT_MATRIX.md](AGENT_MATRIX.md).
 
-### `defineAgent` fields
-`model` (gateway id string **or** an AI-SDK `LanguageModel`), `modelOptions`, `compaction:{thresholdPercent}`,
-`experimental:{codeMode}` (route tools through a sandboxed JS wrapper), `outputSchema` (task-mode structured output),
-`build:{externalDependencies}`.
+## Vercel templates
 
-### Default harness (built-in tools, no authoring)
-`bash`, `read_file`, `write_file`, `glob`, `grep` (all target the sandbox, cwd `/workspace`),
-plus web/delegation tools, the built-in `agent` (self-copy subagent) and `ask_question` (HITL question).
+Sources:
 
-### Tools vs sandbox (trust boundary)
-Authored tools run in the **app runtime** with full `process.env` (good place for API keys).
-Only the sandbox tools and `ctx.getSandbox()` calls run **inside the sandbox** (no host secrets).
+- Content agent template: <https://github.com/vercel-labs/eve-content-agent-template>
+- Personal agent template: <https://github.com/vercel-labs/personal-agent-template>
+- Slack starter: <https://github.com/vercel-labs/eve-slack-agent-template>
+- PR triage template: <https://github.com/vercel-labs/eve-pr-triage-agent-template>
 
-## Sessions, durable execution & the Workflow SDK
-- **session** = durable conversation/task (lives for days/weeks). **turn** = one user message + all work it triggers. **step** = a durable checkpoint (one model call + its tool calls).
-- Every turn is a durable workflow on the open-source Workflow SDK (Vercel Workflow when deployed). eve checkpoints at each step; on crash/redeploy it resumes from the last completed step (completed steps never re-run; an interrupted step re-runs → make side effects idempotent or gate with approval).
-- Turns **park** durably (zero compute) on approvals, interactive OAuth, and subagents, then resume exactly where they left off.
-- `continuationToken` is a **resume handle**, not a durable message queue. Send one user turn at a time; wait for `session.waiting` before the next.
+Useful patterns:
 
-## HTTP API (the default `eve` channel, always mounted)
-- `GET /eve/v1/health`
-- `POST /eve/v1/session` — body `{ "message": "..." }` → `{ continuationToken, ok, sessionId }` + header `x-eve-session-id`
-- `POST /eve/v1/session/:sessionId` — body `{ continuationToken, message }` (follow-up)
-- `GET /eve/v1/session/:sessionId/stream` — **NDJSON** (`application/x-ndjson; charset=utf-8`), one event/line
-- Dev-only: `POST /eve/v1/dev/schedules/:scheduleId` — fire a schedule once (since `eve dev` never runs crons on cadence)
+- Use a real user surface, commonly Slack or web, instead of only CLI demos.
+- Use approvals for side effects.
+- Keep domain rules in editable skills.
+- Keep grounded source material separate from model reasoning.
+- Prefer deployable, durable workflows over one-shot chat.
+- PR/support/content agents are stronger examples than generic weather/tool demos.
 
-**Stream event catalog:** `session.started`, `turn.started`, `actions.requested`, `action.result`,
-`reasoning.appended`/`reasoning.completed`, `message.appended`/`message.completed`, `input.requested`,
-`authorization.required`/`authorization.completed`, `turn.failed`, `session.waiting`, `session.completed`,
-`subagent.called`/`subagent.completed`.
+## OpenRouter
 
-## CLI (`eve`)
-`init [target] [--channel-web-nextjs]`, `info [--json]`, `build`, `start [--host --port]`,
-`dev [url] [--no-ui --port --logs ...]`, `link`, `deploy`, `eval [ids] [--url --strict --json --junit --list --tag]`,
-`channels add [slack|web]`, `channels list`. Loads `.env`/`.env.local` from app root. `eve dev` writes pid to `.eve/dev-process.pid` (one dev server per agent).
+The repo keeps `@lab/openrouter`, which uses `@ai-sdk/openai-compatible` against OpenRouter's
+OpenAI-compatible endpoint.
 
-## Eval system
-`evals/*.eval.ts` files (path = id) + one `evals/evals.config.ts`. `defineEval({ description, test(t), judge, tags, timeoutMs })`.
-- Drive: `t.send`, `t.respond`, `t.respondAll`, `t.sendFile`, `t.expectInputRequests`, `t.newSession`; read `t.reply`, `t.sessionId`, `t.events`.
-- Assert: run-level `t.completed()`, `t.calledTool()`, `t.usedNoTools()`, `t.toolOrder([...])`; value `t.check(value, includes|equals|matches|similarity)` (from `eve/evals/expect`); judge `t.judge.autoevals.*` (uses configured judge model).
-- Severity: **gates** (hard, fail → exit non-zero) vs **soft** (`.soft()/.atLeast()`); `.gate()` to promote.
-- `eve eval` exit codes: `0` pass, `1` failure, `2` config error.
+Reason:
 
----
+- eve currently peers against AI SDK v7 beta.
+- The OpenRouter-branded AI SDK provider still peers against AI SDK v6, so the OpenAI-compatible
+  provider path remains the safer integration.
 
-## OpenRouter integration (model provider swap)
-**Clean hook:** `defineAgent({ model })` accepts a provider-authored `LanguageModel`, so we pass an
-OpenRouter model instead of a Vercel AI Gateway id.
+Current blocker:
 
-**Friction (documented):** eve peer-pins `ai@7.0.0-beta.178` (AI SDK v7 beta) but
-`@openrouter/ai-sdk-provider@2.9.1` declares peer `ai: ^6`. The `LanguageModelV*` spec can differ
-between v6 and v7, so the provider must produce a model matching eve's bundled `ai`. Resolution order
-(decided at build time by `packages/openrouter`, with a standalone verification script):
-1. an `@openrouter/ai-sdk-provider` release compatible with `ai@7`, else
-2. `@ai-sdk/openai-compatible` `createOpenAICompatible({ baseURL: "https://openrouter.ai/api/v1", apiKey, name: "openrouter" })`, else
-3. `@ai-sdk/openai` `createOpenAI({ baseURL, apiKey })`.
+- `OPENROUTER_API_KEY` is not present in this workspace, so live model sessions were not rerun in
+  the rebuild.
 
-**Model choice:** OpenRouter **free** models (`:free`) are rate-limited upstream (observed HTTP 429).
-Default to ultra-cheap paid models and fall back free→cheap:
-`meta-llama/llama-3.1-8b-instruct` (~$0.02/M), `openai/gpt-oss-20b`, `qwen/qwen-2.5-7b-instruct`,
-`mistralai/mistral-nemo`, `amazon/nova-micro-v1`. Escalate to a stronger model only when a task
-demonstrably fails on cheap ones.
+## SuperServe
 
-Auth check used: `GET https://openrouter.ai/api/v1/key` (Bearer). Key verified valid.
+Sources:
 
-## SuperServe integration (sandbox backend)
-**Clean hook:** eve's `SandboxBackend` is a public, pluggable interface (`eve/sandbox`).
-Built-ins: `vercel()`, `docker()`, `microsandbox()`, `justbash()`, `defaultBackend()`.
-**On this host Docker and KVM are absent**, so `docker()`/`microsandbox()` can't run and `vercel()`
-needs a deploy — leaving only `just-bash` (no real binaries). A **custom SuperServe backend** is
-therefore the only way to run real binaries locally.
+- SuperServe site: <https://superserve.ai>
+- Existing local package: `packages/superserve-backend`
 
-`SandboxBackend = { name, prewarm(input)→{reused}, create(input)→SandboxBackendHandle }`.
-`SandboxBackendHandle = { session: SandboxSession, useSessionFn, captureState()→{backendName, metadata, sessionKey}, dispose() }`.
-`SandboxSession` surface to implement: `id`, `resolvePath`, `run`, `spawn`, `readFile`/`readBinaryFile`/`readTextFile`,
-`writeFile`/`writeBinaryFile`/`writeTextFile`, `removePath`, `setNetworkPolicy`. (eve's internal
-`buildSandboxSession(internal, setNetworkPolicy)` helper that derives this surface from a small
-`InternalSandboxSession` is **not exported**, so we replicate it.)
+Role in this repo:
 
-SuperServe SDK mapping: `Sandbox.create({ name, timeoutSeconds, metadata, envVars, network })`,
-`Sandbox.connect(id)`, `sandbox.commands.run(cmd)` (blocking → `run`), streaming exec (SSE/WebSocket → `spawn`),
-`sandbox.files.write/read/readText` (→ file methods), `pause()/resume()/kill()`.
-Persist the SuperServe sandbox id in `captureState().metadata` so `create` can `connect()`/resume the
-same VM across turns/restarts (this powers the durable-resume archetype). REST auth header is `X-API-Key`
-(base `https://api.superserve.ai`). Key verified valid.
+- SuperServe is the remote sandbox backend for eve file/code execution.
+- Each generated archetype includes `agent/sandbox/sandbox.ts` using `@lab/superserve-backend`.
+- This keeps the architecture aligned with durable, isolated, stateful agent work.
 
-## Monid integration (tool router)
-**Primary (robust, budget-controlled):** authored tools `monid_discover`, `monid_inspect`, `monid_run`
-calling the HTTP API with `Authorization: Bearer $MONID_API_KEY`:
-- `POST /v1/discover` `{query, limit≤20}` → matching endpoints + `price{type:PER_CALL|PER_RESULT, amount, currency}`
-- `POST /v1/inspect` → full schema/pricing
-- `POST /v1/run` → execute (paid)
-- `GET /v1/runs`, `GET /v1/runs/:id`, `GET /v1/wallet/balance`
+Current blocker:
 
-`discover`/`inspect` appear free; `run` is **paid**. A budget guard refuses runs over a per-task cap
-and logs each paid call's USD cost. Wallet balance verified ($495.34 at research time).
+- `SUPERSERVE_API_KEY` is not present in this workspace, so live sandbox sessions were not rerun in
+  the rebuild.
 
-**Secondary:** `defineMcpClientConnection({ url: "https://mcp.monid.ai/v1" })` — docs imply OAuth login;
-we attempt an API-key header and document whether it works.
+## Monid
 
----
+Role intended by the original prompt:
 
-## Environment constraints on this host
-- Node was v22.14 → installed **v24.17.0** via nvm 0.40.3 (eve needs ≥24).
-- **No Docker daemon, no `/dev/kvm`** → see SuperServe rationale above. glibc 2.39, Linux.
-- API keys are provided via env (staged into a gitignored session file, never committed).
+- Use Monid as a live tool router for external research.
+- Use discover/inspect/run with cost logging.
+
+Current result:
+
+- The supplied key was validated with live discover and representative inspect calls.
+- Useful endpoint classes and prices are recorded in [MONID_RESEARCH.md](MONID_RESEARCH.md).
+- The next implementation pass should wrap the most useful discovered endpoints as domain-specific
+  eve tools.
+
+## Agent selection rationale
+
+The 50 agents were selected from workflows where durable sessions, sandboxed work, approvals, and
+structured evidence are valuable:
+
+- Operations that wait on humans: refunds, access requests, procurement, legal, compliance.
+- Operations that need sandboxed compute: analytics, ETL quality, code interpreter, test debugging.
+- Operations that need grounded source material: support, RAG, docs QA, contract review, literature
+  mapping.
+- Operations that benefit from scheduled or recurring execution: market brief, incident/on-call,
+  data quality, cloud cost.
+- Operations that should use channels later: support, content, PR triage, employee helpdesk, fleet
+  router.
+
+See [AGENT_MATRIX.md](AGENT_MATRIX.md) for the complete list and acceptance bar.

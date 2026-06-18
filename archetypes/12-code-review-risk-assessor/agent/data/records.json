@@ -1,0 +1,41 @@
+[
+  {
+    "id": "12-A",
+    "title": "Code review risk assessor priority case",
+    "owner": "Engineering",
+    "status": "urgent",
+    "impact": 45804,
+    "risk": 4,
+    "summary": "Reviews a patch for correctness, security, and test gaps. This sample record represents the highest-impact open item.",
+    "tags": [
+      "review",
+      "quality"
+    ]
+  },
+  {
+    "id": "12-B",
+    "title": "Code review risk assessor routine queue item",
+    "owner": "Engineering",
+    "status": "in_review",
+    "impact": 10356,
+    "risk": 1,
+    "summary": "Lower-risk operational item for code-review-risk-assessor; useful for comparison and prioritization.",
+    "tags": [
+      "review",
+      "quality"
+    ]
+  },
+  {
+    "id": "12-C",
+    "title": "Code review risk assessor blocked follow-up",
+    "owner": "Engineering",
+    "status": "blocked",
+    "impact": 20532,
+    "risk": 3,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "review",
+      "quality"
+    ]
+  }
+]

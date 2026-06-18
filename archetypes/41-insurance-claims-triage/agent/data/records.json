@@ -1,0 +1,41 @@
+[
+  {
+    "id": "41-A",
+    "title": "Insurance claims triage priority case",
+    "owner": "Insurance Ops",
+    "status": "urgent",
+    "impact": 54997,
+    "risk": 3,
+    "summary": "Prioritizes claims, missing evidence, and fraud indicators. This sample record represents the highest-impact open item.",
+    "tags": [
+      "insurance",
+      "claims"
+    ]
+  },
+  {
+    "id": "41-B",
+    "title": "Insurance claims triage routine queue item",
+    "owner": "Insurance Ops",
+    "status": "in_review",
+    "impact": 13633,
+    "risk": 3,
+    "summary": "Lower-risk operational item for insurance-claims-triage; useful for comparison and prioritization.",
+    "tags": [
+      "insurance",
+      "claims"
+    ]
+  },
+  {
+    "id": "41-C",
+    "title": "Insurance claims triage blocked follow-up",
+    "owner": "Insurance Ops",
+    "status": "blocked",
+    "impact": 26651,
+    "risk": 4,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "insurance",
+      "claims"
+    ]
+  }
+]

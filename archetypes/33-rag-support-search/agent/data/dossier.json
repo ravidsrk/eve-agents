@@ -1,0 +1,30 @@
+{
+  "id": "33-rag-support-search",
+  "title": "RAG support search",
+  "owner": "Support",
+  "job": "Retrieves grounded support answers from a document set.",
+  "rule": "Quote document titles/ids and say when the answer is not in the corpus.",
+  "tags": [
+    "rag",
+    "support"
+  ],
+  "sourceInspiredBy": [
+    "https://vercel.com/blog/introducing-eve",
+    "https://github.com/vercel/eve",
+    "https://github.com/vercel-labs/eve-content-agent-template",
+    "https://github.com/vercel-labs/personal-agent-template",
+    "https://github.com/vercel-labs/eve-pr-triage-agent-template"
+  ],
+  "evidenceRequired": [
+    "loaded dossier",
+    "searched or analyzed records",
+    "named assumptions",
+    "side effects gated by approval"
+  ],
+  "samplePrompt": "Review the current rag support search queue and write a prioritized action report.",
+  "liveIntegrations": {
+    "openrouter": "Model inference through @lab/openrouter when OPENROUTER_API_KEY is configured.",
+    "superserve": "Sandbox execution through @lab/superserve-backend when SUPERSERVE_API_KEY is configured.",
+    "monid": "Optional live tool discovery/run when MONID_API_KEY is valid."
+  }
+}

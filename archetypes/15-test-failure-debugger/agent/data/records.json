@@ -1,0 +1,41 @@
+[
+  {
+    "id": "15-A",
+    "title": "Test failure debugger priority case",
+    "owner": "Engineering",
+    "status": "urgent",
+    "impact": 46755,
+    "risk": 2,
+    "summary": "Reads failing logs, identifies likely cause, and proposes a fix. This sample record represents the highest-impact open item.",
+    "tags": [
+      "testing",
+      "debugging"
+    ]
+  },
+  {
+    "id": "15-B",
+    "title": "Test failure debugger routine queue item",
+    "owner": "Engineering",
+    "status": "in_review",
+    "impact": 10695,
+    "risk": 1,
+    "summary": "Lower-risk operational item for test-failure-debugger; useful for comparison and prioritization.",
+    "tags": [
+      "testing",
+      "debugging"
+    ]
+  },
+  {
+    "id": "15-C",
+    "title": "Test failure debugger blocked follow-up",
+    "owner": "Engineering",
+    "status": "blocked",
+    "impact": 21165,
+    "risk": 6,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "testing",
+      "debugging"
+    ]
+  }
+]

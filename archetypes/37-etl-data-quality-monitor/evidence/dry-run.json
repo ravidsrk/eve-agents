@@ -1,0 +1,11 @@
+{
+  "agent": "37-etl-data-quality-monitor",
+  "samplePrompt": "Review the current etl data quality monitor queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "13-A",
+    "title": "Release notes drafter priority case",
+    "owner": "Product Marketing",
+    "status": "urgent",
+    "impact": 46121,
+    "risk": 5,
+    "summary": "Turns merged changes into customer-facing release notes. This sample record represents the highest-impact open item.",
+    "tags": [
+      "release",
+      "content"
+    ]
+  },
+  {
+    "id": "13-B",
+    "title": "Release notes drafter routine queue item",
+    "owner": "Product Marketing",
+    "status": "in_review",
+    "impact": 10469,
+    "risk": 2,
+    "summary": "Lower-risk operational item for release-notes-drafter; useful for comparison and prioritization.",
+    "tags": [
+      "release",
+      "content"
+    ]
+  },
+  {
+    "id": "13-C",
+    "title": "Release notes drafter blocked follow-up",
+    "owner": "Product Marketing",
+    "status": "blocked",
+    "impact": 20743,
+    "risk": 4,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "release",
+      "content"
+    ]
+  }
+]

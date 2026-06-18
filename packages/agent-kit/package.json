@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "description": "Shared tools and helpers for real-world eve archetypes.",
+  "description": "Shared tools and helpers for catalog agents (agents/catalog/).",
   "types": "./index.d.ts",
   "exports": {
     ".": {

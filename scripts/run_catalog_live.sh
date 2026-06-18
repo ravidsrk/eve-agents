@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run every generated real-world archetype once and capture each NDJSON stream
-# to archetypes/<id>/run.log. This is intentionally sequential to avoid
+# to agents/catalog/<id>/run.log. This is intentionally sequential to avoid
 # accidentally swamping model/sandbox providers.
 set -euo pipefail
 
@@ -19,7 +19,7 @@ PROMPT_SUFFIX="${PROMPT_SUFFIX:-Load the dossier, analyze records, write a conci
   echo "| --- | ---: | --- | ---: |"
 } >"$OUT"
 
-for dir in "$ROOT"/archetypes/[0-9][0-9]-*/; do
+for dir in "$ROOT"/agents/catalog/[0-9][0-9]-*/; do
   base="$(basename "$dir")"
   num="${base%%-*}"
   if [[ "$num" < "$START_AT" || "$num" > "$END_AT" ]]; then
@@ -31,7 +31,7 @@ for dir in "$ROOT"/archetypes/[0-9][0-9]-*/; do
   prompt="$PROMPT_SUFFIX"
   echo "==> live $base on $port"
   if EVE_STREAM_TIMEOUT_SECONDS="${EVE_STREAM_TIMEOUT_SECONDS:-240}" \
-    bash "$ROOT/scripts/run_archetype.sh" "archetypes/$base" "$port" "$prompt"; then
+    bash "$ROOT/scripts/run-catalog-agent.sh" "agents/catalog/$base" "$port" "$prompt"; then
     events="$(wc -l <"$dir/run.log" | tr -d ' ')"
     printf '| `%s` | %s | PASS | %s |\n' "$base" "$port" "$events" >>"$OUT"
   else

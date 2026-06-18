@@ -68,7 +68,7 @@ cat > "$DEST/tsconfig.json" <<'EOF'
 }
 EOF
 
-cp "$ROOT/agents/official/agent-tools/.gitignore" "$DEST/.gitignore"
+cp "$ROOT/agents/reference/agent-tools/.gitignore" "$DEST/.gitignore"
 
 cat > "$DEST/agent/agent.ts" <<'EOF'
 import { defineAgent } from "eve";

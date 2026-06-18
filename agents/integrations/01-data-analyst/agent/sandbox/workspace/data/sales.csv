@@ -1,0 +1,15 @@
+date,region,product,units,revenue
+2026-01-05,North,Widget,120,2400
+2026-01-08,South,Gadget,80,3200
+2026-01-12,North,Gadget,60,2400
+2026-01-15,East,Widget,200,4000
+2026-01-20,West,Gizmo,45,2250
+2026-02-02,North,Widget,150,3000
+2026-02-09,South,Gizmo,90,4500
+2026-02-14,East,Gadget,110,4400
+2026-02-21,West,Widget,75,1500
+2026-03-01,North,Gizmo,30,1500
+2026-03-07,South,Widget,160,3200
+2026-03-12,East,Gizmo,55,2750
+2026-03-19,West,Gadget,95,3800
+2026-03-25,North,Gadget,70,2800

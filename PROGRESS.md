@@ -5,9 +5,9 @@ Running log. Newest entries on top.
 ## PR #2 merge review — 2026-06-18
 
 - Resolved PR #2 against the current `origin/main`.
-- Preserved `main`'s `agents/official/`, `agents/production/`, and `legacy/archetypes/` layout.
-- Preserved the PR branch's 50 real-world `archetypes/*` catalog and live `run.log` evidence.
-- Combined root workspace coverage so `npm run typecheck --workspaces` includes packages, `eve-lab`,
+- Preserved `main`'s `agents/reference/`, `agents/production/`, and `agents/integrations/` layout.
+- Preserved the PR branch's 50 real-world `agents/catalog/*` catalog and live `run.log` evidence.
+- Combined root workspace coverage so `npm run typecheck --workspaces` includes packages, `lab`,
   the 50 archetypes, official fixtures, production agents, and legacy demos.
 
 ## 50-agent catalog — 2026-06-18
@@ -45,12 +45,12 @@ Running log. Newest entries on top.
 - Added `scripts/port-eve-fixture.sh` for upstream fixture ports.
 - Added `scripts/research-monid.mjs` and `research/discover-results.jsonl`.
 - Added Monid CLI setup with `scripts/setup-monid.sh`, [MONID.md](MONID.md), and `npm run setup:monid`.
-- Ported 10/10 fixtures into `agents/official/`.
+- Ported 10/10 fixtures into `agents/reference/`.
 - Wired `agent-tools-sandbox` to SuperServe `python-ml`.
 - Added production agents P01-P10 in `agents/production/`.
 - Added Monid-backed domain tools and READMEs for P01-P10.
 - Added `npm run smoke:production` for live Monid smoke coverage.
-- Moved v1 primitive demos from `archetypes/` to `legacy/archetypes/`.
+- Moved v1 primitive demos from `agents/catalog/` to `agents/integrations/`.
 
 ## Next recommended pass
 

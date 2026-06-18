@@ -1,5 +1,7 @@
 # Real-world eve agent matrix
 
+Part of the [unified catalog](AGENT_CATALOG.md) — Layer A (`agents/catalog/01`–`50`).
+
 This rebuild treats eve as a production backend-agent framework, not as a bag of feature demos.
 Each archetype below is designed around a real operational workflow, a concrete user, a bounded
 data/tool surface, and an evidence requirement.
@@ -98,7 +100,7 @@ Every agent must include:
 ## Evidence plan
 
 - Local deterministic proof: typecheck plus generated dry-run fixtures for each agent.
-- Live proof, once keys are available: run representative agents through `scripts/run_archetype.sh`
+- Live proof, once keys are available: run representative agents through `scripts/run-catalog-agent.sh`
   with OpenRouter and SuperServe, then store NDJSON logs.
 - Monid proof, once key is valid: discover/inspect/run live data endpoints for research-heavy agents
   and log per-call costs.

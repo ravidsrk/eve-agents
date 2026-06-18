@@ -50,7 +50,7 @@ found 0 vulnerabilities
 `npm run typecheck`
 
 ```text
-typecheck passed for eve-lab and arch-01 through arch-50
+typecheck passed for lab and arch-01 through arch-50
 ```
 
 `bash scripts/run_catalog_live.sh`

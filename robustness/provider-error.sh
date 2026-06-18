@@ -7,7 +7,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # shellcheck source=scripts/lib.sh
 source "$ROOT/scripts/lib.sh"
 
-DIR="$ROOT/eve-lab"
+DIR="$ROOT/lab"
 PORT=3140
 ENV_BACKUP=""
 

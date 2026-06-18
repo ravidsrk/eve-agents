@@ -1,5 +1,8 @@
 # Findings
 
+See the [unified catalog](AGENT_CATALOG.md) for how all 92 agents (official, catalog, production,
+legacy) fit together.
+
 ## What changed
 
 The previous repository looked broad but was mostly a feature tour. This rebuild changes the unit of

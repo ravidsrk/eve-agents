@@ -1,0 +1,41 @@
+{
+  "eventType": "attr_set",
+  "specVersion": 4,
+  "eventData": {
+    "changes": [
+      {
+        "key": "$eve.model",
+        "value": "openrouter/openai/gpt-oss-120b"
+      },
+      {
+        "key": "$eve.input_tokens",
+        "value": "12030"
+      },
+      {
+        "key": "$eve.output_tokens",
+        "value": "671"
+      },
+      {
+        "key": "$eve.cache_read_tokens",
+        "value": "0"
+      },
+      {
+        "key": "$eve.cache_write_tokens",
+        "value": "0"
+      },
+      {
+        "key": "$eve.tool_count",
+        "value": "17"
+      }
+    ],
+    "writer": {
+      "type": "step",
+      "stepId": "step_01KVDVJR2WWWBZNVCQKV9VXNRQ",
+      "attempt": 1
+    },
+    "allowReservedAttributes": true
+  },
+  "runId": "wrun_01KVDVJR2SNKSVGQYFV3ETXRT0",
+  "eventId": "evnt_01KVDVK6JZ3BM1APZC72AQ113Z",
+  "createdAt": "2026-06-18T17:13:54.527Z"
+}

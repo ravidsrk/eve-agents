@@ -1,0 +1,29 @@
+{
+  "eventType": "attr_set",
+  "specVersion": 4,
+  "eventData": {
+    "changes": [
+      {
+        "key": "$eve.type",
+        "value": "session"
+      },
+      {
+        "key": "$eve.trigger",
+        "value": "http"
+      },
+      {
+        "key": "$eve.title",
+        "value": "Quick test: load dossier and summarize top 3 actions."
+      }
+    ],
+    "writer": {
+      "type": "step",
+      "stepId": "step_01KVDVJR1HG426BMSZQDW2Z4YV",
+      "attempt": 1
+    },
+    "allowReservedAttributes": true
+  },
+  "runId": "wrun_01KVDVJR19B8YSZ1KWRJ0HRCK5",
+  "eventId": "evnt_01KVDVJR27SHB1PB7Z5MAS3Q2K",
+  "createdAt": "2026-06-18T17:13:39.655Z"
+}

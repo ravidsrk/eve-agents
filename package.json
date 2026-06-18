@@ -1,10 +1,10 @@
 {
   "name": "eve-exploration",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "type": "module",
-  "description": "Open-source catalog of Vercel eve agents wired to OpenRouter, SuperServe, and Monid.",
+  "description": "Public catalog of real-world Vercel eve agents — reference fixtures, 50 job templates, Monid production agents, and integration proofs.",
   "repository": {
     "type": "git",
     "url": "https://github.com/ravidsrk/eve-exploration.git"
@@ -15,11 +15,11 @@
   },
   "workspaces": [
     "packages/*",
-    "eve-lab",
-    "archetypes/*",
-    "agents/official/*",
+    "lab",
+    "agents/catalog/*",
+    "agents/reference/*",
     "agents/production/*",
-    "legacy/archetypes/*"
+    "agents/integrations/*"
   ],
   "overrides": {
     "ai": "7.0.0-beta.178"
@@ -29,8 +29,9 @@
   },
   "scripts": {
     "setup": "bash scripts/setup.sh",
-    "generate:archetypes": "node scripts/generate-real-world-archetypes.mjs --clean",
-    "verify:catalog": "node scripts/verify-real-world-archetypes.mjs",
+    "generate:catalog": "node scripts/generate-catalog.mjs --clean",
+    "generate:archetypes": "npm run generate:catalog",
+    "verify:catalog": "node scripts/verify-catalog.mjs",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "node robustness/budget-cap.mjs",
     "test:robustness": "bash scripts/test-robustness.sh",
@@ -39,14 +40,25 @@
     "setup:monid": "bash scripts/setup-monid.sh",
     "research:monid": "node scripts/research-monid.mjs",
     "smoke:production": "node scripts/smoke-production-monid.mjs",
-    "validate:official": "bash scripts/validate-official.sh",
+    "validate:reference": "bash scripts/validate-reference.sh",
+    "validate:official": "npm run validate:reference",
     "run:production": "bash scripts/run-production-agent.sh",
     "run:production:all": "bash scripts/run-all-production.sh",
-    "agents:list": "ls -1 agents/official",
-    "agents:list:production": "ls -1 agents/production"
+    "catalog:list": "node scripts/list-catalog.mjs",
+    "catalog:list:md": "node scripts/list-catalog.mjs --format=md",
+    "agents:list": "node scripts/list-catalog.mjs",
+    "agents:list:reference": "ls -1 agents/reference",
+    "agents:list:catalog": "ls -1 agents/catalog",
+    "agents:list:production": "ls -1 agents/production | grep -E '^p[0-9]{2}-'",
+    "agents:list:integrations": "ls -1 agents/integrations",
+    "run:catalog": "bash scripts/run-catalog-agent.sh"
   },
   "devDependencies": {
+    "@rolldown/binding-darwin-arm64": "1.1.1",
     "just-bash": "^3.0.1",
     "microsandbox": "^0.5.7"
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-darwin-arm64": "1.1.1"
   }
 }

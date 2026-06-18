@@ -1,0 +1,26 @@
+{
+  "runId": "wrun_01KVDVJR19B8YSZ1KWRJ0HRCK5",
+  "status": "running",
+  "deploymentId": "dpl_local@bundled",
+  "workflowName": "workflow//eve//workflowEntry",
+  "specVersion": 4,
+  "executionContext": {
+    "traceCarrier": {},
+    "workflowCoreVersion": "5.0.0-beta.17",
+    "features": {
+      "encryption": false
+    }
+  },
+  "input": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFtbMV0seyJpbnB1dCI6Miwic2VyaWFsaXplZENvbnRleHQiOjR9LHsibWVzc2FnZSI6MywiY29udGV4dCI6LTEsIm91dHB1dFNjaGVtYSI6LTF9LCJRdWljayB0ZXN0OiBsb2FkIGRvc3NpZXIgYW5kIHN1bW1hcml6ZSB0b3AgMyBhY3Rpb25zLiIseyJldmUuYnVuZGxlIjo1LCJldmUuY2hhbm5lbCI6MTEsImV2ZS5jaGFubmVsSW5zdHJ1bWVudGF0aW9uIjoxNCwiZXZlLmNvbnRpbnVhdGlvblRva2VuIjoxNywiZXZlLm1vZGUiOjE4LCJldmUuYXV0aCI6MTksImV2ZS5pbml0aWF0b3JBdXRoIjoxOSwiZXZlLmNhcGFiaWxpdGllcyI6MjJ9LHsibm9kZUlkIjotMSwic291cmNlIjo2fSx7ImFwcFJvb3QiOjcsImtpbmQiOjgsIm1vZHVsZU1hcExvYWRlclBhdGgiOjksInNhbmRib3hBcHBSb290IjoxMH0sIi9Vc2Vycy9yYXZpbmRyYS9wcm9qZWN0cy9ldmUtZXhwbG9yYXRpb24vYXJjaGV0eXBlcy8wNi1pbmNpZGVudC1jb21tYW5kZXIvLmV2ZS9kZXYtcnVudGltZS9zbmFwc2hvdHMvbXFqcmU1a3EtNDQ5NTdlMzUtZmMxNi00YWYwLWI5NDgtY2ExYTM2NWU5YTM4L3NvdXJjZS9hcmNoZXR5cGVzLzA2LWluY2lkZW50LWNvbW1hbmRlciIsImRpc2siLCIvVXNlcnMvcmF2aW5kcmEvcHJvamVjdHMvZXZlLWV4cGxvcmF0aW9uL25vZGVfbW9kdWxlcy9ldmUvZGlzdC9zcmMvaW50ZXJuYWwvYXV0aG9yZWQtbW9kdWxlLW1hcC1sb2FkZXIuanMiLCIvVXNlcnMvcmF2aW5kcmEvcHJvamVjdHMvZXZlLWV4cGxvcmF0aW9uL2FyY2hldHlwZXMvMDYtaW5jaWRlbnQtY29tbWFuZGVyIix7ImtpbmQiOjEyLCJzdGF0ZSI6MTN9LCJodHRwIix7fSx7ImtpbmQiOjE1LCJtZXRhZGF0YSI6MTZ9LCJjaGFubmVsOmV2ZSIse30sImV2ZTpldmU6ODhlNmNhYzYtZjAxNS00MTU5LWExYWQtZGU4ZWEwOWNiY2NiIiwiY29udmVyc2F0aW9uIix7ImF0dHJpYnV0ZXMiOjIwLCJhdXRoZW50aWNhdG9yIjoyMSwicHJpbmNpcGFsSWQiOjIxLCJwcmluY2lwYWxUeXBlIjoyMX0se30sImxvY2FsLWRldiIseyJyZXF1ZXN0SW5wdXQiOjIzfSx0cnVlXQ=="
+  },
+  "attributes": {
+    "$eve.type": "session",
+    "$eve.trigger": "http",
+    "$eve.title": "Quick test: load dossier and summarize top 3 actions."
+  },
+  "startedAt": "2026-06-18T17:13:39.633Z",
+  "createdAt": "2026-06-18T17:13:39.633Z",
+  "updatedAt": "2026-06-18T17:13:39.655Z"
+}

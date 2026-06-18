@@ -26,7 +26,7 @@ EOF
   echo "Wrote .secrets/eve.env (from environment). Edit it if any key is blank."
 fi
 
-for d in eve-lab agents/official/*/ agents/production/*/ legacy/archetypes/*/; do
+for d in lab agents/catalog/*/ agents/reference/*/ agents/production/*/ agents/integrations/*/; do
   [ -d "$d" ] && cp .secrets/eve.env "$d/.env.local"
 done
 
@@ -36,7 +36,10 @@ npm install
 bash scripts/setup-monid.sh 2>/dev/null || echo "(skip monid CLI — set MONID_API_KEY in .secrets/eve.env, then: bash scripts/setup-monid.sh)"
 
 echo "Setup complete."
-echo "  Official agents:  ls agents/official/"
+echo "  Unified catalog:  cat AGENT_CATALOG.md"
+echo "  List all agents:  npm run catalog:list"
+echo "  Reference agents: ls agents/reference/"
+echo "  Catalog agents:   ls agents/catalog/"
 echo "  Monid research:   npm run research:monid"
 echo "  Monid workflow:   MONID.md + https://monid.ai/SKILL.md"
-echo "  Happy path:       cd eve-lab && npx eve dev --no-ui --port 3000"
+echo "  Happy path:       cd lab && npx eve dev --no-ui --port 3000"

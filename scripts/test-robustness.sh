@@ -11,12 +11,12 @@ require_node24
 echo "==> budget-cap (no keys required)"
 node "$ROOT/robustness/budget-cap.mjs"
 
-if [ -f "$ROOT/.secrets/eve.env" ] || [ -f "$ROOT/eve-lab/.env.local" ]; then
+if [ -f "$ROOT/.secrets/eve.env" ] || [ -f "$ROOT/lab/.env.local" ]; then
   echo ""
   echo "==> provider-error (requires OPENROUTER_API_KEY)"
   bash "$ROOT/robustness/provider-error.sh"
 
-  if grep -qE '^SUPERSERVE_API_KEY=.+' "$ROOT/eve-lab/.env.local" 2>/dev/null || \
+  if grep -qE '^SUPERSERVE_API_KEY=.+' "$ROOT/lab/.env.local" 2>/dev/null || \
      grep -qE '^SUPERSERVE_API_KEY=.+' "$ROOT/.secrets/eve.env" 2>/dev/null; then
     echo ""
     echo "==> sandbox-crash (requires SUPERSERVE_API_KEY)"

@@ -44,7 +44,7 @@ function openRouterFetch(opts = {}) {
     const headers = new Headers(init.headers);
     headers.set("Authorization", `Bearer ${apiKey}`);
     headers.set("HTTP-Referer", "https://github.com/ravidsrk/eve-exploration");
-    headers.set("X-Title", "eve-lab");
+    headers.set("X-Title", "lab");
     return baseFetch(url, { ...init, headers });
   };
 }
@@ -60,7 +60,7 @@ export function createLabOpenRouter(opts = {}) {
     fetch: openRouterFetch(opts),
     headers: {
       "HTTP-Referer": "https://github.com/ravidsrk/eve-exploration",
-      "X-Title": "eve-lab",
+      "X-Title": "lab",
       ...(opts.headers || {}),
     },
   });

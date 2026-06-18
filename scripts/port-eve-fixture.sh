@@ -1,5 +1,5 @@
 #!/bin/bash
-# Port an official vercel/eve e2e fixture into agents/official/<name>.
+# Port an official vercel/eve e2e fixture into agents/reference/<name>.
 # Adapts package.json for this monorepo (OpenRouter + shared packages).
 #
 # Usage: bash scripts/port-eve-fixture.sh <fixture-name>
@@ -14,7 +14,7 @@ if [ -z "$NAME" ]; then
 fi
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DEST="$ROOT/agents/official/$NAME"
+DEST="$ROOT/agents/reference/$NAME"
 SRC_BASE="https://raw.githubusercontent.com/vercel/eve/main/e2e/fixtures/$NAME"
 TREE_API="https://api.github.com/repos/vercel/eve/git/trees/main?recursive=1"
 
@@ -131,4 +131,4 @@ fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');
 fi
 
 echo "==> Ported to $DEST"
-echo "    Next: bash scripts/setup.sh && cd agents/official/$NAME && npx eve eval --strict"
+echo "    Next: bash scripts/setup.sh && cd agents/reference/$NAME && npx eve eval --strict"

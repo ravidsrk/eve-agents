@@ -45,9 +45,9 @@ Run `npm run research:monid` to populate `research/discover-results.jsonl`, then
 
 | # | Agent | Why it's real-world | eve primitives | Monid / external |
 |---|-------|---------------------|----------------|------------------|
-| P01 | **Incident triage** | On-call reads logs, checks status, drafts postmortem | sandbox bash, skills, durable session | status page search, PagerDuty-like APIs |
-| P02 | **PR review** | Clone repo, run tests, comment on diff | sandbox git+node, subagent for security | GitHub API via Monid |
-| P03 | **Competitive intel digest** | Scheduled scan of competitor news → summary | schedules, Monid search | exa/search, news feeds |
+| P01 | **Incident triage** | On-call reads logs, checks status, drafts postmortem | tools + Monid | `log-parse`, `error-explain` — **built** `agents/production/p01-incident-triage` |
+| P02 | **PR review** | Clone repo, run tests, comment on diff | tools + Monid | `code-review`, `github-repo-analyze`, `pr-description-generate` — **built** `agents/production/p02-pr-review` |
+| P03 | **Competitive intel digest** | Scheduled scan of competitor news → summary | tools + Monid | `exa/search`, `exa/answer` — **built** `agents/production/p03-competitive-intel` |
 | P04 | **Invoice extractor** | PDF → structured JSON for accounting | sandbox python, outputSchema | OCR/PDF APIs |
 | P05 | **Support ticket router** | Classify, draft reply, escalate with HITL | channels, hitl, skills | CRM/helpdesk APIs |
 | P06 | **SQL analyst** | NL → SQL on seeded warehouse schema | sandbox sqlite/postgres | — |
@@ -93,7 +93,7 @@ Executed by `scripts/research-monid.mjs` (20 queries, results → `research/disc
 ```
 agents/
   official/          # Ported vercel/eve fixtures (Tier 1)
-  production/        # Research-driven real-world agents (Tier 2) — coming next
+  production/        # Research-driven real-world agents (Tier 2) — P01–P03 live
 legacy/
   archetypes/        # v1 feature demos (Tier 3)
 packages/            # OpenRouter, SuperServe, Monid integrations
@@ -107,4 +107,4 @@ research/            # Monid discover logs (gitignored)
 1. **You:** Put real API keys in `.secrets/eve.env` (rotate any keys pasted in chat), then `bash scripts/setup.sh`
 2. **Run:** `npm run research:monid` → review `research/discover-results.jsonl`
 3. **Validate:** `npx eve eval --strict` on each `agents/official/*` fixture
-4. **Build:** First production agents P01–P03 in `agents/production/`
+4. **Build:** P04–P10 in `agents/production/` (P01–P03 shipped)

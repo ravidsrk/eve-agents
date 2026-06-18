@@ -26,7 +26,7 @@ EOF
   echo "Wrote .secrets/eve.env (from environment). Edit it if any key is blank."
 fi
 
-for d in eve-lab agents/official/*/ legacy/archetypes/*/; do
+for d in eve-lab agents/official/*/ agents/production/*/ legacy/archetypes/*/; do
   [ -d "$d" ] && cp .secrets/eve.env "$d/.env.local"
 done
 

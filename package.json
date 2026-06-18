@@ -17,6 +17,7 @@
     "packages/*",
     "eve-lab",
     "agents/official/*",
+    "agents/production/*",
     "legacy/archetypes/*"
   ],
   "overrides": {
@@ -34,7 +35,9 @@
     "test:durable": "bash scripts/durable_test.sh",
     "setup:monid": "bash scripts/setup-monid.sh",
     "research:monid": "node scripts/research-monid.mjs",
-    "agents:list": "ls -1 agents/official"
+    "smoke:production": "node scripts/smoke-production-monid.mjs",
+    "agents:list": "ls -1 agents/official",
+    "agents:list:production": "ls -1 agents/production"
   },
   "devDependencies": {
     "just-bash": "^3.0.1"

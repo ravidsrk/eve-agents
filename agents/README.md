@@ -22,6 +22,17 @@ Port another fixture:
 bash scripts/port-eve-fixture.sh agent-tools-hitl
 ```
 
-## `production/` — research-driven (coming)
+## `production/` — research-driven
 
 Built from [AGENT_CATALOG.md](../AGENT_CATALOG.md) Tier 2 after Monid research (`npm run research:monid`).
+
+| Agent | Pattern |
+|-------|---------|
+| `p01-incident-triage` | On-call log parse + error explain + postmortem draft |
+| `p02-pr-review` | Repo analysis + AI code review + PR description |
+| `p03-competitive-intel` | Live web search digest for competitor monitoring |
+
+```bash
+cd agents/production/p02-pr-review
+npx eve dev --no-ui --port 3302
+```

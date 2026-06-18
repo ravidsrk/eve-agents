@@ -87,7 +87,7 @@ function estimateCost(priceObj) {
  * Execute a paid Monid endpoint, enforcing budget caps and logging the cost.
  * @param {object} args { provider, endpoint, input, price? }
  */
-export async function run({ provider, endpoint, input, price }) {
+export async function run({ provider, endpoint, input, query, path, price }) {
   const unit = estimateCost(price);
   if (unit > MAX_CALL_USD) {
     throw new Error(
@@ -99,7 +99,11 @@ export async function run({ provider, endpoint, input, price }) {
       `Monid run refused: would exceed budget cap $${BUDGET_USD} (spent $${_spent.toFixed(4)}).`,
     );
   }
-  const result = await monidFetch("/v1/run", { provider, endpoint, input });
+  const payload = { provider, endpoint };
+  if (input != null) payload.input = input;
+  if (query != null) payload.queryParams = query;
+  if (path != null) payload.pathParams = path;
+  const result = await monidFetch("/v1/run", payload);
   // Prefer the server-reported cost when present.
   const charged =
     (result && (result.cost?.amount ?? result.price?.amount)) ?? unit ?? 0;

@@ -5,9 +5,9 @@ Date: 2026-06-18
 ## Environment observed
 
 - Node: `v24.16.0`
-- `OPENROUTER_API_KEY`: missing
-- `SUPERSERVE_API_KEY`: missing
-- `MONID_API_KEY`: present but rejected by Monid API as invalid
+- OpenRouter: live key validated with `openai/gpt-oss-120b`.
+- SuperServe: live key validated with the `superserve/python-ml` sandbox.
+- Monid: live key validated with discover and inspect calls.
 
 ## Commands run
 
@@ -17,6 +17,7 @@ npm run verify:catalog
 npm test
 npm audit --omit=dev
 npm run typecheck
+bash scripts/run_catalog_live.sh
 ```
 
 ## Results
@@ -52,22 +53,20 @@ found 0 vulnerabilities
 typecheck passed for eve-lab and arch-01 through arch-50
 ```
 
-## Live runs not performed
+`bash scripts/run_catalog_live.sh`
 
-The rebuild did not claim live NDJSON run logs for the 50 agents because the required keys are not
-available in this workspace:
-
-- OpenRouter inference requires `OPENROUTER_API_KEY`.
-- SuperServe sandbox execution requires `SUPERSERVE_API_KEY`.
-- Monid discover/inspect/run requires a valid `MONID_API_KEY`; the current key returned
-  `401 Invalid API key`.
-
-After keys are available, run:
-
-```bash
-bash scripts/run_archetype.sh archetypes/01-revenue-analyst 3201 \
-  "Review the current revenue analyst queue and write a prioritized action report."
+```text
+all 50 archetypes PASS; see VERIFY-LIVE.md
 ```
 
-Then repeat for representative agents and commit captured `run.log` files only after confirming the
-stream contains the expected tool calls and final answer.
+## Live proof
+
+Every archetype has a committed `run.log` captured from the eve NDJSON stream. The logs were checked
+for:
+
+- `session.waiting` or `session.completed`,
+- `load_dossier`,
+- `analyze_records`,
+- `write_report`.
+
+The run summary is in [VERIFY-LIVE.md](VERIFY-LIVE.md).

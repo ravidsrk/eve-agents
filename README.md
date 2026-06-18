@@ -14,10 +14,9 @@ support, engineering, security, legal, data, logistics, healthcare operations, e
   SuperServe sandbox config, README, and deterministic dry-run evidence.
 - Local validation passes: catalog verifier, typecheck across all workspaces, Monid budget test, and
   production dependency audit.
-- Live OpenRouter/SuperServe runs are pending because this workspace does not currently have
-  `OPENROUTER_API_KEY` or `SUPERSERVE_API_KEY`.
-- Monid live discovery is pending because the available `MONID_API_KEY` is rejected by the API as
-  invalid.
+- Live validation passes for all 50 agents: each has a captured `run.log` with `load_dossier`,
+  `analyze_records`, `write_report`, and a completion marker.
+- Monid live discovery and representative inspect calls work; see [MONID_RESEARCH.md](MONID_RESEARCH.md).
 
 ## Architecture
 
@@ -133,4 +132,5 @@ Every archetype exposes:
 
 - [RESEARCH.md](RESEARCH.md) records current eve, template, SuperServe, OpenRouter, and Monid findings.
 - [FINDINGS.md](FINDINGS.md) explains what is now strong, what remains incomplete, and what requires live keys.
-- [VERIFY.md](VERIFY.md) records the validation commands and current live-test blockers.
+- [VERIFY.md](VERIFY.md) records the validation commands.
+- [VERIFY-LIVE.md](VERIFY-LIVE.md) records all 50 live eve runs.

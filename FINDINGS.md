@@ -31,12 +31,12 @@ The catalog now has 50 agent archetypes, each with:
 - TypeScript validation passes across all 50 workspaces.
 - The lockfile has been regenerated from the current workspace set, with stale deleted archetypes
   removed.
+- All 50 archetypes have live OpenRouter/SuperServe `run.log` evidence.
+- Monid discovery and inspect now work with the supplied key, and the useful endpoint classes are
+  recorded in [MONID_RESEARCH.md](MONID_RESEARCH.md).
 
 ## What is still incomplete
 
-- Live model runs were not rerun because `OPENROUTER_API_KEY` is missing.
-- Live SuperServe sandbox runs were not rerun because `SUPERSERVE_API_KEY` is missing.
-- Monid live research was not rerun because the available `MONID_API_KEY` returns `401 Invalid API key`.
 - The 50 agents currently share a common deterministic tool kit. That is good for consistency, but
   the next quality jump is adding deeper domain-specific tools for the highest-value agents.
 - Channel-specific files are not generated yet. The best candidates for Slack/GitHub/Linear channels
@@ -48,19 +48,19 @@ OpenRouter:
 
 - Clean enough through `@ai-sdk/openai-compatible`.
 - Keep the AI SDK v7 beta pin aligned with eve.
-- Live verification requires `OPENROUTER_API_KEY`.
+- Live verification passed with `openai/gpt-oss-120b`.
 
 SuperServe:
 
 - Architecturally the right fit for real agent compute: persistent, isolated, stateful sandboxes.
 - The custom eve backend remains the key integration point.
-- Live verification requires `SUPERSERVE_API_KEY`.
+- Live verification passed against `superserve/python-ml`.
 
 Monid:
 
 - Still the right tool-router concept for research-heavy agents.
-- The current key is invalid, so this rebuild does not claim Monid results.
-- Once fixed, the first agents to wire to Monid should be sales lead researcher, social sentiment,
+- Discovery and inspect calls passed.
+- The first agents to wire to Monid-specific tools should be sales lead researcher, social sentiment,
   competitor intelligence, market/news briefing, procurement, travel operations, and literature
   mapping.
 
@@ -71,9 +71,8 @@ should be vertical depth:
 
 1. Pick 10 high-value archetypes.
 2. Add domain-specific tools and richer fixtures.
-3. Run live OpenRouter/SuperServe sessions.
-4. Add evals for those 10.
-5. Add channels and real connectors where useful.
+3. Add evals for those 10.
+4. Add channels and real connectors where useful.
 
 The most promising first 10 are:
 

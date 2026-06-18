@@ -101,12 +101,12 @@ Role intended by the original prompt:
 - Use Monid as a live tool router for external research.
 - Use discover/inspect/run with cost logging.
 
-Current blocker:
+Current result:
 
-- `MONID_API_KEY` is present in the environment, but `POST https://api.monid.ai/v1/discover` returned
-  `401 Invalid API key` during this rebuild.
-- The 50-agent catalog therefore includes Monid integration notes and optional live hooks, but does
-  not claim live Monid-backed research results.
+- The supplied key was validated with live discover and representative inspect calls.
+- Useful endpoint classes and prices are recorded in [MONID_RESEARCH.md](MONID_RESEARCH.md).
+- The next implementation pass should wrap the most useful discovered endpoints as domain-specific
+  eve tools.
 
 ## Agent selection rationale
 

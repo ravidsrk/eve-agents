@@ -22,17 +22,15 @@
   - `npm test`
   - `npm audit --omit=dev`
   - `npm run typecheck`
-
-## Blocked live work
-
-- OpenRouter live sessions: blocked by missing `OPENROUTER_API_KEY`.
-- SuperServe live sandbox sessions: blocked by missing `SUPERSERVE_API_KEY`.
-- Monid live research: blocked by invalid `MONID_API_KEY`.
+- Validated supplied OpenRouter, SuperServe, and Monid keys.
+- Ran live eve sessions for all 50 archetypes.
+- Committed captured `run.log` files for all 50 archetypes.
+- Added [VERIFY-LIVE.md](VERIFY-LIVE.md).
+- Added [MONID_RESEARCH.md](MONID_RESEARCH.md).
 
 ## Next recommended pass
 
-1. Provide valid keys.
-2. Run live sessions for at least 10 representative agents.
-3. Add domain-specific tools for the strongest 10 agents.
-4. Add eve eval suites for those 10.
-5. Add Slack/GitHub/Linear channels where they match the workflow.
+1. Add domain-specific Monid-backed tools for the strongest 10 agents.
+2. Add eve eval suites for those 10.
+3. Add Slack/GitHub/Linear channels where they match the workflow.
+4. Add richer fixtures and failure-mode tests for side-effect agents.

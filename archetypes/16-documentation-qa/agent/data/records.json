@@ -1,0 +1,41 @@
+[
+  {
+    "id": "16-A",
+    "title": "Documentation QA priority case",
+    "owner": "Developer Relations",
+    "status": "urgent",
+    "impact": 47072,
+    "risk": 3,
+    "summary": "Audits docs for broken promises, stale commands, and missing prerequisites. This sample record represents the highest-impact open item.",
+    "tags": [
+      "docs",
+      "qa"
+    ]
+  },
+  {
+    "id": "16-B",
+    "title": "Documentation QA routine queue item",
+    "owner": "Developer Relations",
+    "status": "in_review",
+    "impact": 10808,
+    "risk": 2,
+    "summary": "Lower-risk operational item for documentation-qa; useful for comparison and prioritization.",
+    "tags": [
+      "docs",
+      "qa"
+    ]
+  },
+  {
+    "id": "16-C",
+    "title": "Documentation QA blocked follow-up",
+    "owner": "Developer Relations",
+    "status": "blocked",
+    "impact": 21376,
+    "risk": 3,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "docs",
+      "qa"
+    ]
+  }
+]

@@ -7,9 +7,9 @@ One catalog, four layers. Every agent in this repo is listed here with its role,
 | **Reference** | 10 | [`agents/reference/`](agents/reference/) | Ported [vercel/eve](https://github.com/vercel/eve) e2e fixtures — framework primitives with evals |
 | **Catalog** | 50 | [`agents/catalog/`](agents/catalog/) | Real-world job templates — dossiers, playbooks, shared tools, live evidence |
 | **Production** | 10 | [`agents/production/`](agents/production/) | Monid-integrated deep agents — custom domain tools, live-verified |
-| **Integrations** | 22 | [`agents/integrations/`](agents/integrations/) | Integration proofs — HITL, MCP, Slack, durability (selective reuse) |
+| **Integrations** | 5 | [`agents/integrations/`](agents/integrations/) | Eve primitive proofs — HITL, Slack, durability, swarm |
 
-**Total: 92 agents** (10 + 50 + 10 + 22). Machine-readable index: `npm run catalog:list`.
+**Total: 75 agents** (50 + 10 + 10 + 5). Machine-readable index: `npm run catalog:list`.
 
 ---
 
@@ -24,7 +24,7 @@ One catalog, four layers. Every agent in this repo is listed here with its role,
           ┌───────────────────────────┼───────────────────────────┐
           ▼                           ▼                           ▼
 ┌──────────────────┐      ┌──────────────────────┐      ┌─────────────────────┐
-│ Catalog A01–A50  │      │ Production P01–P10   │      │ Integrations I01–22 │
+│ Catalog A01–A50  │      │ Production P01–P10   │      │ Integrations (5)    │
 │ broad coverage   │◄────►│ Monid depth on picks │      │ integration proofs  │
 │ agent-kit tools  │ pairs│ custom tools + APIs  │      │ harnesses + fixtures│
 └──────────────────┘      └──────────────────────┘      └─────────────────────┘
@@ -33,7 +33,7 @@ One catalog, four layers. Every agent in this repo is listed here with its role,
 - **Start with reference** when learning eve primitives or running `eve eval --strict`.
 - **Browse catalog (A01–A50)** for real-world job coverage and copy-paste starters.
 - **Use production (P01–P10)** when you need live Monid tools and domain-specific implementations.
-- **Open integrations (I01–I22)** only for harnesses (HITL, durable resume, MCP, Slack, swarm) or fixtures to extract.
+- **Open integrations (5)** only for eve primitives not in reference: HITL harness, Slack, durable resume, swarm.
 
 Full matrix for A01–A50: [AGENT_MATRIX.md](AGENT_MATRIX.md).
 
@@ -159,40 +159,15 @@ bash scripts/run-production-agent.sh agents/production/p01-incident-triage 3301 
 
 ## Integrations (`agents/integrations/`)
 
-v1 builds that proved OpenRouter + SuperServe + Monid wiring. **Do not extend.** Use this table to decide what to keep, extract, or ignore.
+Five eve primitive proofs. Superseded v1 demos were removed — use `reference/` or `catalog/` instead.
 
-| ID | Agent | Eve primitive | Superseded by | Reusable assets | Action |
-| ---: | --- | --- | --- | --- | --- |
-| L01 | data-analyst | Sandbox + pandas on seed CSV | A01, A39 | `sales.csv` seed | **Keep** — minimal sandbox smoke |
-| L02 | web-research | Monid HTTP discover/inspect/run | A02, A20; P03, P08 | Monid playbook in instructions | **Extract** → `@lab/monid-tools` docs |
-| L03 | coding-refactor | Sandbox file edit until tests pass | A15; official agent-tools-sandbox | broken `math.js` fixture | Deprecate |
-| L04 | pdf-qa | Binary PDF in sandbox | A40; P04 | `report.pdf` seed | **Extract** → A40 or shared fixtures |
-| L05 | sql-agent | SQLite in sandbox | P06 | `schema.sql` seed | **Extract** → P06 eval fixture |
-| L06 | multi-tool | Parallel stub tools | official agent-tools | `evals/orchestration.eval.ts` | **Extract** eval → official |
-| L07 | subagents | Coordinator + specialists | official agent-subagents | subagent layout | Deprecate |
-| L08 | hitl | `needsApproval` refund tool | official agent-tools-hitl; A05 | `refund_charge.ts`; `npm run test:hitl` | **Keep** — HITL harness |
-| L09 | cron | `defineSchedule` | official agent-schedules | heartbeat schedule | Deprecate |
-| L10 | slack | Slack channel + Connect | A04, A30; official agent-channels | `channels/slack.ts` | **Keep** — only Slack demo |
-| L11 | durable-resume | Kill process, resume session | *unique* | pause/reconnect sandbox; `npm run test:durable` | **Keep** — durability proof |
-| L12 | mcp | Monid MCP connection | *unique* | `connections/monid.ts` | **Keep** — only MCP demo |
-| L13 | openapi | Inline OpenAPI spec (Frankfurter) | official agent-openapi-swagger | `connections/fx.ts` | **Extract** → official docs |
-| L14 | codebase | `git clone` in sandbox | A12; P02 | clone-in-sandbox playbook | Extract to docs |
-| L15 | etl | Fetch → transform → artifact | A37; P10 | Frankfurter ETL workflow | Deprecate |
-| L16 | eval-self | Dual sandbox methods must agree | *unique* | verification instructions | **Keep** — eval pattern |
-| L17 | sentiment | Monid fetch + classify | A19; P03 | sentiment workflow | Deprecate |
-| L18 | rag | TF-IDF over seeded kb/*.txt | A33 | `kb/*.txt` corpus | **Extract** → A33 fixtures |
-| L19 | web-ui | NDJSON streaming chat UI | *unique* | `web/serve.mjs`, `index.html` | **Keep** — local dev UI |
-| L20 | swarm | N parallel SuperServe VMs | *unique* | `swarm_run.ts` | **Keep** — extract to agent-kit |
-| L21 | skills | `load_skill` refund policy | official agent-skills; A05 | refund_policy.md | Deprecate |
-| L22 | security | `networkPolicy: deny-all` | official agent-tools-sandbox | egress timeout proof | **Keep** — robustness suite |
-
-### Legacy assets worth extracting (priority)
-
-1. **`integrations/20-swarm/agent/tools/swarm_run.ts`** → `@lab/agent-kit` (parallel VM fan-out)
-2. **`integrations/06-multi-tool/evals/orchestration.eval.ts`** → `reference/agent-tools/evals/`
-3. **Seed fixtures** — I04 PDF, I05 schema.sql, I18 kb/*.txt, I01 sales.csv → deepen matching catalog/production agents
-4. **`integrations/19-web-ui/web/`** → future `apps/templates/web-chat` or docs section
-5. **Harness agents I08, I11, I22** — keep until tests are repointed at reference equivalents
+| Agent | Eve primitive | Run |
+| --- | --- | --- |
+| [08-hitl](agents/integrations/08-hitl/) | HITL approval pause/resume | `npm run test:hitl` |
+| [10-slack](agents/integrations/10-slack/) | Slack channel + Vercel Connect | see README |
+| [11-durable-resume](agents/integrations/11-durable-resume/) | Durable session + sandbox reconnect | `npm run test:durable` |
+| [16-eval-self](agents/integrations/16-eval-self/) | Self-verifying dual-method answers | see README |
+| [20-swarm](agents/integrations/20-swarm/) | Parallel SuperServe sandboxes | see README |
 
 ---
 
@@ -220,12 +195,11 @@ npm run catalog:list
 # 3. Live runs (need OpenRouter + SuperServe keys)
 bash scripts/run-catalog-agent.sh agents/catalog/01-revenue-analyst 3201 "Write a prioritized report."
 npm run run:production:all
-npm run validate:official
+npm run validate:reference
 
-# 4. Integration proofs (legacy harnesses)
+# 4. Integration proofs
 npm run test:hitl
 npm run test:durable
-npm run test:robustness
 ```
 
 ---
@@ -237,8 +211,7 @@ agents/
   catalog/            # 50 real-world job templates
   reference/          # 10 vercel/eve fixtures
   production/         # 10 Monid deep agents
-  integrations/       # 22 integration proofs
-lab/                  # Minimal eve lab app
+  integrations/       # 5 eve primitive proofs
 packages/             # @lab/openrouter, superserve-backend, monid-tools, agent-kit
 scripts/              # setup, runners, catalog:list
 ```
@@ -247,8 +220,7 @@ scripts/              # setup, runners, catalog:list
 
 ## Next steps
 
-1. **Deepen 10 catalog picks** — add domain-specific tools to high-value A* agents ([FINDINGS.md](FINDINGS.md) list).
-2. **Extract legacy fixtures** — PDF, SQL schema, RAG corpus into matching A40, P06, A33.
-3. **Extract `swarm_run`** — promote L20 parallel sandbox tool to `@lab/agent-kit`.
-4. **Add evals** to top catalog agents; official fixtures already have eval coverage.
-5. **Channels** — port L10 Slack patterns into A04, A17, A30, A50.
+1. **Deepen catalog picks** — add domain-specific tools to high-value catalog agents.
+2. **Add evals** to top catalog agents; reference fixtures already have eval coverage.
+3. **Extract `swarm_run`** — promote `integrations/20-swarm` tool to `@lab/agent-kit`.
+4. **Channels** — port Slack patterns from `integrations/10-slack` into catalog agents.

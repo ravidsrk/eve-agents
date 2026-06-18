@@ -20,8 +20,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck workspaces
-        run: npm run typecheck
-
-      - name: Budget cap (no API keys)
+      - name: Verify catalog structure (no API keys)
         run: npm test

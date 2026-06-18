@@ -28,8 +28,8 @@ out/
 *.local.log
 npm-debug.log*
 .agent-artifacts/
-archetypes/*/.agent-artifacts/
-archetypes/*/.workflow-data/
+agents/*/*/.agent-artifacts/
+agents/*/*/.workflow-data/
 
 # OS / editor
 .DS_Store

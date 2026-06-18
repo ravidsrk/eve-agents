@@ -25,9 +25,7 @@ data/tool surface, and an evidence requirement.
   <https://github.com/vercel-labs/eve-pr-triage-agent-template>
 - SuperServe is the remote sandbox target for code, files, and long-running agent work:
   <https://superserve.ai>
-- Monid is intended for live external tool discovery/runs. In this workspace, `MONID_API_KEY` is
-  present but currently rejected by the API as invalid, so Monid-backed live research must be rerun
-  once the key is corrected.
+- Production agents optionally use Monid for live external tools when `MONID_API_KEY` is configured.
 
 ## Agent acceptance bar
 

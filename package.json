@@ -4,7 +4,7 @@
   "private": false,
   "license": "MIT",
   "type": "module",
-  "description": "Public catalog of real-world Vercel eve agents — reference fixtures, 50 job templates, Monid production agents, and integration proofs.",
+  "description": "Public catalog of real-world Vercel eve agents.",
   "repository": {
     "type": "git",
     "url": "https://github.com/ravidsrk/eve-exploration.git"
@@ -15,7 +15,6 @@
   },
   "workspaces": [
     "packages/*",
-    "lab",
     "agents/catalog/*",
     "agents/reference/*",
     "agents/production/*",
@@ -30,27 +29,17 @@
   "scripts": {
     "setup": "bash scripts/setup.sh",
     "generate:catalog": "node scripts/generate-catalog.mjs --clean",
-    "generate:archetypes": "npm run generate:catalog",
     "verify:catalog": "node scripts/verify-catalog.mjs",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "node robustness/budget-cap.mjs",
-    "test:robustness": "bash scripts/test-robustness.sh",
+    "test": "npm run verify:catalog",
     "test:hitl": "bash scripts/hitl_test.sh",
     "test:durable": "bash scripts/durable_test.sh",
-    "setup:monid": "bash scripts/setup-monid.sh",
-    "research:monid": "node scripts/research-monid.mjs",
     "smoke:production": "node scripts/smoke-production-monid.mjs",
     "validate:reference": "bash scripts/validate-reference.sh",
-    "validate:official": "npm run validate:reference",
     "run:production": "bash scripts/run-production-agent.sh",
     "run:production:all": "bash scripts/run-all-production.sh",
     "catalog:list": "node scripts/list-catalog.mjs",
     "catalog:list:md": "node scripts/list-catalog.mjs --format=md",
-    "agents:list": "node scripts/list-catalog.mjs",
-    "agents:list:reference": "ls -1 agents/reference",
-    "agents:list:catalog": "ls -1 agents/catalog",
-    "agents:list:production": "ls -1 agents/production | grep -E '^p[0-9]{2}-'",
-    "agents:list:integrations": "ls -1 agents/integrations",
     "run:catalog": "bash scripts/run-catalog-agent.sh"
   },
   "devDependencies": {

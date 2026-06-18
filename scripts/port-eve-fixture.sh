@@ -103,7 +103,7 @@ if [ -f "$DEST/tsconfig.json" ]; then
   node -e "
 const fs=require('fs');const p='$DEST/tsconfig.json';
 const j=JSON.parse(fs.readFileSync(p,'utf8'));
-j.include=['agent/**/*.ts','.eve/**/*.d.ts'];
+j.include=['agent/**/*.ts','evals/**/*.ts','.eve/**/*.d.ts'];
 fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');
 "
 fi

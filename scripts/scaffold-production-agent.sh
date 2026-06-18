@@ -14,7 +14,8 @@ fi
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DEST="$ROOT/agents/production/$SLUG"
-mkdir -p "$DEST/agent/tools"
+mkdir -p "$DEST/agent/tools" "$DEST/agent/sandbox"
+cp "$ROOT/agents/production/_shared/sandbox.ts" "$DEST/agent/sandbox/sandbox.ts"
 
 cat > "$DEST/package.json" <<EOF
 {

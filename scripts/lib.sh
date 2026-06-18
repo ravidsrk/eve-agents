@@ -43,6 +43,8 @@ start_eve_dev() {
   kill_eve_dev "$dir"
   (
     cd "$dir"
+    rm -rf .eve
+    if [ -f .env.local ]; then set -a && source .env.local && set +a; fi
     nohup npx eve dev --no-ui --port "$port" >"$log" 2>&1 &
   )
 }

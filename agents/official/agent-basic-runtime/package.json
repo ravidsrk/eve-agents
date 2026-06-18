@@ -12,16 +12,17 @@
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "3.0.0-beta.57",
+    "@lab/monid-tools": "*",
     "@lab/openrouter": "*",
     "@lab/superserve-backend": "*",
-    "@lab/monid-tools": "*",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
     "zod": "4.4.3"
   },
   "devDependencies": {
     "@types/node": "24.x",
-    "@typescript/native-preview": "7.0.0-dev.20260523.1"
+    "@typescript/native-preview": "7.0.0-dev.20260523.1",
+    "microsandbox": "^0.5.7"
   },
   "imports": {
     "#*": "./agent/*",

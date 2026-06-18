@@ -4,8 +4,27 @@
 // `discover` and `inspect` are free; `run` is PAID (PER_CALL or PER_RESULT). This client
 // enforces a per-process USD budget cap and logs every paid call to a JSONL cost ledger.
 
-import { appendFileSync, mkdirSync } from "node:fs";
-import { dirname } from "node:path";
+import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+
+function readEnvLocalValue(key, startDir = process.cwd()) {
+  let dir = startDir;
+  for (let i = 0; i < 8 && dir !== dirname(dir); i++) {
+    const file = join(dir, ".env.local");
+    if (existsSync(file)) {
+      for (const line of readFileSync(file, "utf8").split("\n")) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const eq = trimmed.indexOf("=");
+        if (eq < 1) continue;
+        const k = trimmed.slice(0, eq).trim();
+        if (k === key) return trimmed.slice(eq + 1).trim();
+      }
+    }
+    dir = dirname(dir);
+  }
+  return undefined;
+}
 
 const BASE_URL = process.env.MONID_BASE_URL || "https://api.monid.ai";
 
@@ -32,7 +51,7 @@ function logCost(entry) {
 }
 
 function apiKey() {
-  const k = process.env.MONID_API_KEY;
+  const k = process.env.MONID_API_KEY || readEnvLocalValue("MONID_API_KEY");
   if (!k) throw new Error("MONID_API_KEY is not set. Add it to .env.local.");
   return k;
 }

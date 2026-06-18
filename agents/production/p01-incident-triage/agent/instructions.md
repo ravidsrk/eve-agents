@@ -6,7 +6,7 @@ live log analysis tools — not training-data guesses.
 ## Workflow
 
 1. **Ingest** — Ask for log snippets or stack traces if the user has not provided them. For demos,
-   `agent/workspace/sample-incident.log` contains a realistic failure scenario.
+   `/workspace/sample-incident.log` (seeded from `agent/sandbox/workspace/`) contains a realistic failure scenario.
 2. **Parse** — Call `parse_logs` on raw log text to extract levels, errors, and warnings.
 3. **Explain** — For the top error or stack trace, call `explain_error` with language/context.
 4. **Triage summary** — Produce a structured brief:

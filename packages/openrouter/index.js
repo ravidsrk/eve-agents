@@ -8,6 +8,7 @@
 // See RESEARCH.md ("OpenRouter integration") for the compatibility analysis.
 
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { resolveOpenRouterKey } from "./load-env.js";
 
 /**
  * Cheap, reliable defaults. OpenRouter ":free" models are heavily rate-limited
@@ -27,26 +28,36 @@ export const MODELS = {
   vision: "qwen/qwen-2.5-vl-7b-instruct",
 };
 
-// Default to a reliable tool-caller. llama-3.1-8b is too weak for multi-step tool use
-// (it asks clarifying questions / guesses), so the lab default is gpt-oss-120b.
-export const DEFAULT_MODEL = process.env.OPENROUTER_MODEL || MODELS.workhorse;
+// Default workhorse; resolved at call time so eve can load .env.local first.
+export const DEFAULT_MODEL = MODELS.workhorse;
+
+/** Fetch wrapper: resolve API key at request time (workflow workers lack process.env dotenv). */
+function openRouterFetch(opts = {}) {
+  const baseFetch = opts.fetch || globalThis.fetch.bind(globalThis);
+  return async (url, init = {}) => {
+    const apiKey = resolveOpenRouterKey(opts);
+    if (!apiKey) {
+      throw new Error(
+        "OPENROUTER_API_KEY (or OPEN_ROUTER_KEY) is not set. Add it to .env.local.",
+      );
+    }
+    const headers = new Headers(init.headers);
+    headers.set("Authorization", `Bearer ${apiKey}`);
+    headers.set("HTTP-Referer", "https://github.com/ravidsrk/eve-exploration");
+    headers.set("X-Title", "eve-lab");
+    return baseFetch(url, { ...init, headers });
+  };
+}
 
 /**
  * Build a configured OpenRouter provider instance.
- * Reads OPENROUTER_API_KEY (falls back to OPEN_ROUTER_KEY) from the environment.
+ * Auth is applied per-request so agent modules can load before dotenv.
  */
 export function createLabOpenRouter(opts = {}) {
-  const apiKey =
-    opts.apiKey || process.env.OPENROUTER_API_KEY || process.env.OPEN_ROUTER_KEY;
-  if (!apiKey) {
-    throw new Error(
-      "OPENROUTER_API_KEY (or OPEN_ROUTER_KEY) is not set. Add it to .env.local.",
-    );
-  }
   return createOpenAICompatible({
     name: "openrouter",
     baseURL: "https://openrouter.ai/api/v1",
-    apiKey,
+    fetch: openRouterFetch(opts),
     headers: {
       "HTTP-Referer": "https://github.com/ravidsrk/eve-exploration",
       "X-Title": "eve-lab",
@@ -57,10 +68,11 @@ export function createLabOpenRouter(opts = {}) {
 
 /**
  * Convenience: return a ready-to-use LanguageModel for `defineAgent({ model })`.
- * @param {string} [modelId] OpenRouter model id (defaults to DEFAULT_MODEL).
+ * @param {string} [modelId] OpenRouter model id (defaults to OPENROUTER_MODEL or workhorse).
  */
-export function orModel(modelId = DEFAULT_MODEL, opts = {}) {
-  return createLabOpenRouter(opts)(modelId);
+export function orModel(modelId, opts = {}) {
+  const id = modelId || process.env.OPENROUTER_MODEL || MODELS.workhorse;
+  return createLabOpenRouter(opts)(id);
 }
 
 export default orModel;

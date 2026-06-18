@@ -1,0 +1,41 @@
+[
+  {
+    "id": "37-A",
+    "title": "ETL data quality monitor priority case",
+    "owner": "Data",
+    "status": "urgent",
+    "impact": 53729,
+    "risk": 4,
+    "summary": "Detects schema drift, null spikes, and late data. This sample record represents the highest-impact open item.",
+    "tags": [
+      "data",
+      "etl"
+    ]
+  },
+  {
+    "id": "37-B",
+    "title": "ETL data quality monitor routine queue item",
+    "owner": "Data",
+    "status": "in_review",
+    "impact": 13181,
+    "risk": 2,
+    "summary": "Lower-risk operational item for etl-data-quality-monitor; useful for comparison and prioritization.",
+    "tags": [
+      "data",
+      "etl"
+    ]
+  },
+  {
+    "id": "37-C",
+    "title": "ETL data quality monitor blocked follow-up",
+    "owner": "Data",
+    "status": "blocked",
+    "impact": 25807,
+    "risk": 4,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "data",
+      "etl"
+    ]
+  }
+]

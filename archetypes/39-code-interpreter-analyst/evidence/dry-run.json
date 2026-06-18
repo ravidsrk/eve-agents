@@ -1,0 +1,11 @@
+{
+  "agent": "39-code-interpreter-analyst",
+  "samplePrompt": "Review the current code interpreter analyst queue and write a prioritized action report.",
+  "expectedToolSequence": [
+    "load_dossier",
+    "analyze_records",
+    "write_report"
+  ],
+  "approvalExpectedForSideEffects": true,
+  "liveStatus": "pending OpenRouter and SuperServe keys"
+}

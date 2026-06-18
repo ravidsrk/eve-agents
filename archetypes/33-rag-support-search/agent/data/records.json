@@ -1,0 +1,41 @@
+[
+  {
+    "id": "33-A",
+    "title": "RAG support search priority case",
+    "owner": "Support",
+    "status": "urgent",
+    "impact": 52461,
+    "risk": 5,
+    "summary": "Retrieves grounded support answers from a document set. This sample record represents the highest-impact open item.",
+    "tags": [
+      "rag",
+      "support"
+    ]
+  },
+  {
+    "id": "33-B",
+    "title": "RAG support search routine queue item",
+    "owner": "Support",
+    "status": "in_review",
+    "impact": 12729,
+    "risk": 1,
+    "summary": "Lower-risk operational item for rag-support-search; useful for comparison and prioritization.",
+    "tags": [
+      "rag",
+      "support"
+    ]
+  },
+  {
+    "id": "33-C",
+    "title": "RAG support search blocked follow-up",
+    "owner": "Support",
+    "status": "blocked",
+    "impact": 24963,
+    "risk": 4,
+    "summary": "Blocked work requiring cross-functional coordination before the agent can safely recommend action.",
+    "tags": [
+      "rag",
+      "support"
+    ]
+  }
+]

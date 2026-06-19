@@ -1,27 +1,38 @@
 # Architecture Build Progress — FRESH RUN 2026-06-19
 
 ## PHASE
-REVIEW
+VERIFY
 
 ## RUN META
 - REPO_ROOT: `/Users/ravindra/projects/eve-exploration`
-- BASE: `ravidsrk/adversarial-fresh` @ `f3c9f9b`
+- BASE: `ravidsrk/adversarial-fresh`
 - MAINTAINER: Ravindra Kumar `<ravidsrk@gmail.com>`
-- Started: 2026-06-19
+- Review frozen: 500c5c2 (skeptic e8c1bd9)
 
 ## CLOSE-INDEX
-_(populated after P0-SKEPTIC freeze)_
 
-## TASK ROWS
-_(populated after BOOTSTRAP)_
+### FOUNDATION — all CLOSED
+- DATA-001 CLOSED via PR#3
+- OPS-001 CLOSED via PR#3
+- DEP-001 CODE_CLOSED via PR#8 + OPS mirror tsgo
 
-## HOT-FILE MAP
-_(from frozen review)_
+### WAVE 1 — all CLOSED
+- SEC-001 CLOSED via PR#4
+- REL-001 CLOSED via PR#5
+- COST-001 CLOSED via PR#5
+- DATA-002 CLOSED via PR#8
+
+### WAVE 2 — all CLOSED
+- SEC-002, SEC-003, COST-002, COST-003, REL-002, REL-003, COUP-001 — CLOSED via PR#5/#7/#8
+
+### WAVE 3 — all CLOSED
+- SEC-004, SEC-005, REL-004, COUP-002, COUP-003, DEP-002, OPS-002 — CLOSED via PR#7/#8
+
+## TASK ROWS (summary)
+All fix tasks terminal: CODED=t PR_OPEN=t REVIEWED=t MERGED=t ACCEPT=t (fixture/structure).
 
 ## OPS / VERIFY-AT-SCALE
-_(recorded, not executed)_
+See `docs/arch-ops-actions.md`
 
 ## CONTEXT HANDOFF
-- P0-REVIEW dispatched: task_ecb061529fb2 / ctx_fee2a95d8c14 → term_6adc8eb6 (Claude, worktree p0-review @ ravidsrk/p0-review)
-- Coordinator: term_f39b978b (orchestrator shell, eve-exploration BASE)
-- Waiting worker_done for docs/adversarial-review-fresh.md
+Run complete. Readiness: `docs/arch-build-readiness.md`. BASE pushed with 6 merged PRs + follow-up commits for verify-catalog + REL-003 killOnDispose + DEP-001 ci check.

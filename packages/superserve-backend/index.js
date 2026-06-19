@@ -58,6 +58,7 @@ export function superserveBackend(opts = {}) {
 
   return {
     name: BACKEND_NAME,
+    killOnDispose: Boolean(opts.killOnDispose),
 
     async prewarm(input) {
       const seedFiles = (input.seedFiles ?? []).map((f) => ({

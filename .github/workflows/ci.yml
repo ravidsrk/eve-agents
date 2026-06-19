@@ -48,6 +48,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Toolchain resolvability (DEP-001)
+        run: npx tsgo --version
+
       - name: Typecheck workspaces
         run: npm run typecheck
 

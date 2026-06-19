@@ -59,7 +59,11 @@ export function resolveSuperserveBackend(superserveOpts = {}, env = process.env)
  * @param {object} [options.superserve] superserveBackend options
  */
 export function resolveSandboxDefinition(options = {}, env = process.env) {
-  const backend = resolveSuperserveBackend(options.superserve ?? {}, env);
+  const superserve = { ...(options.superserve ?? {}) };
+  if (options.killOnDispose === true || env.EVE_KILL_SANDBOX_ON_DISPOSE === "1") {
+    superserve.killOnDispose = true;
+  }
+  const backend = resolveSuperserveBackend(superserve, env);
   return backend ? { backend } : {};
 }
 

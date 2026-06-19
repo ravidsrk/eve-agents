@@ -118,6 +118,14 @@ describe("resolveSandboxDefinition", () => {
     assert.ok(def.backend);
     assert.equal(def.backend.name, "superserve");
   });
+
+  it("passes killOnDispose when EVE_KILL_SANDBOX_ON_DISPOSE=1", () => {
+    const def = resolveSandboxDefinition(
+      { superserve: { fromTemplate: "superserve/python-ml" } },
+      env({ SUPERSERVE_API_KEY: "ssk_test", EVE_KILL_SANDBOX_ON_DISPOSE: "1" }),
+    );
+    assert.equal(def.backend.killOnDispose, true);
+  });
 });
 
 describe("constants", () => {

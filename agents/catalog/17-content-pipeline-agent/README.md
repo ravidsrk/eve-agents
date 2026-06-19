@@ -22,17 +22,26 @@ This archetype follows the official Eve template layout:
 - `agent/tools/*.ts` for typed tools,
 - `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
 
-## Run
+## Run locally
 
 ```bash
 bash ../../scripts/run-catalog-agent.sh agents/catalog/17-content-pipeline-agent 3217 "Review the current content pipeline agent queue and write a prioritized action report."
 ```
 
-Requires:
+Secrets: repo-root `.secrets/eve.env` (see `bash scripts/setup.sh` from monorepo root).
 
-- `OPENROUTER_API_KEY` for model inference.
-- `SUPERSERVE_API_KEY` for sandbox-backed eve file/code execution.
-- Optional valid `MONID_API_KEY` for live external research in follow-up work.
+- `OPENROUTER_API_KEY` — model inference
+- `SUPERSERVE_API_KEY` — sandbox tools (optional for read-only turns)
+
+## Deploy on Vercel
+
+```bash
+npm run deploy:catalog -- 17-content-pipeline-agent
+```
+
+Set `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` on the Vercel project. Inference uses AI Gateway OIDC — no OpenRouter key on Vercel.
+
+See [docs/DEPLOY.md](../../../docs/DEPLOY.md) and [docs/SECURITY.md](../../../docs/SECURITY.md).
 
 ## Tools and data
 
@@ -53,13 +62,16 @@ The agent should load the dossier, inspect records, identify the highest-priorit
 assumptions and uncertainty, and write a report. For any action that changes an external system, it
 must use `record_decision`, which pauses for human approval.
 
-## Deploy on Vercel
+## Verify
 
-S-tier showcase — dual-track via `@eve-catalog/profile`. Multi-turn drafts run over the default HTTP channel.
+```bash
+npm run verify:catalog
+cd agents/catalog/17-content-pipeline-agent && npx eve eval --strict   # needs keys in .secrets/eve.env
+```
 
-## Evidence status
-
-- Evals: `evals/smoke-dossier.eval.ts`, `evals/content-pipeline.eval.ts` (3-turn draft → review → revise).
+- Deterministic fixtures: `agent/data/dossier.json`, `agent/data/records.json`
+- Smoke eval: `evals/smoke-dossier.eval.ts`
+- Layer guide: [agents/catalog/README.md](../README.md)
 
 ## Domain rule
 

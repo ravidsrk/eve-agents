@@ -34,9 +34,14 @@ npm run deploy:flagship
 npm run smoke:deployed -- https://eve-incident-commander.vercel.app .
 ```
 
-Set `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` on the Vercel project for HTTP session access.
+Set on the Vercel project:
+
+- `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` — HTTP session access
+- `ALERT_WEBHOOK_SECRET` — required for `POST /incident` (returns `401` without correct header)
+
 On Vercel, inference uses AI Gateway OIDC (`@eve-catalog/profile`); no OpenRouter or SuperServe keys.
-See [docs/DEPLOY.md](../../../docs/DEPLOY.md) and [docs/CONNECT.md](../../../docs/CONNECT.md).
+
+See [docs/DEPLOY.md](../../../docs/DEPLOY.md), [docs/CONNECT.md](../../../docs/CONNECT.md), [docs/SECURITY.md](../../../docs/SECURITY.md).
 
 ## Run
 
@@ -44,11 +49,10 @@ See [docs/DEPLOY.md](../../../docs/DEPLOY.md) and [docs/CONNECT.md](../../../doc
 bash ../../scripts/run-catalog-agent.sh agents/catalog/06-incident-commander 3206 "Review the current incident commander queue and write a prioritized action report."
 ```
 
-Requires:
+Requires repo-root `.secrets/eve.env` (see `bash scripts/setup.sh`):
 
-- `OPENROUTER_API_KEY` for model inference.
-- `SUPERSERVE_API_KEY` for sandbox-backed eve file/code execution.
-- Optional valid `MONID_API_KEY` for live external research in follow-up work.
+- `OPENROUTER_API_KEY` for model inference
+- `SUPERSERVE_API_KEY` for sandbox-backed execution
 
 ## Tools and data
 
@@ -74,10 +78,10 @@ must use `record_decision`, which pauses for human approval.
 
 - Deterministic fixtures: included in `agent/data/`.
 - Live evals: `npm run eval:flagship` — 5 evals (incl. webhook-alert, schedule-digest).
-- Channels: Slack (`agent/channels/slack.ts`), alert webhook (`POST /incident` on alert channel).
+- Channels: Slack (`agent/channels/slack.ts`), authenticated alert webhook (`agent/channels/alert.ts`).
 - Production deploy: `npm run deploy:flagship` → prebuilt; Agent Runs in Vercel Observability.
 - Schedule primitive: `agent/schedules/digest.ts` + `evals/schedule-digest.eval.ts`.
-- See `evidence/deploy-smoke.json` for dual-track checklist.
+- Webhook eval: `evals/webhook-alert.eval.ts` asserts unauthenticated POST is rejected.
 
 ## Domain rule
 

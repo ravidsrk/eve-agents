@@ -1,82 +1,125 @@
 # eve-exploration
 
-Public catalog of **[Vercel eve](https://vercel.com/docs/eve) agents** — 75 working agents with live evidence.
+Public catalog of **[Vercel eve](https://vercel.com/docs/eve) agents** — 75 working agents you can run locally, eval, and deploy.
 
 | Layer | Path | Count | What |
 | --- | --- | ---: | --- |
 | **Catalog** | [`agents/catalog/`](agents/catalog/) | 50 | Real-world job templates |
 | **Reference** | [`agents/reference/`](agents/reference/) | 10 | Ported vercel/eve e2e fixtures + evals |
-| **Production** | [`agents/production/`](agents/production/) | 10 | Deep agents with custom tools |
+| **Production** | [`agents/production/`](agents/production/) | 10 | Deep agents with custom tools + Monid |
 | **Integrations** | [`agents/integrations/`](agents/integrations/) | 5 | Eve primitive proofs (HITL, Slack, durability, swarm) |
 
-→ **[AGENT_CATALOG.md](AGENT_CATALOG.md)** · **[ROADMAP.md](ROADMAP.md)** · `npm run catalog:list`
+**Docs hub:** [docs/README.md](docs/README.md) · **Index:** [AGENT_CATALOG.md](AGENT_CATALOG.md) · **Plan:** [ROADMAP.md](ROADMAP.md)
 
 ## Quick start
 
-```bash
-bash scripts/setup.sh
-npm run verify:catalog
+**Requirements:** Node 24+, npm, API keys in environment or `.secrets/eve.env`.
 
-# Run a catalog agent
+```bash
+bash scripts/setup.sh          # npm ci + create .secrets/eve.env if missing
+npm run test:structure         # keyless structure gate (~10s)
+
+# Run the flagship catalog agent locally
 bash scripts/run-catalog-agent.sh agents/catalog/06-incident-commander 3206 \
   "Load the dossier, analyze records, and write a prioritized action report."
 
-# Run reference evals (vercel/eve fixtures)
+# Reference evals (vercel/eve fixtures)
 cd agents/reference/agent-tools && npx eve eval --strict
 ```
 
-Keys for live runs: `OPENROUTER_API_KEY`, `SUPERSERVE_API_KEY` in `.secrets/eve.env`.
+### Secrets
+
+Keys live in **one file**: `.secrets/eve.env` at the repo root (not copied into each agent).
+
+| Key | Used for |
+| --- | --- |
+| `OPENROUTER_API_KEY` | Lab inference (`eve dev`, `eve eval`) |
+| `SUPERSERVE_API_KEY` | Lab sandboxes (optional locally) |
+| `MONID_API_KEY` | Production agents p01–p10 only |
+| `VERCEL_TOKEN` | `npm run deploy:*` scripts (optional) |
+
+See [docs/SECURITY.md](docs/SECURITY.md) for deploy auth and webhook secrets.
 
 ### Tracks
 
 | Track | When | Inference | Sandbox |
 | --- | --- | --- | --- |
-| **Lab** (today) | Local dev, CI structure | OpenRouter (`@eve-catalog/openrouter`) | SuperServe (`@eve-catalog/superserve-backend`) |
-| **Vercel** | `npm run deploy:flagship` | AI Gateway + OIDC | Vercel Sandbox (default) |
+| **Lab** | Local dev, CI with keys | OpenRouter | SuperServe (when keyed) |
+| **Vercel** | `npm run deploy:flagship` | AI Gateway + OIDC | Vercel Sandbox |
 
-**Deploy incident commander in 5 minutes**
+Resolution is automatic via `@eve-catalog/profile` — see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Deploy flagship (5 minutes)
 
 ```bash
 vercel login
 cd agents/catalog/06-incident-commander && vercel link --yes
-# Set ROUTE_AUTH_BASIC_USER + ROUTE_AUTH_BASIC_PASSWORD in Vercel project env
+```
+
+On the Vercel project, set:
+
+- `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` — HTTP session access
+- `ALERT_WEBHOOK_SECRET` — required for `POST /incident` ingestion
+
+```bash
 npm run deploy:flagship
 npm run smoke:deployed -- https://eve-incident-commander.vercel.app agents/catalog/06-incident-commander
 ```
 
-Production: [eve-incident-commander.vercel.app](https://eve-incident-commander.vercel.app) · Docs: [Vercel eve](https://vercel.com/docs/eve) · [DEPLOY.md](docs/DEPLOY.md)
+**Live:** [eve-incident-commander.vercel.app](https://eve-incident-commander.vercel.app) · Guide: [docs/DEPLOY.md](docs/DEPLOY.md)
 
-## Layout
+## Repository layout
 
 ```text
-agents/           All eve agents (catalog, reference, production, integrations)
-packages/         @eve-catalog/profile, openrouter, superserve-backend, agent-kit, monid-tools
-scripts/          setup, runners, catalog tools
-AGENT_CATALOG.md  Full index
-VERIFY-LIVE.md    Live run evidence (catalog 50/50)
+agents/           catalog, reference, production, integrations
+packages/         @eve-catalog/* shared libraries
+scripts/          setup, runners, verify, deploy
+docs/             deploy, security, architecture, runbooks
+AGENT_CATALOG.md  Full agent index with tiers and ports
 ```
 
 ## Commands
 
+### Verify (keyless)
+
 | Command | Purpose |
 | --- | --- |
-| `npm test` | Full structure suite: catalog + runtime + evals + profile tests |
-| `npm run test:structure` | Same as `npm test` (keyless) |
-| `npm run eval:flagship` | `eve eval --strict` on 06-incident-commander (5 evals, needs keys) |
-| `npm run eval:s-tier` | All 5 S-tier agents (strict, needs keys) |
-| `npm run eval:a-tier` | A-tier agents + HITL (needs keys) |
-| `npm run eval:hitl-catalog` | HITL approval proof on 05-refund-approval-operator |
-| `npm run deploy:flagship` | Prebuilt deploy for A06 (CLI login or `VERCEL_TOKEN`) |
-| `npm run deploy:support` | Prebuilt deploy for A04 |
-| `npm run smoke:deployed` | Health + session smoke on a deployment URL |
-| `npm run eval:catalog:rotate` | Rotating B-tier smoke evals (CI) |
-| `npm run smoke:production:build` | `eve build` all P01–P10 |
+| `npm test` | Full structure suite |
+| `npm run verify:catalog` | 50 catalog agents — layout + dossier |
+| `npm run verify:runtime` | Dual-track snippets in agent source |
 | `npm run catalog:list` | JSON index of all 75 agents |
-| `npm run validate:reference` | `eve eval --strict` on reference fixtures |
-| `npm run run:production:all` | Live batch production agents |
+
+### Eval (needs keys)
+
+| Command | Purpose |
+| --- | --- |
+| `npm run eval:flagship` | A06 incident commander (5 evals, strict) |
+| `npm run eval:s-tier` | All 5 S-tier agents |
+| `npm run eval:a-tier` | A-tier agents + HITL |
+| `npm run validate:reference` | All 10 reference fixtures (run `cleanup:superserve` first if quota tight) |
+| `npm run eval:hitl-catalog` | HITL on A05 refund operator |
+
+### Deploy and smoke
+
+| Command | Purpose |
+| --- | --- |
+| `npm run deploy:flagship` | Prebuilt deploy A06 |
+| `npm run deploy:support` | Prebuilt deploy A04 |
+| `npm run smoke:deployed` | Health + session on a deployment URL |
+| `npm run smoke:production:build` | `eve build` all P01–P10 |
+
+### Integrations
+
+| Command | Purpose |
+| --- | --- |
 | `npm run test:hitl` | HITL proof (`integrations/08-hitl`) |
-| `npm run test:durable` | Durable resume proof (`integrations/11-durable-resume`) |
+| `npm run test:durable` | Durable resume (`integrations/11-durable-resume`) |
+| `npm run cleanup:superserve` | Free SuperServe quota before sandbox evals |
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). PRs should pass `npm test` and `npm run typecheck`.
 
 ## Credits
 
-Agents ported from [vercel/eve](https://github.com/vercel/eve). Inference via OpenRouter; sandboxes via SuperServe.
+Agents ported from [vercel/eve](https://github.com/vercel/eve). Lab inference via OpenRouter; sandboxes via SuperServe; hosted inference via Vercel AI Gateway.

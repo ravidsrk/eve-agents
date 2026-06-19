@@ -1,63 +1,93 @@
 # Deploy an eve catalog agent on Vercel
 
-> **Status:** Phase 1 ready — flagship `06-incident-commander` uses `@eve-catalog/profile` dual-track runtime.
+Deploy prebuilt eve agents from this monorepo. Workspace packages (`@eve-catalog/*`) are **not on npm** — you build locally, then upload the build output.
 
 ## Prerequisites
 
 - Vercel account (Pro recommended for Connect and Cron)
-- `vercel login` (CLI session) **or** `VERCEL_TOKEN` for scripts/CI
-- This repo cloned; agent uses dual-track profile from Phase 0 (`@eve-catalog/profile`)
-- No `OPENROUTER_API_KEY` or `SUPERSERVE_API_KEY` on Vercel — inference via AI Gateway OIDC
-- Set `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` on the Vercel project for HTTP session access (`catalogRouteAuth`)
+- `vercel login` or `VERCEL_TOKEN` in the environment
+- Node 24+ and `npm ci` at repo root
+- **No** `OPENROUTER_API_KEY` or `SUPERSERVE_API_KEY` on Vercel — inference uses AI Gateway OIDC
 
-## Quick path (monorepo + prebuilt)
+## Environment variables (flagship A06)
 
-Workspace packages (`@eve-catalog/*`) are not on npm — build locally, deploy prebuilt:
+| Variable | Required | Purpose |
+| --- | ---: | --- |
+| `ROUTE_AUTH_BASIC_USER` | Yes | HTTP basic auth for `/eve/v1/session` |
+| `ROUTE_AUTH_BASIC_PASSWORD` | Yes | Pair with user above |
+| `ALERT_WEBHOOK_SECRET` | Yes | Shared secret for `POST /incident` webhook |
+| `EVE_VERCEL_MODEL` | No | Override default `openai/gpt-5.4-mini` |
+
+See [SECURITY.md](./SECURITY.md) for rotation and webhook header format.
+
+## Quick path (prebuilt)
 
 ```bash
 vercel login
 cd agents/catalog/06-incident-commander && vercel link --yes
-npm run deploy:flagship          # npm ci @ root → VERCEL=1 eve build → vercel deploy --prebuilt
+npm run deploy:flagship          # root: npm ci → VERCEL=1 eve build → vercel deploy --prebuilt
 vercel deploy --prebuilt --prod  # optional: promote to production alias
 ```
 
-Production alias (when promoted): `https://eve-incident-commander.vercel.app`
+Production alias: `https://eve-incident-commander.vercel.app`
 
-Smoke the HTTP API:
+### Smoke HTTP session
 
 ```bash
-export URL="https://<preview>.vercel.app"
-curl -X POST "$URL/eve/v1/session" \
+URL="https://eve-incident-commander.vercel.app"
+USER="eve-catalog"
+PASS="your-basic-auth-password"
+
+curl -u "$USER:$PASS" -X POST "$URL/eve/v1/session" \
   -H 'content-type: application/json' \
   -d '{"message":"Load the dossier, analyze records, and write a prioritized incident report."}'
 ```
 
-Eval against deployment:
+Or use the helper:
+
+```bash
+npm run smoke:deployed -- "$URL" agents/catalog/06-incident-commander
+```
+
+### Smoke alert webhook
+
+```bash
+ALERT_WEBHOOK_SECRET=your-secret bash scripts/smoke-alert-webhook.sh
+```
+
+### Eval against deployment
 
 ```bash
 npx eve eval --url "$URL" --strict
+# or
+npm run eval:deployed:flagship -- "$URL"
 ```
 
-## Live verification (lab)
+Deployed evals may hit AI Gateway rate limits on free tier; structure tests and lab evals are the primary CI gates.
 
-```bash
-npm run eval:flagship          # 4/4 evals on 06-incident-commander
-npm run eval:s-tier            # all 5 S-tier agents (strict)
-npm run eval:a-tier            # A-tier agents + HITL (02, 33, 39, 50, 05)
-npm run eval:hitl-catalog      # HITL approval on 05-refund-approval-operator
-npm run deploy:flagship        # A06 prebuilt deploy (CLI login or VERCEL_TOKEN)
-npm run deploy:support         # A04 second-wave deploy
-npm run deploy:catalog -- 06-incident-commander  # generic catalog deploy
-```
+## Other deploy targets
+
+| Script | Agent |
+| --- | --- |
+| `npm run deploy:flagship` | A06 incident commander |
+| `npm run deploy:support` | A04 support triage |
+| `npm run deploy:catalog -- <dir>` | Any catalog agent directory |
+
+`deploy-catalog.sh` uses `VERCEL_TOKEN` from the environment (not `--token` on argv).
 
 ## Observability
 
-After deploy, open **Vercel dashboard → Observability → Agent Runs** for sessions, tools, and token usage.
+Vercel dashboard → **Observability → Agent Runs** — sessions, tools, tokens, errors.
 
-## Connect (Phase 4)
+Flagship ships `agent/instrumentation.ts` for optional OTEL export (`OTEL_EXPORTER_OTLP_ENDPOINT`).
+
+## Connect (Slack, GitHub)
 
 Slack on A06 and GitHub on A11 use [Vercel Connect](https://vercel.com/connect). See [CONNECT.md](./CONNECT.md).
 
-## Full plan
+## Related
 
-[ROADMAP.md](../ROADMAP.md)
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — dual-track runtime
+- [ROLLBACK.md](./ROLLBACK.md) — revert a bad deployment
+- [COST-RUNBOOK.md](./COST-RUNBOOK.md) — spend monitoring
+- [ROADMAP.md](../ROADMAP.md) — phased delivery history

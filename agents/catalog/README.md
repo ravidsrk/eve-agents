@@ -1,32 +1,66 @@
-# Catalog
+# Catalog agents (Layer A)
 
-**50 real-world eve agents** — job templates with instructions, seeded dossiers, shared tools, and
-live OpenRouter + SuperServe evidence.
+**50 real-world job templates** — each is a deployable eve agent with seeded data, six shared tools, a playbook skill, and smoke evals.
 
-Each agent follows the same structure so you can diff, fork, and deepen individual jobs without
-relearning the layout.
+## Structure (every agent)
 
-## Run any agent
+```text
+NN-slug/
+  agent/
+    agent.ts              defineAgent + resolveModel()
+    channels/eve.ts       routeAuth() on HTTP
+    instructions.md
+    data/dossier.json
+    data/records.json
+    tools/*.ts            re-exports from @eve-catalog/agent-kit
+    sandbox/sandbox.ts    resolveSandboxDefinition()
+    skills/operating-playbook/SKILL.md
+  evals/
+    smoke-dossier.eval.ts
+    evals.config.ts
+  package.json
+  README.md
+```
+
+Hand-customized agents add channels, schedules, or extra evals and mark themselves with `.generated=false` so `generate:catalog` does not overwrite them.
+
+## Tiers
+
+See [AGENT_CATALOG.md](../../AGENT_CATALOG.md) for the full index. Highlights:
+
+| Tier | Agents | Notes |
+| --- | --- | --- |
+| **S** | A06, A04, A11, A33, A39 | Flagship deploy + strict evals |
+| **A** | A02, A05, A07, A20, A50 | Strong eval coverage |
+| **B** | Remaining | Rotating CI smoke via `eval:catalog:rotate` |
+
+## Run locally
 
 ```bash
 bash scripts/run-catalog-agent.sh agents/catalog/06-incident-commander 3206 \
-  "Load the dossier, analyze records, and write a prioritized action report."
+  "Load the dossier and write a prioritized report."
 ```
 
-Ports follow `32XX` where `XX` is the agent number (`06` → `3206`).
+Requires `.secrets/eve.env` at repo root with `OPENROUTER_API_KEY` (and `SUPERSERVE_API_KEY` for sandbox tools).
 
-## Shared tools (`@eve-catalog/agent-kit`)
+## Flagship: incident commander (A06)
 
-- `load_dossier` — local context and integration notes
-- `search_records` / `analyze_records` — evidence lookup and scoring
-- `write_report` — durable markdown artifact
-- `record_decision` — approval-gated side effects
-- `fetch_live_json` — opt-in HTTPS JSON when `ALLOW_EXTERNAL_FETCH=1`
+- **Deploy:** `npm run deploy:flagship`
+- **Production:** https://eve-incident-commander.vercel.app
+- **Extra channels:** Slack, authenticated alert webhook
+- **Docs:** [06-incident-commander/README.md](06-incident-commander/README.md)
 
-## Matrix
+## Regenerate templates
 
-Full job descriptions: [AGENT_MATRIX.md](../../AGENT_MATRIX.md) · [AGENT_CATALOG.md](../../AGENT_CATALOG.md)
+```bash
+npm run generate:catalog              # refresh generated agents only
+npm run generate:catalog -- --clean   # remove generator-owned files first (safe for customized agents)
+```
 
-## Go deeper
+## Verify
 
-For Monid-backed custom tools on related jobs, see [`../production/`](../production/) (P01–P10 pairs).
+```bash
+npm run verify:catalog
+npm run verify:evals
+npm run eval:flagship    # A06, needs keys
+```

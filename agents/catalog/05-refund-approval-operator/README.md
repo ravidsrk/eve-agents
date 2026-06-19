@@ -22,17 +22,26 @@ This archetype follows the official Eve template layout:
 - `agent/tools/*.ts` for typed tools,
 - `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
 
-## Run
+## Run locally
 
 ```bash
 bash ../../scripts/run-catalog-agent.sh agents/catalog/05-refund-approval-operator 3205 "Review the current refund approval operator queue and write a prioritized action report."
 ```
 
-Requires:
+Secrets: repo-root `.secrets/eve.env` (see `bash scripts/setup.sh` from monorepo root).
 
-- `OPENROUTER_API_KEY` for model inference.
-- `SUPERSERVE_API_KEY` for sandbox-backed eve file/code execution.
-- Optional valid `MONID_API_KEY` for live external research in follow-up work.
+- `OPENROUTER_API_KEY` — model inference
+- `SUPERSERVE_API_KEY` — sandbox tools (optional for read-only turns)
+
+## Deploy on Vercel
+
+```bash
+npm run deploy:catalog -- 05-refund-approval-operator
+```
+
+Set `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` on the Vercel project. Inference uses AI Gateway OIDC — no OpenRouter key on Vercel.
+
+See [docs/DEPLOY.md](../../../docs/DEPLOY.md) and [docs/SECURITY.md](../../../docs/SECURITY.md).
 
 ## Tools and data
 
@@ -41,7 +50,6 @@ Requires:
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
 - `record_decision`: approval-gated simulated side effect.
-- `refund_charge`: approval-gated refund execution (`needsApproval: always()`).
 - `fetch_live_json`: guarded HTTPS JSON fetch, disabled unless `ALLOW_EXTERNAL_FETCH=1`.
 
 ## Sample prompt
@@ -54,12 +62,16 @@ The agent should load the dossier, inspect records, identify the highest-priorit
 assumptions and uncertainty, and write a report. For any action that changes an external system, it
 must use `record_decision`, which pauses for human approval.
 
-## Evidence status
+## Verify
 
-- Deterministic fixtures: included in `agent/data/`.
-- HITL proof: `npm run eval:hitl-catalog` — parks on `refund_charge`, approve via HTTP, completes refund.
-- Evidence artifact: `evidence/hitl-run.ndjson` (input.requested + refund_charge action.result).
-- Note: `eve eval` HITL is deferred; shell proof is the stable gate (see ROADMAP G3).
+```bash
+npm run verify:catalog
+cd agents/catalog/05-refund-approval-operator && npx eve eval --strict   # needs keys in .secrets/eve.env
+```
+
+- Deterministic fixtures: `agent/data/dossier.json`, `agent/data/records.json`
+- Smoke eval: `evals/smoke-dossier.eval.ts`
+- Layer guide: [agents/catalog/README.md](../README.md)
 
 ## Domain rule
 

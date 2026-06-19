@@ -1,18 +1,17 @@
 # Vercel Connect for eve catalog agents
 
-> **Status:** Phase 4 — Slack on A06 (`06-incident-commander`), GitHub on A11 (`11-pr-triage-reviewer`).
-
 Connect supplies OAuth credentials to eve channels without storing raw tokens in your repo. The same agent logic runs on the default HTTP channel locally; Connect enables live delivery on deploy.
 
 ## Prerequisites
 
 - Vercel Pro (Connect + Cron)
-- Agent deployed with `eve build` + `vercel deploy`
+- Agent deployed with `eve build` + `vercel deploy --prebuilt`
 - `FF_CONNECT_ENABLED=1` during connector setup
+- HTTP route auth configured — see [SECURITY.md](./SECURITY.md)
 
 ## Slack — A06 Incident Commander
 
-Channel file: `agents/catalog/06-incident-commander/agent/channels/slack.ts`
+Channel: `agents/catalog/06-incident-commander/agent/channels/slack.ts`
 
 ```bash
 cd agents/catalog/06-incident-commander
@@ -24,22 +23,35 @@ vercel connect attach <connector-uid> \
   --triggers --yes
 
 npm run build
-vercel deploy --prod
+vercel deploy --prebuilt --prod
 ```
 
-Dogfood: `@mention` the bot in a channel with an incident summary. The agent uses the same tools and playbook as HTTP (`load_dossier`, `search_records`, `write_report`).
+Dogfood: `@mention` the bot with an incident summary. Tools match HTTP (`load_dossier`, `search_records`, `write_report`).
 
-### Cross-channel flow (A06)
+## Alert webhook — authenticated ingestion
 
-1. **Alert webhook** — `POST /incident` on the alert channel with `{ title, reference, severity }` (see `agent/channels/alert.ts`; on deploy the path is under the channel mount)
-2. Agent triages on the alert channel session
-3. Optional **Slack thread** — proactive `receive(slack, …)` from a schedule or manual ops run
+Channel: `agent/channels/alert.ts` — `POST /incident`
+
+**Requires `ALERT_WEBHOOK_SECRET`** on the Vercel project. Without the correct header, the route returns `401` and does not start a session.
+
+```bash
+curl -X POST "https://<deployment>/incident" \
+  -H 'content-type: application/json' \
+  -H "x-alert-webhook-secret: $ALERT_WEBHOOK_SECRET" \
+  -d '{"title":"DB latency spike","reference":"INC-42","severity":"high"}'
+```
 
 Local proof: `npm run eval:flagship` includes `webhook-alert.eval.ts`.
 
+### Cross-channel flow
+
+1. Monitoring sends authenticated `POST /incident`
+2. Agent triages on the alert channel session
+3. Optional Slack thread via Connect or proactive `receive(slack, …)`
+
 ## GitHub — A11 PR Triage
 
-Channel file: `agents/catalog/11-pr-triage-reviewer/agent/channels/github.ts`
+Channel: `agents/catalog/11-pr-triage-reviewer/agent/channels/github.ts`
 
 Set on the Vercel project:
 
@@ -50,27 +62,28 @@ GITHUB_WEBHOOK_SECRET=...
 GITHUB_APP_SLUG=pr-triage-bot
 ```
 
-Point the GitHub App webhook to `https://<deployment>/eve/v1/github`. `@mention` the bot on a PR to triage with `analyze_diff` and seeded patch context.
+Point the GitHub App webhook to `https://<deployment>/eve/v1/github`.
 
-## Connector slug reference
+## Connector reference
 
 | Agent | Connect slug | Route |
 | --- | --- | --- |
 | A06 Slack | `slack/incident-commander` | `/eve/v1/slack` |
-| integrations/10-slack (legacy) | `slack/lab` | `/eve/v1/slack` |
+| integrations/10-slack (lab) | `slack/lab` | `/eve/v1/slack` |
 
-Prefer the A06 catalog pattern for new work; `integrations/10-slack` remains a minimal lab proof.
+Prefer the A06 catalog pattern for new work.
 
 ## Troubleshooting
 
 | Symptom | Check |
 | --- | --- |
-| 404 on `/eve/v1/slack` | `eve channels list` after build; redeploy after adding channel file |
-| Connect attach fails | `FF_CONNECT_ENABLED=1`, Vercel CLI logged in |
+| 404 on `/eve/v1/slack` | `eve channels list` after build; redeploy after adding channel |
+| Connect attach fails | `FF_CONNECT_ENABLED=1`, CLI logged in |
 | GitHub webhook 401 | `GITHUB_WEBHOOK_SECRET` matches App settings |
-| HTTP works, Slack silent | Connector attached to correct trigger path and deployment URL |
+| `/incident` always 401 | `ALERT_WEBHOOK_SECRET` set; header name matches smoke script |
+| HTTP works, Slack silent | Connector attached to correct trigger path and URL |
 
 ## Related
 
-- [DEPLOY.md](./DEPLOY.md) — build, smoke `curl`, eval against preview URL
-- [ROADMAP.md](../ROADMAP.md) — Phase 4 deliverables
+- [DEPLOY.md](./DEPLOY.md) — build, smoke, eval
+- [SECURITY.md](./SECURITY.md) — auth env vars

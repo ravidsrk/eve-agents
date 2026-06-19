@@ -1,5 +1,7 @@
 # Reference eval parity (vercel/eve fixtures)
 
+See also [agents/reference/README.md](../agents/reference/README.md) and the [docs hub](./README.md).
+
 ## Run
 
 ```bash

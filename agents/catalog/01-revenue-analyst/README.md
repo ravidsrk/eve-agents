@@ -22,22 +22,30 @@ This archetype follows the official Eve template layout:
 - `agent/tools/*.ts` for typed tools,
 - `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
 
-## Run
+## Run locally
 
 ```bash
 bash ../../scripts/run-catalog-agent.sh agents/catalog/01-revenue-analyst 3201 "Review the current revenue analyst queue and write a prioritized action report."
 ```
 
-Requires:
+Secrets: repo-root `.secrets/eve.env` (see `bash scripts/setup.sh` from monorepo root).
 
-- `OPENROUTER_API_KEY` for model inference.
-- `SUPERSERVE_API_KEY` for sandbox-backed eve file/code execution.
-- Optional valid `MONID_API_KEY` for live external research in follow-up work.
+- `OPENROUTER_API_KEY` — model inference
+- `SUPERSERVE_API_KEY` — sandbox tools (optional for read-only turns)
+
+## Deploy on Vercel
+
+```bash
+npm run deploy:catalog -- 01-revenue-analyst
+```
+
+Set `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` on the Vercel project. Inference uses AI Gateway OIDC — no OpenRouter key on Vercel.
+
+See [docs/DEPLOY.md](../../../docs/DEPLOY.md) and [docs/SECURITY.md](../../../docs/SECURITY.md).
 
 ## Tools and data
 
 - `load_dossier`: loads `agent/data/dossier.json`.
-- `run_aggregate`: sums/averages recognized revenue from `agent/data/revenue.csv`.
 - `search_records`: searches `agent/data/records.json`.
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
@@ -54,14 +62,16 @@ The agent should load the dossier, inspect records, identify the highest-priorit
 assumptions and uncertainty, and write a report. For any action that changes an external system, it
 must use `record_decision`, which pauses for human approval.
 
-## Deploy on Vercel
+## Verify
 
-S-tier showcase — dual-track via `@eve-catalog/profile`. Sandbox optional for ad-hoc bash; KPI answers use `run_aggregate` on seeded CSV.
+```bash
+npm run verify:catalog
+cd agents/catalog/01-revenue-analyst && npx eve eval --strict   # needs keys in .secrets/eve.env
+```
 
-## Evidence status
-
-- Warehouse extract: `agent/data/revenue.csv`.
-- Evals: `evals/smoke-dossier.eval.ts`, `evals/revenue-aggregate.eval.ts`.
+- Deterministic fixtures: `agent/data/dossier.json`, `agent/data/records.json`
+- Smoke eval: `evals/smoke-dossier.eval.ts`
+- Layer guide: [agents/catalog/README.md](../README.md)
 
 ## Domain rule
 

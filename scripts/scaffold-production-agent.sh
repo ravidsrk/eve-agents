@@ -14,8 +14,9 @@ fi
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DEST="$ROOT/agents/production/$SLUG"
-mkdir -p "$DEST/agent/tools" "$DEST/agent/sandbox"
+mkdir -p "$DEST/agent/tools" "$DEST/agent/sandbox" "$DEST/agent/channels"
 cp "$ROOT/agents/production/_shared/sandbox.ts" "$DEST/agent/sandbox/sandbox.ts"
+cp "$ROOT/agents/production/_shared/channels/eve.ts" "$DEST/agent/channels/eve.ts"
 
 cat > "$DEST/package.json" <<EOF
 {
@@ -37,7 +38,9 @@ cat > "$DEST/package.json" <<EOF
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "3.0.0-beta.57",
+    "@eve-catalog/agent-kit": "*",
     "@eve-catalog/openrouter": "*",
+    "@eve-catalog/profile": "*",
     "@eve-catalog/superserve-backend": "*",
     "@eve-catalog/monid-tools": "*",
     "ai": "7.0.0-beta.178",
@@ -72,11 +75,11 @@ cp "$ROOT/agents/reference/agent-tools/.gitignore" "$DEST/.gitignore"
 
 cat > "$DEST/agent/agent.ts" <<'EOF'
 import { defineAgent } from "eve";
-import { orModel } from "@eve-catalog/openrouter";
+import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-catalog/profile";
 
 export default defineAgent({
-  model: orModel(),
-  modelContextWindowTokens: 131072,
+  model: resolveModel(),
+  modelContextWindowTokens: DEFAULT_CONTEXT_WINDOW,
 });
 EOF
 

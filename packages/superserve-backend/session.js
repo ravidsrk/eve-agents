@@ -10,6 +10,11 @@ import { bufferToStream, streamToBuffer, applyLineRange } from "./stream-utils.j
 
 const WORKSPACE = "/workspace";
 
+/** Shell-quote one argv token (same escaping idiom as removePath). */
+export function shellQuoteArg(arg) {
+  return `'${String(arg).replace(/'/g, "'\\''")}'`;
+}
+
 function resolvePath(p) {
   if (p === undefined || p === null || p === "") return WORKSPACE;
   return p.startsWith("/") ? p : path.posix.join(WORKSPACE, p);
@@ -19,19 +24,21 @@ function resolvePath(p) {
 function toCommand(options) {
   if (typeof options === "string") return options;
   if (options?.command) {
-    if (Array.isArray(options.command)) return options.command.join(" ");
-    let cmd = String(options.command);
-    if (Array.isArray(options.args) && options.args.length) {
-      cmd += " " + options.args.join(" ");
+    if (Array.isArray(options.command)) {
+      return options.command.map(shellQuoteArg).join(" ");
     }
-    return cmd;
+    const parts = [shellQuoteArg(options.command)];
+    if (Array.isArray(options.args) && options.args.length) {
+      parts.push(...options.args.map(shellQuoteArg));
+    }
+    return parts.join(" ");
   }
   if (options?.cmd) {
-    let cmd = String(options.cmd);
+    const parts = [shellQuoteArg(options.cmd)];
     if (Array.isArray(options.args) && options.args.length) {
-      cmd += " " + options.args.join(" ");
+      parts.push(...options.args.map(shellQuoteArg));
     }
-    return cmd;
+    return parts.join(" ");
   }
   throw new Error("SuperServe sandbox: could not derive command from options " + JSON.stringify(options));
 }

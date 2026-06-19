@@ -41,6 +41,7 @@ Requires:
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
 - `record_decision`: approval-gated simulated side effect.
+- `refund_charge`: approval-gated refund execution (`needsApproval: always()`).
 - `fetch_live_json`: guarded HTTPS JSON fetch, disabled unless `ALLOW_EXTERNAL_FETCH=1`.
 
 ## Sample prompt
@@ -56,8 +57,9 @@ must use `record_decision`, which pauses for human approval.
 ## Evidence status
 
 - Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- HITL proof: `npm run eval:hitl-catalog` — parks on `refund_charge`, approve via HTTP, completes refund.
+- Evidence artifact: `evidence/hitl-run.ndjson` (input.requested + refund_charge action.result).
+- Note: `eve eval` HITL is deferred; shell proof is the stable gate (see ROADMAP G3).
 
 ## Domain rule
 

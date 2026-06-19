@@ -21,6 +21,18 @@ This archetype follows the official Eve template layout:
 - `agent/lib/profile.ts` for reusable static metadata,
 - `agent/tools/*.ts` for typed tools,
 - `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
+- `agent/schedules/digest.ts` for cron-triggered incident digests (Vercel Cron on deploy).
+
+## Deploy on Vercel
+
+```bash
+cd agents/catalog/06-incident-commander
+npm run build
+vercel link && vercel deploy
+```
+
+On Vercel, inference uses AI Gateway OIDC (`@eve-catalog/profile`); no OpenRouter or SuperServe keys.
+See [docs/DEPLOY.md](../../../docs/DEPLOY.md) for smoke `curl` and `eve eval --base-url`.
 
 ## Run
 
@@ -41,6 +53,7 @@ Requires:
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
 - `record_decision`: approval-gated simulated side effect.
+- `record_digest`: scheduled digest tick (used by `digest` cron schedule).
 - `fetch_live_json`: guarded HTTPS JSON fetch, disabled unless `ALLOW_EXTERNAL_FETCH=1`.
 
 ## Sample prompt
@@ -56,8 +69,10 @@ must use `record_decision`, which pauses for human approval.
 ## Evidence status
 
 - Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Live evals: `npm run eval:flagship` — 4/4 (smoke-reply, smoke-dossier, incident-playbook, schedule-digest).
+- Deploy build: `npm run deploy:flagship` — `eve build` passes; `vercel deploy` needs `VERCEL_TOKEN`.
+- Schedule primitive: `agent/schedules/digest.ts` + `evals/schedule-digest.eval.ts`.
+- See `evidence/deploy-smoke.json` for dual-track checklist.
 
 ## Domain rule
 

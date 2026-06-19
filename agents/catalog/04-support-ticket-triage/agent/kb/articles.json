@@ -1,0 +1,34 @@
+[
+  {
+    "id": "kb-billing-escalation",
+    "title": "Billing dispute escalation",
+    "category": "billing",
+    "summary": "Route billing disputes over $500 or involving chargebacks to Finance within 4 hours.",
+    "body": "Escalate to Finance when: disputed amount exceeds $500, customer threatens chargeback, or refund policy exception is requested. Tag ticket ESC-BILLING and assign owner Finance-OnCall.",
+    "tags": ["billing", "escalation", "finance"]
+  },
+  {
+    "id": "kb-security-incident",
+    "title": "Security incident triage",
+    "category": "security",
+    "summary": "Treat suspected account compromise and data exposure as P1 security incidents.",
+    "body": "Immediately escalate tickets mentioning unauthorized access, credential leak, or customer data exposure. Tag SEC-P1, notify Security-OnCall, and pause automated refunds until cleared.",
+    "tags": ["security", "escalation", "data-loss"]
+  },
+  {
+    "id": "kb-password-reset",
+    "title": "Password reset playbook",
+    "category": "how-to",
+    "summary": "Standard self-serve password reset before escalating to identity team.",
+    "body": "Confirm account email, verify recent login location, send reset link once. Escalate only if MFA lockout persists after two reset attempts.",
+    "tags": ["support", "identity", "routine"]
+  },
+  {
+    "id": "kb-legal-hold",
+    "title": "Legal hold requests",
+    "category": "legal",
+    "summary": "Legal and subpoena requests require Legal review before any data export.",
+    "body": "Never export customer data for legal requests without Legal approval. Tag LEGAL-HOLD and route to Legal queue within 1 business day.",
+    "tags": ["legal", "escalation", "compliance"]
+  }
+]

@@ -34,7 +34,7 @@ npx eve eval --base-url "$URL" --strict
 ## Live verification (lab)
 
 ```bash
-npm run eval:flagship          # 3/3 evals on 06-incident-commander
+npm run eval:flagship          # 4/4 evals on 06-incident-commander
 npm run eval:hitl-catalog      # HITL approval on 05-refund-approval-operator
 npm run deploy:flagship        # eve build (+ vercel deploy if VERCEL_TOKEN set)
 ```

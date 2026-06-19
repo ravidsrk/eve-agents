@@ -18,6 +18,8 @@ This archetype follows the official Eve template layout:
 - `agent/channels/eve.ts` for the default authenticated Eve HTTP/TUI channel,
 - `agent/instructions.md` for always-on behavior,
 - `agent/skills/operating-playbook/SKILL.md` for domain procedure,
+- `agent/skills/kb-lookup/SKILL.md` for KB escalation lookup,
+- `agent/kb/articles.json` for local knowledge base fixtures,
 - `agent/lib/profile.ts` for reusable static metadata,
 - `agent/tools/*.ts` for typed tools,
 - `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
@@ -37,6 +39,7 @@ Requires:
 ## Tools and data
 
 - `load_dossier`: loads `agent/data/dossier.json`.
+- `search_kb`: searches `agent/kb/articles.json` for playbooks and escalation rules.
 - `search_records`: searches `agent/data/records.json`.
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
@@ -53,11 +56,14 @@ The agent should load the dossier, inspect records, identify the highest-priorit
 assumptions and uncertainty, and write a report. For any action that changes an external system, it
 must use `record_decision`, which pauses for human approval.
 
+## Deploy on Vercel
+
+S-tier showcase agent — dual-track via `@eve-catalog/profile`. See [docs/DEPLOY.md](../../../docs/DEPLOY.md).
+
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Deterministic fixtures: `agent/data/` + `agent/kb/articles.json`.
+- Evals: `evals/smoke-dossier.eval.ts`, `evals/support-triage.eval.ts` (KB + escalation).
 
 ## Domain rule
 

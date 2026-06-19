@@ -13,9 +13,11 @@
   "evals": [
     "evals/smoke-reply.eval.ts",
     "evals/smoke-dossier.eval.ts",
-    "evals/incident-playbook.eval.ts"
+    "evals/incident-playbook.eval.ts",
+    "evals/schedule-digest.eval.ts"
   ],
-  "liveEvalResults": "3/3 passed (smoke-reply, smoke-dossier, incident-playbook)",
+  "liveEvalResults": "4/4 passed (smoke-reply, smoke-dossier, incident-playbook, schedule-digest)",
+  "primitives": ["agent/schedules/digest.ts"],
   "deployChecklist": [
     "eve build",
     "vercel deploy",

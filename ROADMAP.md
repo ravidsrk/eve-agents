@@ -2,7 +2,7 @@
 
 Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wiring** into **the public Vercel eve agent catalog** — job breadth (50 templates), integration depth (production), and official deploy alignment (AI Gateway, Vercel Sandbox, Connect, evals).
 
-**Status:** Phase 0–2 in progress · **Last updated:** 2026-06-19
+**Status:** Phase 3 in progress (A06 schedule, A05 HITL, A04 KB) · **Last updated:** 2026-06-19
 
 ---
 
@@ -275,9 +275,9 @@ Week 6: A11 + A17 + A02 + A50
 
 ### Success criteria
 
-- [ ] 10 agents have `evals/` with ≥2 passing evals locally
-- [ ] 5 S-tier agents documented for Vercel deploy
-- [ ] A05 HITL eval passes
+- [ ] 10 agents have `evals/` with ≥2 passing evals locally (3/10: A06, A04, A05 shell HITL)
+- [ ] 5 S-tier agents documented for Vercel deploy (2/5: A06, A04)
+- [x] A05 HITL eval passes (`npm run eval:hitl-catalog`)
 - [ ] A50 subagent eval passes
 - [ ] `swarm_run` in agent-kit (if needed for A50)
 

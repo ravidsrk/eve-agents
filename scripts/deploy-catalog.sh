@@ -14,13 +14,19 @@ fi
 
 cd "$AGENT_DIR"
 
-echo "==> eve build ($AGENT_ID)"
-npm run build
+echo "==> workspace install (monorepo root)"
+(cd "$ROOT" && npm ci)
 
-if [[ -z "${VERCEL_TOKEN:-}" ]]; then
-  echo "VERCEL_TOKEN not set — build OK; run 'vercel link && vercel deploy' in $AGENT_DIR"
-  exit 0
+echo "==> eve build ($AGENT_ID, VERCEL=1 → .vercel/output)"
+(cd "$AGENT_DIR" && VERCEL=1 npm run build)
+
+DEPLOY_ARGS=(--yes --prebuilt)
+if [[ -n "${VERCEL_TOKEN:-}" ]]; then
+  DEPLOY_ARGS+=(--token "$VERCEL_TOKEN")
 fi
 
-echo "==> vercel deploy ($AGENT_ID)"
-npx vercel deploy --token "$VERCEL_TOKEN" --yes ${@+"$@"}
+echo "==> vercel deploy --prebuilt ($AGENT_ID)"
+(
+  cd "$AGENT_DIR"
+  npx vercel deploy "${DEPLOY_ARGS[@]}" ${@+"$@"}
+)

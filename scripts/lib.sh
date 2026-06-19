@@ -14,16 +14,11 @@ require_node24() {
 }
 
 ensure_env_local() {
-  local dir="$1"
-  if [ ! -f "$dir/.env.local" ]; then
-    local secrets
-    secrets="$(repo_root)/.secrets/eve.env"
-    if [ -f "$secrets" ]; then
-      cp "$secrets" "$dir/.env.local"
-    else
-      echo "Missing $dir/.env.local — run: bash scripts/setup.sh"
-      exit 1
-    fi
+  local secrets
+  secrets="$(repo_root)/.secrets/eve.env"
+  if [ ! -f "$secrets" ]; then
+    echo "Missing $secrets — run: bash scripts/setup.sh"
+    exit 1
   fi
 }
 
@@ -40,11 +35,19 @@ start_eve_dev() {
   local dir="$1"
   local port="$2"
   local log="${3:-/tmp/eve-dev-${port}.log}"
+  local root
+  root="$(repo_root)"
   kill_eve_dev "$dir"
   (
     cd "$dir"
-    rm -rf .eve
-    if [ -f .env.local ]; then set -a && source .env.local && set +a; fi
+    if [ "${EVE_FRESH_SESSION:-}" = "1" ]; then
+      rm -rf .eve
+    fi
+    if [ -f "$root/.secrets/eve.env" ]; then
+      set -a && source "$root/.secrets/eve.env" && set +a
+    elif [ -f .env.local ]; then
+      set -a && source .env.local && set +a
+    fi
     nohup npx eve dev --no-ui --port "$port" >"$log" 2>&1 &
   )
 }

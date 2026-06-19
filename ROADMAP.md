@@ -481,7 +481,7 @@ Phase 6  ░░░░░░░░░░░░░░░░░░████→  
 | 2 | Done (lab) | CI structure + typecheck; optional Vercel preview + S-tier eval jobs |
 | 3 | Done | S-tier + A-tier evals, schedules, HITL, swarm_run in agent-kit |
 | 4 | Done (lab) | A06 channels, deploy scripts, CONNECT.md, webhook-alert eval |
-| 5 | Partial | All 50 smoke evals scaffolded; production dual-track + AGENT_CATALOG tiers pending |
+| 5 | Partial | All 50 smoke evals; AGENT_CATALOG tiers; P01–P03 dual-track via `@eve-catalog/profile` |
 | 6 | Not started | |
 
 Update this table as phases complete.

@@ -69,6 +69,16 @@ Generated from [AGENT_MATRIX.md](AGENT_MATRIX.md). Each agent has `agent/`, inst
 
 Shared tools via `@eve-catalog/agent-kit`: `load_dossier`, `search_records`, `analyze_records`, `write_report`, `record_decision`, `fetch_live_json`.
 
+### Deploy tiers (S / A / B)
+
+| Tier | Agents | Evals | Deploy |
+| --- | --- | --- | --- |
+| **S** (showcase) | 01, 04, 06, 11, 17 | ≥2 scored evals each | A06 + A04 scripts (`deploy:flagship`, `deploy:support`) |
+| **A** (deepened) | 02, 05, 33, 39, 50 | Domain evals + primitives | Optional |
+| **B** (maintain) | All other catalog agents | `smoke-dossier.eval.ts` | Lab only |
+
+All 50 agents pass structural `verify:evals` (64 eval files total). Live gates: `npm run eval:flagship`, `eval:s-tier`, `eval:a-tier`.
+
 | # | Agent | Job |
 | ---: | --- | --- |
 | 01 | [revenue-analyst](agents/catalog/01-revenue-analyst) | KPI/revenue Q&A from warehouse extract |

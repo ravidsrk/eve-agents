@@ -33,6 +33,9 @@ npm-debug.log*
 agents/*/*/.agent-artifacts/
 agents/*/*/.workflow-data/
 
+# Per-agent bulky evidence (keep curated root evidence/*.md)
+agents/**/evidence/
+
 # OS / editor
 .DS_Store
 *.swp

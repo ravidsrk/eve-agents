@@ -1,5 +1,5 @@
 import { defineSandbox } from "eve/sandbox";
-import { resolveSandboxDefinition } from "@eve-catalog/profile";
+import { resolveSandboxDefinition } from "@eve-agents/profile";
 
 export default defineSandbox(
   resolveSandboxDefinition({

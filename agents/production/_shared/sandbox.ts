@@ -1,5 +1,5 @@
 import { defineSandbox } from "eve/sandbox";
-import { superserveBackend } from "@eve-catalog/superserve-backend";
+import { superserveBackend } from "@eve-agents/superserve-backend";
 
 /**
  * Default production sandbox — SuperServe microVMs (real bash, fast boot).

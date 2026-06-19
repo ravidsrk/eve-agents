@@ -1,5 +1,5 @@
 #!/bin/bash
-# Shared helpers for eve-exploration test harnesses.
+# Shared helpers for eve-agents test harnesses.
 set -euo pipefail
 
 repo_root() {

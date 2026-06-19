@@ -3,12 +3,12 @@
 ## 2026-06-19 — FRESH adversarial review run
 
 ### Self-orientation
-- **REPO_ROOT:** `/Users/ravindra/projects/eve-exploration`
+- **REPO_ROOT:** `/Users/ravindra/projects/eve-agents`
 - **Product:** Public catalog of 75 Vercel eve agents (catalog/reference/production/integrations). Node 24 monorepo; dual-track lab (OpenRouter + SuperServe) vs Vercel (AI Gateway + Sandbox).
 - **MAINTAINER:** Ravindra Kumar `<ravidsrk@gmail.com>` (from `git config`)
 - **BASE:** `ravidsrk/adversarial-fresh` cut from `main` @ `f3c9f9b`
 - **Default branch:** `main`
-- **Remote:** `https://github.com/ravidsrk/eve-exploration`
+- **Remote:** `https://github.com/ravidsrk/eve-agents`
 
 ### Runtime preconditions
 - **Orca runtime:** ready (`orca status --json`)
@@ -40,4 +40,4 @@
 - One in-flight task per hot file; parallelize across independent files
 
 ### Orca repo registration
-- **eve-exploration** added to Orca: `id:abae462e-a9be-48e9-bd5f-143a1a649779` (was missing; required for worktree create)
+- **eve-agents** added to Orca: `id:abae462e-a9be-48e9-bd5f-143a1a649779` (was missing; required for worktree create)

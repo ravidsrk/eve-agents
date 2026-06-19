@@ -1,13 +1,13 @@
-# Eve Exploration — Unified Agent Catalog
+# Eve Agents — Unified Index
 
-One catalog, four layers. Every agent in this repo is listed here with its role, path, and relationships.
+One library, four layers. Every agent in this repo is listed here with its role, path, and relationships. Folder paths (`agents/catalog/`, etc.) are unchanged — layer names below are how we describe them in docs.
 
 | Layer | Count | Path | Purpose |
 | --- | ---: | --- | --- |
-| **Reference** | 10 | [`agents/reference/`](agents/reference/) | Ported [vercel/eve](https://github.com/vercel/eve) e2e fixtures — framework primitives with evals |
-| **Catalog** | 50 | [`agents/catalog/`](agents/catalog/) | Real-world job templates — dossiers, playbooks, shared tools, live evidence |
-| **Production** | 10 | [`agents/production/`](agents/production/) | Monid-integrated deep agents — custom domain tools, live-verified |
-| **Integrations** | 5 | [`agents/integrations/`](agents/integrations/) | Eve primitive proofs — HITL, Slack, durability, swarm |
+| **Framework reference** | 10 | [`agents/reference/`](agents/reference/) | Ported [vercel/eve](https://github.com/vercel/eve) e2e fixtures — framework primitives with evals |
+| **Templates** | 50 | [`agents/catalog/`](agents/catalog/) | Real-world job templates — dossiers, playbooks, shared tools, live evidence |
+| **Depth examples** | 10 | [`agents/production/`](agents/production/) | Monid-integrated agents — custom domain tools, live-verified |
+| **Primitive proofs** | 5 | [`agents/integrations/`](agents/integrations/) | Eve primitive proofs — HITL, Slack, durability, swarm |
 
 **Total: 75 agents** (50 + 10 + 10 + 5). Machine-readable index: `npm run catalog:list`.
 
@@ -17,23 +17,23 @@ One catalog, four layers. Every agent in this repo is listed here with its role,
 
 ```text
                     ┌─────────────────────────────────────┐
-                    │        Reference (Layer R)           │
+                    │     Framework reference (Layer R)    │
                     │  vercel/eve fixtures + strict evals │
                     └─────────────────┬───────────────────┘
                                       │ port patterns
           ┌───────────────────────────┼───────────────────────────┐
           ▼                           ▼                           ▼
 ┌──────────────────┐      ┌──────────────────────┐      ┌─────────────────────┐
-│ Catalog A01–A50  │      │ Production P01–P10   │      │ Integrations (5)    │
+│ Templates A01–50 │      │ Depth examples P01–10│      │ Primitive proofs (5)│
 │ broad coverage   │◄────►│ Monid depth on picks │      │ integration proofs  │
 │ agent-kit tools  │ pairs│ custom tools + APIs  │      │ harnesses + fixtures│
 └──────────────────┘      └──────────────────────┘      └─────────────────────┘
 ```
 
-- **Start with reference** when learning eve primitives or running `eve eval --strict`.
-- **Browse catalog (A01–A50)** for real-world job coverage and copy-paste starters.
-- **Use production (P01–P10)** when you need live Monid tools and domain-specific implementations.
-- **Open integrations (5)** only for eve primitives not in reference: HITL harness, Slack, durable resume, swarm.
+- **Start with framework reference** when learning eve primitives or running `eve eval --strict`.
+- **Browse templates (A01–A50)** for real-world job coverage and copy-paste starters.
+- **Use depth examples (P01–P10)** when you need live Monid tools and domain-specific implementations.
+- **Open primitive proofs (5)** for eve primitives not in reference: HITL harness, Slack, durable resume, swarm.
 
 Full matrix for A01–A50: [AGENT_MATRIX.md](AGENT_MATRIX.md).
 
@@ -41,7 +41,7 @@ Full matrix for A01–A50: [AGENT_MATRIX.md](AGENT_MATRIX.md).
 
 ## Reference (`agents/reference/`)
 
-Ported via `bash scripts/port-eve-fixture.sh <name>`. Model: OpenRouter (`@eve-catalog/openrouter`).
+Ported via `bash scripts/port-eve-fixture.sh <name>`. Model: OpenRouter (`@eve-agents/openrouter`).
 
 | Agent | Upstream fixture | Pattern | Sandbox |
 | --- | --- | --- | --- |
@@ -67,7 +67,7 @@ cd agents/reference/agent-tools && npx eve eval --strict
 
 Generated from [AGENT_MATRIX.md](AGENT_MATRIX.md). Each agent has `agent/`, instructions, playbook skill, dossier + records, SuperServe sandbox, README, dry-run evidence, and a captured live `run.log`.
 
-Shared tools via `@eve-catalog/agent-kit`: `load_dossier`, `search_records`, `analyze_records`, `write_report`, `record_decision`, `fetch_live_json`.
+Shared tools via `@eve-agents/agent-kit`: `load_dossier`, `search_records`, `analyze_records`, `write_report`, `record_decision`, `fetch_live_json`.
 
 ### Deploy tiers (S / A / B)
 
@@ -185,11 +185,11 @@ Five eve primitive proofs. Superseded v1 demos were removed — use `reference/`
 
 | Package | Role |
 | --- | --- |
-| [`@eve-catalog/profile`](packages/profile/) | Dual-track `resolveModel()` / `resolveSandboxDefinition()` (lab vs Vercel) |
-| [`@eve-catalog/openrouter`](packages/openrouter/) | OpenRouter LanguageModel for eve (lazy env auth) |
-| [`@eve-catalog/superserve-backend`](packages/superserve-backend/) | SuperServe SandboxBackend |
-| [`@eve-catalog/monid-tools`](packages/monid-tools/) | Monid HTTP tools + budget guard |
-| [`@eve-catalog/agent-kit`](packages/agent-kit/) | Deterministic tools for catalog agents A01–A50 |
+| [`@eve-agents/profile`](packages/profile/) | Dual-track `resolveModel()` / `resolveSandboxDefinition()` (lab vs Vercel) |
+| [`@eve-agents/openrouter`](packages/openrouter/) | OpenRouter LanguageModel for eve (lazy env auth) |
+| [`@eve-agents/superserve-backend`](packages/superserve-backend/) | SuperServe SandboxBackend |
+| [`@eve-agents/monid-tools`](packages/monid-tools/) | Monid HTTP tools + budget guard |
+| [`@eve-agents/agent-kit`](packages/agent-kit/) | Deterministic tools for catalog agents A01–A50 |
 
 ---
 
@@ -223,7 +223,7 @@ agents/
   reference/          # 10 vercel/eve fixtures
   production/         # 10 Monid deep agents
   integrations/       # 5 eve primitive proofs
-packages/             # @eve-catalog/openrouter, superserve-backend, monid-tools, agent-kit
+packages/             # @eve-agents/openrouter, superserve-backend, monid-tools, agent-kit
 scripts/              # setup, runners, catalog:list
 ```
 

@@ -1,5 +1,5 @@
 import { defineTool } from "eve/tools";
-import { run } from "@eve-catalog/monid-tools";
+import { run } from "@eve-agents/monid-tools";
 import { z } from "zod";
 
 const PROVIDER = "api.strale.io";

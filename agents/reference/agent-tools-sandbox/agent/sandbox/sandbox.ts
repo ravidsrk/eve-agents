@@ -1,5 +1,5 @@
 import { defineSandbox } from "eve/sandbox";
-import { superserveBackend } from "@eve-catalog/superserve-backend";
+import { superserveBackend } from "@eve-agents/superserve-backend";
 
 /**
  * Sandbox lifecycle fixture exercising the surfaces an agent author relies
@@ -15,8 +15,8 @@ import { superserveBackend } from "@eve-catalog/superserve-backend";
  *   so an eval can prove session-scoped setup ran on top of the shared
  *   template.
  *
- * In eve-exploration this fixture runs on SuperServe `python-ml` microVMs
- * (real Python/Node) via `@eve-catalog/superserve-backend`, matching the upstream
+ * In eve-agents this fixture runs on SuperServe `python-ml` microVMs
+ * (real Python/Node) via `@eve-agents/superserve-backend`, matching the upstream
  * intent of exercising a real-binary sandbox environment.
  */
 export const SANDBOX_MARKER_PATH = "/workspace/smoke-marker.txt";
@@ -57,7 +57,7 @@ export default defineSandbox({
   async onSession({ use }) {
     const sandbox = await use();
     // SuperServe lab track does not bake bootstrap into a reusable template snapshot
-    // (see @eve-catalog/superserve-backend). Re-provision bootstrap artifacts each session.
+    // (see @eve-agents/superserve-backend). Re-provision bootstrap artifacts each session.
     await provisionBootstrapArtifacts(sandbox);
     await sandbox.writeTextFile({
       path: SANDBOX_SESSION_MARKER_PATH,

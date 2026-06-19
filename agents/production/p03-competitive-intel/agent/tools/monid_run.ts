@@ -1,1 +1,1 @@
-export { monidRunTool as default } from "@eve-catalog/monid-tools/tools";
+export { monidRunTool as default } from "@eve-agents/monid-tools/tools";

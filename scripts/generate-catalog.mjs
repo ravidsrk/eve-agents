@@ -100,11 +100,11 @@ function packageJson(spec) {
     },
     dependencies: {
       "@ai-sdk/openai-compatible": "3.0.0-beta.57",
-      "@eve-catalog/profile": "*",
-      "@eve-catalog/openrouter": "*",
-      "@eve-catalog/superserve-backend": "*",
-      "@eve-catalog/monid-tools": "*",
-      "@eve-catalog/agent-kit": "*",
+      "@eve-agents/profile": "*",
+      "@eve-agents/openrouter": "*",
+      "@eve-agents/superserve-backend": "*",
+      "@eve-agents/monid-tools": "*",
+      "@eve-agents/agent-kit": "*",
       ai: "7.0.0-beta.178",
       eve: "^0.11.4",
       zod: "4.4.3",
@@ -135,7 +135,7 @@ function tsconfig() {
 
 function agentTs() {
   return `import { defineAgent } from "eve";
-import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-catalog/profile";
+import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-agents/profile";
 
 export default defineAgent({
   model: resolveModel(),
@@ -146,7 +146,7 @@ export default defineAgent({
 
 function eveChannelTs() {
   return `import { eveChannel } from "eve/channels/eve";
-import { catalogRouteAuth } from "@eve-catalog/agent-kit/route-auth";
+import { catalogRouteAuth } from "@eve-agents/agent-kit/route-auth";
 
 export default eveChannel({
   auth: catalogRouteAuth(),
@@ -156,7 +156,7 @@ export default eveChannel({
 
 function sandboxTs() {
   return `import { defineSandbox } from "eve/sandbox";
-import { resolveSandboxDefinition } from "@eve-catalog/profile";
+import { resolveSandboxDefinition } from "@eve-agents/profile";
 
 export default defineSandbox(
   resolveSandboxDefinition({
@@ -253,7 +253,7 @@ export {
   resolveSandboxDefinition,
   resolveSuperserveBackend,
   shouldUseSuperserve,
-} from "@eve-catalog/profile";
+} from "@eve-agents/profile";
 `;
 }
 
@@ -368,8 +368,8 @@ function dossier(spec) {
     ],
     samplePrompt: `Review the current ${title.toLowerCase()} queue and write a prioritized action report.`,
     liveIntegrations: {
-      openrouter: "Model inference through @eve-catalog/openrouter when OPENROUTER_API_KEY is configured.",
-      superserve: "Sandbox execution through @eve-catalog/superserve-backend when SUPERSERVE_API_KEY is configured.",
+      openrouter: "Model inference through @eve-agents/openrouter when OPENROUTER_API_KEY is configured.",
+      superserve: "Sandbox execution through @eve-agents/superserve-backend when SUPERSERVE_API_KEY is configured.",
       monid: "Optional live tool discovery/run when MONID_API_KEY is valid.",
     },
   };
@@ -576,7 +576,7 @@ function writeAgent(spec) {
     fetch_live_json: "fetchLiveJsonTool",
   };
   for (const [file, exportName] of Object.entries(toolMap)) {
-    write(path.join(dir, "agent", "tools", `${file}.ts`), `export { ${exportName} as default } from "@eve-catalog/agent-kit/tools";\n`);
+    write(path.join(dir, "agent", "tools", `${file}.ts`), `export { ${exportName} as default } from "@eve-agents/agent-kit/tools";\n`);
   }
   write(
     path.join(dir, "evals", "evals.config.ts"),

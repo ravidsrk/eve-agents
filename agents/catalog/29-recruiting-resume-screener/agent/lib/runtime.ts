@@ -7,4 +7,4 @@ export {
   resolveSandboxDefinition,
   resolveSuperserveBackend,
   shouldUseSuperserve,
-} from "@eve-catalog/profile";
+} from "@eve-agents/profile";

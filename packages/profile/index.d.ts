@@ -14,7 +14,7 @@ export declare function resolveModel(
 export declare function resolveSuperserveBackend(
   superserveOpts?: Record<string, unknown>,
   env?: NodeJS.ProcessEnv,
-): ReturnType<typeof import("@eve-catalog/superserve-backend").superserveBackend> | undefined;
+): ReturnType<typeof import("@eve-agents/superserve-backend").superserveBackend> | undefined;
 
 export declare function resolveSandboxDefinition(
   options?: { superserve?: Record<string, unknown> },

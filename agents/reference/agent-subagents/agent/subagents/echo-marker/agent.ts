@@ -1,5 +1,5 @@
 import { defineAgent } from "eve";
-import { orModel } from "@eve-catalog/openrouter";
+import { orModel } from "@eve-agents/openrouter";
 
 /**
  * Smoke-test fixture: a leaf subagent whose only purpose is to emit a

@@ -1,1 +1,1 @@
-export { writeReportTool as default } from "@eve-catalog/agent-kit/tools";
+export { writeReportTool as default } from "@eve-agents/agent-kit/tools";

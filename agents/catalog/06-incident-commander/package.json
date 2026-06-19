@@ -20,11 +20,11 @@
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
     "zod": "4.4.3",
-    "@eve-catalog/openrouter": "*",
-    "@eve-catalog/superserve-backend": "*",
-    "@eve-catalog/monid-tools": "*",
-    "@eve-catalog/agent-kit": "*",
-    "@eve-catalog/profile": "*",
+    "@eve-agents/openrouter": "*",
+    "@eve-agents/superserve-backend": "*",
+    "@eve-agents/monid-tools": "*",
+    "@eve-agents/agent-kit": "*",
+    "@eve-agents/profile": "*",
     "@vercel/connect": "^0.2.2"
   },
   "devDependencies": {

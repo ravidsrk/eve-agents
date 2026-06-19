@@ -1,5 +1,5 @@
 import { defineAgent } from "eve";
-import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-catalog/profile";
+import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-agents/profile";
 
 export default defineAgent({
   model: resolveModel(),

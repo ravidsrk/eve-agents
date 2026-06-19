@@ -1,8 +1,8 @@
-# Reference agents
+# Framework reference (`agents/reference/`)
 
 **10 ported [vercel/eve](https://github.com/vercel/eve) e2e fixtures** — authoritative examples of eve primitives with upstream-aligned evals.
 
-Use these to **learn the framework** and validate local parity, not as product templates. For job-shaped agents see [catalog/](../catalog/).
+Use these to **learn the framework** and validate local parity, not as product templates. For job-shaped agents see [templates/](../catalog/).
 
 ## Fixtures
 

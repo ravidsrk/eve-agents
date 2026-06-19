@@ -1,4 +1,4 @@
-// @eve-catalog/monid-tools — client for Monid (https://docs.monid.ai), the agent-native tool router.
+// @eve-agents/monid-tools — client for Monid (https://docs.monid.ai), the agent-native tool router.
 //
 // Monid exposes discover / inspect / run over an HTTP API authenticated with a Bearer key.
 // `discover` and `inspect` are free; `run` is PAID (PER_CALL or PER_RESULT). This client

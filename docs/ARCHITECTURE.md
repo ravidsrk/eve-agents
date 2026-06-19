@@ -1,15 +1,17 @@
 # Architecture
 
-eve-exploration is a Node 24 monorepo: **75 eve agents** plus shared **packages** and **scripts** that wire lab and Vercel runtimes.
+Eve Agents is a Node 24 monorepo: **75 eve agents** plus shared **packages** and **scripts** that wire lab and Vercel runtimes.
 
 ## Layers
 
+Folder paths are stable; doc labels describe each layer's role.
+
 ```text
 agents/
-  catalog/        50 job templates (generated + hand-customized)
-  reference/      10 vercel/eve e2e fixtures
-  production/     10 Monid-integrated deep agents
-  integrations/   5 primitive proofs (HITL, durable, swarm, …)
+  catalog/        Templates — 50 job templates (generated + hand-customized)
+  reference/      Framework reference — 10 vercel/eve e2e fixtures
+  production/     Depth examples — 10 Monid-integrated agents
+  integrations/   Primitive proofs — HITL, durable, swarm, …
 packages/
   profile/        Dual-track model + sandbox resolution
   openrouter/     Lab inference client
@@ -21,18 +23,18 @@ scripts/          Setup, runners, verify, deploy
 
 ## Dual-track runtime
 
-`@eve-catalog/profile` picks the track from environment:
+`@eve-agents/profile` picks the track from environment:
 
 | Track | Trigger | Model | Sandbox |
 | --- | --- | --- | --- |
-| **Lab** | Local dev, CI with keys | OpenRouter via `@eve-catalog/openrouter` | SuperServe via `@eve-catalog/superserve-backend` |
+| **Lab** | Local dev, CI with keys | OpenRouter via `@eve-agents/openrouter` | SuperServe via `@eve-agents/superserve-backend` |
 | **Vercel** | `VERCEL=1` build/deploy | AI Gateway OIDC (`openai/gpt-5.4-mini` default) | eve default (Vercel Sandbox) |
 
-Catalog and production agents call `resolveModel()` and `resolveSandboxDefinition()` from their `agent/agent.ts` and `agent/sandbox/sandbox.ts`.
+Template and depth-example agents call `resolveModel()` and `resolveSandboxDefinition()` from their `agent/agent.ts` and `agent/sandbox/sandbox.ts`.
 
-## Shared tools (`@eve-catalog/agent-kit`)
+## Shared tools (`@eve-agents/agent-kit`)
 
-All catalog agents re-export six tools from `packages/agent-kit/tools.js`:
+All template agents re-export six tools from `packages/agent-kit/tools.js`:
 
 - `load_dossier`, `search_records`, `analyze_records` — read seeded JSON under `agent/data/`
 - `write_report`, `record_decision` — write artifacts (approval-gated for side effects)

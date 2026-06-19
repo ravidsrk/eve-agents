@@ -15,7 +15,7 @@ result narrowing, and tool failure recovery.
 pnpm exec eve eval --strict
 ```
 
-## Ported into eve-exploration
+## Ported into eve-agents
 
 Source: [vercel/eve e2e/fixtures/agent-tools](https://github.com/vercel/eve/tree/main/e2e/fixtures/agent-tools).
-Model provider: OpenRouter via `@eve-catalog/openrouter`. Run from repo root after `bash scripts/setup.sh`.
+Model provider: OpenRouter via `@eve-agents/openrouter`. Run from repo root after `bash scripts/setup.sh`.

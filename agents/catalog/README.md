@@ -1,4 +1,4 @@
-# Catalog agents (Layer A)
+# Templates (`agents/catalog/`)
 
 **50 real-world job templates** — each is a deployable eve agent with seeded data, six shared tools, a playbook skill, and smoke evals.
 
@@ -12,7 +12,7 @@ NN-slug/
     instructions.md
     data/dossier.json
     data/records.json
-    tools/*.ts            re-exports from @eve-catalog/agent-kit
+    tools/*.ts            re-exports from @eve-agents/agent-kit
     sandbox/sandbox.ts    resolveSandboxDefinition()
     skills/operating-playbook/SKILL.md
   evals/

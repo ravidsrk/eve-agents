@@ -54,8 +54,8 @@ for (const dir of dirs) {
 
   const pkg = readJson(path.join(full, "package.json"));
   if (pkg.name !== `arch-${dir}`) fail(`${dir} package name mismatch: ${pkg.name}`);
-  if (!pkg.dependencies?.["@eve-catalog/agent-kit"]) fail(`${dir} missing @eve-catalog/agent-kit dependency`);
-  if (!pkg.dependencies?.["@eve-catalog/profile"]) fail(`${dir} missing @eve-catalog/profile dependency`);
+  if (!pkg.dependencies?.["@eve-agents/agent-kit"]) fail(`${dir} missing @eve-agents/agent-kit dependency`);
+  if (!pkg.dependencies?.["@eve-agents/profile"]) fail(`${dir} missing @eve-agents/profile dependency`);
 
   const dossier = readJson(path.join(full, "agent/data/dossier.json"));
   if (dossier.id !== dir) fail(`${dir} dossier id mismatch: ${dossier.id}`);

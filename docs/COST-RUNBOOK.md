@@ -30,7 +30,7 @@ Ephemeral runners set `EVE_KILL_SANDBOX_ON_DISPOSE=1` to kill VMs after single-s
 
 ## Monid (production agents only)
 
-Catalog agents do **not** call Monid. Production p01–p10 use `@eve-catalog/monid-tools`.
+Catalog agents do **not** call Monid. Production p01–p10 use `@eve-agents/monid-tools`.
 
 | Env | Default | Meaning |
 | --- | --- | --- |

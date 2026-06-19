@@ -1,5 +1,5 @@
 {
-  "name": "@eve-catalog/profile",
+  "name": "@eve-agents/profile",
   "version": "0.0.0",
   "license": "MIT",
   "type": "module",
@@ -14,8 +14,8 @@
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {
-    "@eve-catalog/openrouter": "*",
-    "@eve-catalog/superserve-backend": "*"
+    "@eve-agents/openrouter": "*",
+    "@eve-agents/superserve-backend": "*"
   },
   "peerDependencies": {
     "eve": "^0.11.4"

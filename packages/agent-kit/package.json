@@ -1,5 +1,5 @@
 {
-  "name": "@eve-catalog/agent-kit",
+  "name": "@eve-agents/agent-kit",
   "version": "0.0.0",
   "type": "module",
   "private": true,

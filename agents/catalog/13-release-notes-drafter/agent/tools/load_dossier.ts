@@ -1,1 +1,1 @@
-export { loadDossierTool as default } from "@eve-catalog/agent-kit/tools";
+export { loadDossierTool as default } from "@eve-agents/agent-kit/tools";

@@ -10,7 +10,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const catalogDir = path.join(root, "agents", "catalog");
 
 const AGENT_TS = `import { defineAgent } from "eve";
-import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-catalog/profile";
+import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-agents/profile";
 
 export default defineAgent({
   model: resolveModel(),
@@ -19,7 +19,7 @@ export default defineAgent({
 `;
 
 const SANDBOX_TS = `import { defineSandbox } from "eve/sandbox";
-import { resolveSandboxDefinition } from "@eve-catalog/profile";
+import { resolveSandboxDefinition } from "@eve-agents/profile";
 
 export default defineSandbox(
   resolveSandboxDefinition({
@@ -40,18 +40,18 @@ export {
   resolveSandboxDefinition,
   resolveSuperserveBackend,
   shouldUseSuperserve,
-} from "@eve-catalog/profile";
+} from "@eve-agents/profile";
 `;
 
 function updatePackageJson(file) {
   const pkg = JSON.parse(readFileSync(file, "utf8"));
   let changed = false;
   const map = {
-    "@eve-catalog/openrouter": "@eve-catalog/openrouter",
-    "@eve-catalog/superserve-backend": "@eve-catalog/superserve-backend",
-    "@eve-catalog/monid-tools": "@eve-catalog/monid-tools",
-    "@eve-catalog/agent-kit": "@eve-catalog/agent-kit",
-    "@eve-catalog/profile": "@eve-catalog/profile",
+    "@eve-agents/openrouter": "@eve-agents/openrouter",
+    "@eve-agents/superserve-backend": "@eve-agents/superserve-backend",
+    "@eve-agents/monid-tools": "@eve-agents/monid-tools",
+    "@eve-agents/agent-kit": "@eve-agents/agent-kit",
+    "@eve-agents/profile": "@eve-agents/profile",
   };
   if (pkg.dependencies) {
     for (const [oldName, newName] of Object.entries(map)) {
@@ -61,8 +61,8 @@ function updatePackageJson(file) {
         changed = true;
       }
     }
-    if (!pkg.dependencies["@eve-catalog/profile"]) {
-      pkg.dependencies["@eve-catalog/profile"] = "*";
+    if (!pkg.dependencies["@eve-agents/profile"]) {
+      pkg.dependencies["@eve-agents/profile"] = "*";
       changed = true;
     }
   }
@@ -82,8 +82,8 @@ function updateToolImports(dir) {
     if (!file.endsWith(".ts")) continue;
     const full = path.join(toolsDir, file);
     const text = readFileSync(full, "utf8");
-    if (!text.includes("@eve-catalog/agent-kit")) continue;
-    writeFileSync(full, text.replaceAll("@eve-catalog/agent-kit", "@eve-catalog/agent-kit"));
+    if (!text.includes("@eve-agents/agent-kit")) continue;
+    writeFileSync(full, text.replaceAll("@eve-agents/agent-kit", "@eve-agents/agent-kit"));
     n += 1;
   }
   return n;

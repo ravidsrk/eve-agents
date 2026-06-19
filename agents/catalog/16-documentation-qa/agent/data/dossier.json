@@ -23,8 +23,8 @@
   ],
   "samplePrompt": "Review the current documentation qa queue and write a prioritized action report.",
   "liveIntegrations": {
-    "openrouter": "Model inference through @eve-catalog/openrouter when OPENROUTER_API_KEY is configured.",
-    "superserve": "Sandbox execution through @eve-catalog/superserve-backend when SUPERSERVE_API_KEY is configured.",
+    "openrouter": "Model inference through @eve-agents/openrouter when OPENROUTER_API_KEY is configured.",
+    "superserve": "Sandbox execution through @eve-agents/superserve-backend when SUPERSERVE_API_KEY is configured.",
     "monid": "Optional live tool discovery/run when MONID_API_KEY is valid."
   }
 }

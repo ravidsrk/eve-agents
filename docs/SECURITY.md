@@ -20,7 +20,7 @@ chmod 600 .secrets/eve.env
 
 ## Route authentication
 
-`routeAuth()` in `@eve-catalog/agent-kit/route-auth` composes:
+`routeAuth()` in `@eve-agents/agent-kit/route-auth` composes:
 
 1. `localDev()` — loopback access in dev
 2. `vercelOidc()` — Vercel deployment identity

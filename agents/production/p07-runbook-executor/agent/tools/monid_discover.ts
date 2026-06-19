@@ -1,1 +1,1 @@
-export { monidDiscoverTool as default } from "@eve-catalog/monid-tools/tools";
+export { monidDiscoverTool as default } from "@eve-agents/monid-tools/tools";

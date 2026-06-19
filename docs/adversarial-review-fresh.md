@@ -183,11 +183,11 @@ Tag: CODE.
 
 ### COUP-002 (P3): scaffold template has drifted from the actual production pattern
 
-Evidence: `scripts/scaffold-production-agent.sh:73-81` scaffolds `agent.ts` with `orModel()` (lab-only, OpenRouter) and its `package.json` (`:38-46`) omits `@eve-catalog/profile`. The real production agents use the dual-track resolver: `agents/production/p06-sql-analyst/agent/agent.ts:2,5` imports `resolveModel` from `@eve-catalog/profile` and lists it as a dependency (`p06.../package.json:21`). New scaffolds are therefore Vercel-incapable by default and inconsistent with shipped agents.
+Evidence: `scripts/scaffold-production-agent.sh:73-81` scaffolds `agent.ts` with `orModel()` (lab-only, OpenRouter) and its `package.json` (`:38-46`) omits `@eve-agents/profile`. The real production agents use the dual-track resolver: `agents/production/p06-sql-analyst/agent/agent.ts:2,5` imports `resolveModel` from `@eve-agents/profile` and lists it as a dependency (`p06.../package.json:21`). New scaffolds are therefore Vercel-incapable by default and inconsistent with shipped agents.
 
-Fix: update the scaffold heredocs to emit `resolveModel()` from `@eve-catalog/profile` and add the dependency, matching `p06`.
+Fix: update the scaffold heredocs to emit `resolveModel()` from `@eve-agents/profile` and add the dependency, matching `p06`.
 
-Acceptance: a freshly scaffolded agent passes `verify-runtime`-style checks (uses `resolveModel`, depends on `@eve-catalog/profile`) and builds with `VERCEL=1`.
+Acceptance: a freshly scaffolded agent passes `verify-runtime`-style checks (uses `resolveModel`, depends on `@eve-agents/profile`) and builds with `VERCEL=1`.
 
 Tag: CODE.
 
@@ -281,7 +281,7 @@ Files touched by more than one finding; coordinate edits to avoid churn and merg
 | `.github/workflows/ci.yml`                                        | OPS-001, DEP-001, SEC-003 (accept)| Add gitleaks + toolchain-resolvability + prod-auth smoke jobs            |
 | `.gitignore` + bulk `git rm --cached`                             | DATA-001                          | Untrack logs/evidence in one commit                                      |
 | `packages/agent-kit/route-auth.js`                                | SEC-001, SEC-003                  | Rename `catalogRouteAuth` to neutral `routeAuth`; reuse for webhook+prod |
-| `scripts/scaffold-production-agent.sh`                            | SEC-003, COUP-002                 | Emit `resolveModel` + `@eve-catalog/profile` + `channels/eve.ts`         |
+| `scripts/scaffold-production-agent.sh`                            | SEC-003, COUP-002                 | Emit `resolveModel` + `@eve-agents/profile` + `channels/eve.ts`         |
 | `agents/catalog/06-incident-commander/agent/channels/alert.ts`    | SEC-001                           | Add secret check before `send()`                                         |
 
 ## Validated strengths (do not touch)

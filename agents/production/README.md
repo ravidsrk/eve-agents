@@ -1,10 +1,10 @@
-# Production agents (Layer P)
+# Depth examples (`agents/production/`)
 
-Ten **Monid-integrated deep agents** with custom domain tools. Each pairs with catalog agents in [AGENT_CATALOG.md](../../AGENT_CATALOG.md) but adds live external APIs and specialized logic.
+Ten **Monid-integrated agents** with custom domain tools. Each pairs with template agents in [AGENT_CATALOG.md](../../AGENT_CATALOG.md) but adds live external APIs and specialized logic.
 
 ## Agents
 
-| Agent | Port | Catalog peers | Focus |
+| Agent | Port | Template peers | Focus |
 | --- | ---: | --- | --- |
 | [p01-incident-triage](p01-incident-triage/) | 3301 | A06 | Log parse, error explain, postmortem |
 | [p02-pr-review](p02-pr-review/) | 3302 | A11, A12 | Repo analysis, code review, PR text |
@@ -19,9 +19,9 @@ Ten **Monid-integrated deep agents** with custom domain tools. Each pairs with c
 
 ## Runtime
 
-- **Model:** `resolveModel()` from `@eve-catalog/profile` (same dual-track as catalog)
+- **Model:** `resolveModel()` from `@eve-agents/profile` (same dual-track as catalog)
 - **Auth:** each agent ships `agent/channels/eve.ts` with `routeAuth()`
-- **Monid:** custom tools call `@eve-catalog/monid-tools` when `MONID_API_KEY` is set
+- **Monid:** custom tools call `@eve-agents/monid-tools` when `MONID_API_KEY` is set
 
 Budget defaults: `MONID_BUDGET_USD=5`, `MONID_MAX_CALL_USD=0.25`. See [docs/COST-RUNBOOK.md](../../docs/COST-RUNBOOK.md).
 
@@ -47,4 +47,4 @@ cd agents/production/p01-incident-triage && npx eve dev --no-ui --port 3301
 bash scripts/scaffold-production-agent.sh p11-my-agent "My Agent" 3311
 ```
 
-Scaffold emits `resolveModel`, `@eve-catalog/profile`, and `agent/channels/eve.ts`.
+Scaffold emits `resolveModel`, `@eve-agents/profile`, and `agent/channels/eve.ts`.

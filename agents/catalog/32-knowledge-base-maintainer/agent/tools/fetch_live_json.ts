@@ -1,1 +1,1 @@
-export { fetchLiveJsonTool as default } from "@eve-catalog/agent-kit/tools";
+export { fetchLiveJsonTool as default } from "@eve-agents/agent-kit/tools";

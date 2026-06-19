@@ -1,6 +1,6 @@
 # Documentation
 
-Guides for developing, deploying, and operating the eve-exploration catalog.
+Guides for developing, deploying, and operating the Eve Agents library.
 
 ## Getting started
 
@@ -25,10 +25,10 @@ Guides for developing, deploying, and operating the eve-exploration catalog.
 
 | Path | Doc |
 | --- | --- |
-| Catalog (50 job templates) | [../agents/catalog/README.md](../agents/catalog/README.md) |
-| Reference (10 eve fixtures) | [../agents/reference/README.md](../agents/reference/README.md) |
-| Production (10 deep agents) | [../agents/production/README.md](../agents/production/README.md) |
-| Integrations (5 primitives) | [../agents/integrations/README.md](../agents/integrations/README.md) |
+| Templates — `agents/catalog/` (50) | [../agents/catalog/README.md](../agents/catalog/README.md) |
+| Framework reference — `agents/reference/` (10) | [../agents/reference/README.md](../agents/reference/README.md) |
+| Depth examples — `agents/production/` (10) | [../agents/production/README.md](../agents/production/README.md) |
+| Primitive proofs — `agents/integrations/` (5) | [../agents/integrations/README.md](../agents/integrations/README.md) |
 | Shared packages | [../packages/README.md](../packages/README.md) |
 
 ## Indexes and planning

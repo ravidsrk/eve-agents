@@ -1,6 +1,6 @@
-# eve-exploration Roadmap
+# Eve Agents Roadmap
 
-Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wiring** into **the public Vercel eve agent catalog**.
+Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wiring** into **the public Eve Agents library for Vercel eve**.
 
 **Status:** Phases 0–5 complete · Phase 6 operational docs shipped · **Last updated:** 2026-06-19
 
@@ -33,9 +33,9 @@ Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wir
 
 ## Phase 0 — Foundation ✅
 
-- [x] `@eve-catalog/profile` — `resolveModel()` / `resolveSandbox()`
+- [x] `@eve-agents/profile` — `resolveModel()` / `resolveSandbox()`
 - [x] Dual-track on 50 catalog agents
-- [x] `docs/DEPLOY.md`, `@eve-catalog/*` packages
+- [x] `docs/DEPLOY.md`, `@eve-agents/*` packages
 - [x] `npm test` passes on CI
 
 ---
@@ -82,7 +82,7 @@ Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wir
 ## Phase 5 — Production layer & catalog scale ✅
 
 - [x] 50/50 catalog agents ≥1 eval (64 files)
-- [x] P01–P10 dual-track via `@eve-catalog/profile`
+- [x] P01–P10 dual-track via `@eve-agents/profile`
 - [x] `npm run smoke:production:build`
 - [x] `AGENT_CATALOG.md` deploy tiers (S/A/B)
 - [x] `CONTRIBUTING.md`, README 5-minute deploy

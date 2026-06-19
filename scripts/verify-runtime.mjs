@@ -11,9 +11,9 @@ function fail(message) {
 }
 
 const requiredSnippets = {
-  "agent/agent.ts": ["resolveModel", "@eve-catalog/profile"],
-  "agent/sandbox/sandbox.ts": ["resolveSandboxDefinition", "@eve-catalog/profile"],
-  "agent/lib/runtime.ts": ["@eve-catalog/profile"],
+  "agent/agent.ts": ["resolveModel", "@eve-agents/profile"],
+  "agent/sandbox/sandbox.ts": ["resolveSandboxDefinition", "@eve-agents/profile"],
+  "agent/lib/runtime.ts": ["@eve-agents/profile"],
 };
 
 const dirs = readdirSync(catalogDir, { withFileTypes: true })
@@ -35,15 +35,15 @@ for (const dir of dirs) {
   }
 
   const pkg = JSON.parse(readFileSync(path.join(full, "package.json"), "utf8"));
-  if (!pkg.dependencies?.["@eve-catalog/profile"]) {
-    fail(`${dir} missing @eve-catalog/profile dependency`);
+  if (!pkg.dependencies?.["@eve-agents/profile"]) {
+    fail(`${dir} missing @eve-agents/profile dependency`);
   }
   if (pkg.dependencies?.["@lab/openrouter"] || pkg.dependencies?.["@lab/profile"]) {
     fail(`${dir} still depends on legacy @lab/* package`);
   }
   const agentTs = readFileSync(path.join(full, "agent", "agent.ts"), "utf8");
-  if (agentTs.includes("orModel(") || agentTs.includes("@eve-catalog/openrouter")) {
-    fail(`${dir} agent.ts must use resolveModel from @eve-catalog/profile only`);
+  if (agentTs.includes("orModel(") || agentTs.includes("@eve-agents/openrouter")) {
+    fail(`${dir} agent.ts must use resolveModel from @eve-agents/profile only`);
   }
 }
 

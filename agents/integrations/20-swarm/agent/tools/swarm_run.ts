@@ -1,1 +1,1 @@
-export { swarmRunTool as default } from "@eve-catalog/agent-kit/tools";
+export { swarmRunTool as default } from "@eve-agents/agent-kit/tools";

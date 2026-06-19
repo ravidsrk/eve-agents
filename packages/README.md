@@ -1,19 +1,19 @@
-# Shared packages (`@eve-catalog/*`)
+# Shared packages (`@eve-agents/*`)
 
-Workspace libraries used by catalog, production, reference, and integration agents. Not published to npm — consumed via monorepo `workspaces`.
+Workspace libraries used by templates, depth examples, framework reference, and primitive-proof agents. Not published to npm — consumed via monorepo `workspaces`.
 
 | Package | Path | Role |
 | --- | --- | --- |
 | **profile** | [profile/](profile/) | `resolveModel()`, `resolveSandboxDefinition()` — dual-track lab vs Vercel |
 | **openrouter** | [openrouter/](openrouter/) | OpenRouter language model client + env loading |
 | **superserve-backend** | [superserve-backend/](superserve-backend/) | SuperServe sandbox backend for lab track |
-| **agent-kit** | [agent-kit/](agent-kit/) | Catalog tools (`load_dossier`, …) + `routeAuth()` |
+| **agent-kit** | [agent-kit/](agent-kit/) | Template tools (`load_dossier`, …) + `routeAuth()` |
 | **monid-tools** | [monid-tools/](monid-tools/) | Budget-capped Monid discover/inspect/run client |
 
 ## profile
 
 ```js
-import { resolveModel, resolveSandboxDefinition } from "@eve-catalog/profile";
+import { resolveModel, resolveSandboxDefinition } from "@eve-agents/profile";
 
 export default defineAgent({
   model: resolveModel({ labModel: "openai/gpt-oss-120b" }),
@@ -31,14 +31,14 @@ Ephemeral run scripts set `EVE_KILL_SANDBOX_ON_DISPOSE=1` so harness VMs are kil
 
 ## agent-kit
 
-Re-exported by every catalog agent's `agent/tools/*.ts`. Key behaviors:
+Re-exported by every template agent's `agent/tools/*.ts`. Key behaviors:
 
 - **Reads** resolve `EVE_APP_ROOT` or walk up to the agent package
 - **Writes** use `artifactsRoot()` (`EVE_ARTIFACTS_DIR` or tmpdir on Vercel)
 - **`fetch_live_json`** off unless `ALLOW_EXTERNAL_FETCH=1`; then HTTPS + `FETCH_ALLOW_HOSTS` allowlist
 
 ```js
-import { routeAuth } from "@eve-catalog/agent-kit/route-auth";
+import { routeAuth } from "@eve-agents/agent-kit/route-auth";
 // catalogRouteAuth() is a deprecated alias
 ```
 
@@ -57,9 +57,9 @@ Used by production agents p01–p10 for paid external tool calls.
 ## Tests
 
 ```bash
-npm run test -w @eve-catalog/profile
-npm run test -w @eve-catalog/agent-kit
-npm run test -w @eve-catalog/monid-tools
+npm run test -w @eve-agents/profile
+npm run test -w @eve-agents/agent-kit
+npm run test -w @eve-agents/monid-tools
 ```
 
 All are included in `npm run test:structure` via `scripts/test-all.mjs`.

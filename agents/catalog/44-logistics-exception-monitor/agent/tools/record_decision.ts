@@ -1,1 +1,1 @@
-export { recordDecisionTool as default } from "@eve-catalog/agent-kit/tools";
+export { recordDecisionTool as default } from "@eve-agents/agent-kit/tools";

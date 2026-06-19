@@ -1,10 +1,10 @@
-// @eve-catalog/profile — dual-track model and sandbox resolution for catalog agents.
+// @eve-agents/profile — dual-track model and sandbox resolution for catalog agents.
 //
 // Track A (lab): OpenRouter + SuperServe when keys are present.
 // Track B (Vercel): AI Gateway model strings + defaultBackend() / vercel() sandbox.
 
-import { orModel } from "@eve-catalog/openrouter";
-import { superserveBackend } from "@eve-catalog/superserve-backend";
+import { orModel } from "@eve-agents/openrouter";
+import { superserveBackend } from "@eve-agents/superserve-backend";
 
 /** True when running on a Vercel deployment (build or runtime). */
 export function isVercelRuntime(env = process.env) {
@@ -26,7 +26,7 @@ export const DEFAULT_VERCEL_MODEL = "openai/gpt-5.4-mini";
 /**
  * Model for defineAgent({ model }).
  * - On Vercel: provider/model string → AI Gateway + OIDC.
- * - Locally: OpenRouter LanguageModel via @eve-catalog/openrouter.
+ * - Locally: OpenRouter LanguageModel via @eve-agents/openrouter.
  *
  * @param {object} [options]
  * @param {string} [options.vercelModel]

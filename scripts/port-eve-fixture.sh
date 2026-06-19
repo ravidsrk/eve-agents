@@ -52,9 +52,9 @@ j.name='official-${NAME}';
 j.imports={ '#*':'./agent/*', '#evals/*':'./evals/*' };
 j.dependencies={
   '@ai-sdk/openai-compatible':'3.0.0-beta.57',
-  '@eve-catalog/openrouter':'*',
-  '@eve-catalog/superserve-backend':'*',
-  '@eve-catalog/monid-tools':'*',
+  '@eve-agents/openrouter':'*',
+  '@eve-agents/superserve-backend':'*',
+  '@eve-agents/monid-tools':'*',
   'ai':'7.0.0-beta.178',
   'eve':'^0.11.4',
   'zod':'4.4.3',
@@ -77,7 +77,7 @@ if [ -f "$AGENT_TS" ]; then
   if [ "$NAME" = "agent-basic-runtime" ]; then
     cat > "$AGENT_TS" << 'AGENTEOF'
 import { defineAgent } from "eve";
-import { MODELS, orModel } from "@eve-catalog/openrouter";
+import { MODELS, orModel } from "@eve-agents/openrouter";
 
 // Ported from vercel/eve e2e/fixtures — model swapped to OpenRouter.
 // Vision model required for runtime/image-attachment eval.
@@ -89,7 +89,7 @@ AGENTEOF
   else
     cat > "$AGENT_TS" << 'AGENTEOF'
 import { defineAgent } from "eve";
-import { orModel } from "@eve-catalog/openrouter";
+import { orModel } from "@eve-agents/openrouter";
 
 // Ported from vercel/eve e2e/fixtures — model swapped to OpenRouter.
 // Upstream: https://github.com/vercel/eve/tree/main/e2e/fixtures
@@ -105,10 +105,10 @@ fi
 if [ -f "$DEST/README.md" ]; then
   {
     echo ""
-    echo "## Ported into eve-exploration"
+    echo "## Ported into eve-agents"
     echo ""
     echo "Source: [vercel/eve e2e/fixtures/$NAME](https://github.com/vercel/eve/tree/main/e2e/fixtures/$NAME)."
-    echo "Model provider: OpenRouter via \`@eve-catalog/openrouter\`. Run from repo root after \`bash scripts/setup.sh\`."
+    echo "Model provider: OpenRouter via \`@eve-agents/openrouter\`. Run from repo root after \`bash scripts/setup.sh\`."
   } >> "$DEST/README.md"
 fi
 

@@ -1,17 +1,17 @@
 {
-  "name": "eve-exploration",
+  "name": "eve-agents",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "type": "module",
-  "description": "Public catalog of real-world Vercel eve agents.",
+  "description": "50 job templates plus framework reference, depth examples, and integration proofs for Vercel eve.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ravidsrk/eve-exploration.git"
+    "url": "https://github.com/ravidsrk/eve-agents.git"
   },
-  "homepage": "https://github.com/ravidsrk/eve-exploration",
+  "homepage": "https://github.com/ravidsrk/eve-agents",
   "bugs": {
-    "url": "https://github.com/ravidsrk/eve-exploration/issues"
+    "url": "https://github.com/ravidsrk/eve-agents/issues"
   },
   "workspaces": [
     "packages/*",
@@ -41,8 +41,8 @@
     "eval:deployed:flagship": "bash scripts/eval-deployed-flagship.sh",
     "eval:catalog:rotate": "node scripts/eval-catalog-rotate.mjs",
     "smoke:production:build": "bash scripts/smoke-production-all.sh",
-    "test:profile": "npm run test -w @eve-catalog/profile",
-    "test:monid-tools": "npm run test -w @eve-catalog/monid-tools",
+    "test:profile": "npm run test -w @eve-agents/profile",
+    "test:monid-tools": "npm run test -w @eve-agents/monid-tools",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test:all",
     "test:all": "node scripts/test-all.mjs",

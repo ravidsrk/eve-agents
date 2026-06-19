@@ -1,4 +1,4 @@
-# Contributing to eve-exploration
+# Contributing to Eve Agents
 
 ## Setup
 
@@ -13,7 +13,7 @@ Secrets stay in **`.secrets/eve.env`** at the repo root. Do not copy keys into p
 
 1. Add a row to [AGENT_MATRIX.md](AGENT_MATRIX.md).
 2. Run `npm run generate:catalog` (copies template from `scripts/generate-catalog.mjs`).
-3. Ensure `agent/channels/eve.ts` uses `routeAuth()` from `@eve-catalog/agent-kit/route-auth`.
+3. Ensure `agent/channels/eve.ts` uses `routeAuth()` from `@eve-agents/agent-kit/route-auth`.
 4. Add evals: `evals/smoke-dossier.eval.ts` + `evals/evals.config.ts` (or `npm run scaffold:evals`).
 5. Verify: `npm run verify:catalog && npm run verify:evals`.
 
@@ -31,7 +31,7 @@ agents/catalog/NN-slug/.generated=false
 
 ## Dual-track runtime
 
-All catalog agents use `@eve-catalog/profile`:
+All catalog agents use `@eve-agents/profile`:
 
 | Track | Env signal | Model | Sandbox |
 | --- | --- | --- | --- |

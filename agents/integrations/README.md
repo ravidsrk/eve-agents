@@ -1,6 +1,6 @@
-# Integration agents
+# Primitive proofs (`agents/integrations/`)
 
-Five **eve primitive proofs** that are not covered by a single reference fixture or catalog job. For framework examples use [reference/](../reference/); for job templates use [catalog/](../catalog/).
+Five **eve primitive proofs** that are not covered by a single reference fixture or template job. For framework examples use [reference/](../reference/); for job templates use [catalog/](../catalog/).
 
 | Agent | Primitive | Verify |
 | --- | --- | --- |

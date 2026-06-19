@@ -1,13 +1,13 @@
-# eve-exploration
+# Eve Agents
 
-Public catalog of **[Vercel eve](https://vercel.com/docs/eve) agents** — 75 working agents you can run locally, eval, and deploy.
+Community library of **[Vercel eve](https://vercel.com/docs/eve) agents** — 50 job templates plus framework reference, depth examples, and integration proofs. Run locally, eval, and deploy.
 
 | Layer | Path | Count | What |
 | --- | --- | ---: | --- |
-| **Catalog** | [`agents/catalog/`](agents/catalog/) | 50 | Real-world job templates |
-| **Reference** | [`agents/reference/`](agents/reference/) | 10 | Ported vercel/eve e2e fixtures + evals |
-| **Production** | [`agents/production/`](agents/production/) | 10 | Deep agents with custom tools + Monid |
-| **Integrations** | [`agents/integrations/`](agents/integrations/) | 5 | Eve primitive proofs (HITL, Slack, durability, swarm) |
+| **Templates** | [`agents/catalog/`](agents/catalog/) | 50 | Real-world job templates |
+| **Framework reference** | [`agents/reference/`](agents/reference/) | 10 | Ported vercel/eve e2e fixtures + evals |
+| **Depth examples** | [`agents/production/`](agents/production/) | 10 | Custom tools + Monid on selected jobs |
+| **Primitive proofs** | [`agents/integrations/`](agents/integrations/) | 5 | HITL, Slack, durability, swarm |
 
 **Docs hub:** [docs/README.md](docs/README.md) · **Index:** [AGENT_CATALOG.md](AGENT_CATALOG.md) · **Plan:** [ROADMAP.md](ROADMAP.md)
 
@@ -19,7 +19,7 @@ Public catalog of **[Vercel eve](https://vercel.com/docs/eve) agents** — 75 wo
 bash scripts/setup.sh          # npm ci + create .secrets/eve.env if missing
 npm run test:structure         # keyless structure gate (~10s)
 
-# Run the flagship catalog agent locally
+# Run the flagship template agent locally
 bash scripts/run-catalog-agent.sh agents/catalog/06-incident-commander 3206 \
   "Load the dossier, analyze records, and write a prioritized action report."
 
@@ -35,7 +35,7 @@ Keys live in **one file**: `.secrets/eve.env` at the repo root (not copied into 
 | --- | --- |
 | `OPENROUTER_API_KEY` | Lab inference (`eve dev`, `eve eval`) |
 | `SUPERSERVE_API_KEY` | Lab sandboxes (optional locally) |
-| `MONID_API_KEY` | Production agents p01–p10 only |
+| `MONID_API_KEY` | Depth example agents p01–p10 only |
 | `VERCEL_TOKEN` | `npm run deploy:*` scripts (optional) |
 
 See [docs/SECURITY.md](docs/SECURITY.md) for deploy auth and webhook secrets.
@@ -47,7 +47,7 @@ See [docs/SECURITY.md](docs/SECURITY.md) for deploy auth and webhook secrets.
 | **Lab** | Local dev, CI with keys | OpenRouter | SuperServe (when keyed) |
 | **Vercel** | `npm run deploy:flagship` | AI Gateway + OIDC | Vercel Sandbox |
 
-Resolution is automatic via `@eve-catalog/profile` — see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Resolution is automatic via `@eve-agents/profile` — see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Deploy flagship (5 minutes)
 
@@ -71,11 +71,11 @@ npm run smoke:deployed -- https://eve-incident-commander.vercel.app agents/catal
 ## Repository layout
 
 ```text
-agents/           catalog, reference, production, integrations
-packages/         @eve-catalog/* shared libraries
+agents/           templates, reference, depth examples, integrations
+packages/         @eve-agents/* shared libraries
 scripts/          setup, runners, verify, deploy
 docs/             deploy, security, architecture, runbooks
-AGENT_CATALOG.md  Full agent index with tiers and ports
+AGENT_CATALOG.md  Full agent index with tiers and ports (folder paths unchanged)
 ```
 
 ## Commands

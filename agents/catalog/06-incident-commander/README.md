@@ -39,7 +39,7 @@ Set on the Vercel project:
 - `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` — HTTP session access
 - `ALERT_WEBHOOK_SECRET` — required for `POST /incident` (returns `401` without correct header)
 
-On Vercel, inference uses AI Gateway OIDC (`@eve-catalog/profile`); no OpenRouter or SuperServe keys.
+On Vercel, inference uses AI Gateway OIDC (`@eve-agents/profile`); no OpenRouter or SuperServe keys.
 
 See [docs/DEPLOY.md](../../../docs/DEPLOY.md), [docs/CONNECT.md](../../../docs/CONNECT.md), [docs/SECURITY.md](../../../docs/SECURITY.md).
 

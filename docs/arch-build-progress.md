@@ -4,7 +4,7 @@
 VERIFY
 
 ## RUN META
-- REPO_ROOT: `/Users/ravindra/projects/eve-exploration`
+- REPO_ROOT: `/Users/ravindra/projects/eve-agents`
 - BASE: `ravidsrk/adversarial-fresh`
 - MAINTAINER: Ravindra Kumar `<ravidsrk@gmail.com>`
 - Review frozen: 500c5c2 (skeptic e8c1bd9)

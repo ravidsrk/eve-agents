@@ -1,4 +1,4 @@
-// @eve-catalog/openrouter — OpenRouter as an eve model provider.
+// @eve-agents/openrouter — OpenRouter as an eve model provider.
 //
 // eve's `defineAgent({ model })` accepts a provider-authored AI-SDK LanguageModel.
 // eve pins ai@7.0.0-beta.178 (AI SDK v7 beta, provider spec v4). The OpenRouter-branded
@@ -43,7 +43,7 @@ function openRouterFetch(opts = {}) {
     }
     const headers = new Headers(init.headers);
     headers.set("Authorization", `Bearer ${apiKey}`);
-    headers.set("HTTP-Referer", "https://github.com/ravidsrk/eve-exploration");
+    headers.set("HTTP-Referer", "https://github.com/ravidsrk/eve-agents");
     headers.set("X-Title", "lab");
     return baseFetch(url, { ...init, headers });
   };
@@ -59,7 +59,7 @@ export function createLabOpenRouter(opts = {}) {
     baseURL: "https://openrouter.ai/api/v1",
     fetch: openRouterFetch(opts),
     headers: {
-      "HTTP-Referer": "https://github.com/ravidsrk/eve-exploration",
+      "HTTP-Referer": "https://github.com/ravidsrk/eve-agents",
       "X-Title": "lab",
       ...(opts.headers || {}),
     },

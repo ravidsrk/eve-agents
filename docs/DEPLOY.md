@@ -1,6 +1,6 @@
 # Deploy an eve catalog agent on Vercel
 
-Deploy prebuilt eve agents from this monorepo. Workspace packages (`@eve-catalog/*`) are **not on npm** — you build locally, then upload the build output.
+Deploy prebuilt eve agents from this monorepo. Workspace packages (`@eve-agents/*`) are **not on npm** — you build locally, then upload the build output.
 
 ## Prerequisites
 

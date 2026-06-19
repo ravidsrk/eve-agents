@@ -28,7 +28,7 @@ function loadSecretsEnv() {
 
 loadSecretsEnv();
 
-const { run, amountSpent } = await import("@eve-catalog/monid-tools");
+const { run, amountSpent } = await import("@eve-agents/monid-tools");
 
 let pass = 0;
 let fail = 0;

@@ -16,6 +16,11 @@ Verification honesty: `eve` is not installed in this worktree (`node_modules/eve
 
 Each finding lists: ID, severity, problem with evidence, fix naming an in-tree primitive, acceptance criterion (a test or smoke that proves the fix), and a CODE vs CODE+OPS tag (CODE = code change alone closes it; CODE+OPS = code plus an operational/config/process change).
 
+## Skeptic verdict
+
+- CONFIRMED: SEC-001 (narrowed to the repo's channel source and smoke/eval harness evidence; no live preview curl or eve runtime-default auth check was performed), SEC-002, SEC-003, SEC-004, SEC-005 (narrowed count: the setup copy loop currently targets 77 first-level agent-tree directories, including `_shared`, not exactly 75), COST-001 (narrowed: the module-scope budget counter and check-then-act race are confirmed; the cited p06 `run.log` shows two separate `actions.requested` events with one action each, not proof of same-step parallel tool calls), COST-002, COST-003, REL-001, REL-002, REL-003, REL-004, DATA-001 (narrowed counts: this checkout has 65 tracked `run.log` files totaling 25,447,151 bytes; `git check-ignore` needs `--no-index` to show the ignore rule for an already tracked file; the tracked-log event histogram differs from the numbers in the finding), DATA-002, COUP-001, COUP-002, COUP-003, DEP-001 (narrowed count: `@ai-sdk/openai-compatible@3.0.0-beta.57` appears in 75 workspace lockfile entries here, not 54), DEP-002, OPS-001, OPS-002.
+- REFUTED: none at finding level. The source checks found evidence corrections and scope narrowing above, but no finding whose core claim was contradicted by the cited code.
+
 ## Security
 
 ### SEC-001 (P0): `/incident` webhook has no authentication and self-asserts a trusted service principal

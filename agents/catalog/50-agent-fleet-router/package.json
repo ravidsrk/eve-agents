@@ -12,17 +12,19 @@
     "dev": "eve dev",
     "build": "eve build",
     "start": "eve start",
-    "typecheck": "tsgo"
+    "typecheck": "tsgo",
+    "test:evals": "eve eval --strict"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "3.0.0-beta.57",
-    "@lab/openrouter": "*",
-    "@lab/superserve-backend": "*",
-    "@lab/monid-tools": "*",
-    "@lab/agent-kit": "*",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
-    "zod": "4.4.3"
+    "zod": "4.4.3",
+    "@eve-catalog/openrouter": "*",
+    "@eve-catalog/superserve-backend": "*",
+    "@eve-catalog/monid-tools": "*",
+    "@eve-catalog/agent-kit": "*",
+    "@eve-catalog/profile": "*"
   },
   "devDependencies": {
     "@types/node": "24.x",

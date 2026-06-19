@@ -15,7 +15,7 @@ bash scripts/run-catalog-agent.sh agents/catalog/06-incident-commander 3206 \
 
 Ports follow `32XX` where `XX` is the agent number (`06` → `3206`).
 
-## Shared tools (`@lab/agent-kit`)
+## Shared tools (`@eve-catalog/agent-kit`)
 
 - `load_dossier` — local context and integration notes
 - `search_records` / `analyze_records` — evidence lookup and scoring

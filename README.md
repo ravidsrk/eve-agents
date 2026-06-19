@@ -9,7 +9,7 @@ Public catalog of **[Vercel eve](https://vercel.com/docs/eve) agents** — 75 wo
 | **Production** | [`agents/production/`](agents/production/) | 10 | Deep agents with custom tools |
 | **Integrations** | [`agents/integrations/`](agents/integrations/) | 5 | Eve primitive proofs (HITL, Slack, durability, swarm) |
 
-→ **[AGENT_CATALOG.md](AGENT_CATALOG.md)** · `npm run catalog:list`
+→ **[AGENT_CATALOG.md](AGENT_CATALOG.md)** · **[ROADMAP.md](ROADMAP.md)** · `npm run catalog:list`
 
 ## Quick start
 
@@ -27,11 +27,20 @@ cd agents/reference/agent-tools && npx eve eval --strict
 
 Keys for live runs: `OPENROUTER_API_KEY`, `SUPERSERVE_API_KEY` in `.secrets/eve.env`.
 
+### Tracks
+
+| Track | When | Inference | Sandbox |
+| --- | --- | --- | --- |
+| **Lab** (today) | Local dev, CI structure | OpenRouter (`@eve-catalog/openrouter`) | SuperServe (`@eve-catalog/superserve-backend`) |
+| **Vercel** (roadmap) | `vercel deploy` | AI Gateway + OIDC | Vercel Sandbox (default) |
+
+See **[ROADMAP.md](ROADMAP.md)** for the phase-by-phase plan to add the Vercel-native track without removing the lab track.
+
 ## Layout
 
 ```text
 agents/           All eve agents (catalog, reference, production, integrations)
-packages/         Shared wiring (@lab/openrouter, superserve-backend, agent-kit, monid-tools)
+packages/         @eve-catalog/profile, openrouter, superserve-backend, agent-kit, monid-tools
 scripts/          setup, runners, catalog tools
 AGENT_CATALOG.md  Full index
 VERIFY-LIVE.md    Live run evidence (catalog 50/50)
@@ -41,7 +50,9 @@ VERIFY-LIVE.md    Live run evidence (catalog 50/50)
 
 | Command | Purpose |
 | --- | --- |
-| `npm test` | Structural catalog verify (CI, no keys) |
+| `npm test` | Full structure suite: catalog + runtime + evals + profile tests |
+| `npm run test:structure` | Same as `npm test` (keyless) |
+| `npm run eval:flagship` | `eve eval --strict` on 06-incident-commander (needs keys / dev server) |
 | `npm run catalog:list` | JSON index of all 75 agents |
 | `npm run validate:reference` | `eve eval --strict` on reference fixtures |
 | `npm run run:production:all` | Live batch production agents |

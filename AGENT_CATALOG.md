@@ -41,7 +41,7 @@ Full matrix for A01–A50: [AGENT_MATRIX.md](AGENT_MATRIX.md).
 
 ## Reference (`agents/reference/`)
 
-Ported via `bash scripts/port-eve-fixture.sh <name>`. Model: OpenRouter (`@lab/openrouter`).
+Ported via `bash scripts/port-eve-fixture.sh <name>`. Model: OpenRouter (`@eve-catalog/openrouter`).
 
 | Agent | Upstream fixture | Pattern | Sandbox |
 | --- | --- | --- | --- |
@@ -67,7 +67,7 @@ cd agents/reference/agent-tools && npx eve eval --strict
 
 Generated from [AGENT_MATRIX.md](AGENT_MATRIX.md). Each agent has `agent/`, instructions, playbook skill, dossier + records, SuperServe sandbox, README, dry-run evidence, and a captured live `run.log`.
 
-Shared tools via `@lab/agent-kit`: `load_dossier`, `search_records`, `analyze_records`, `write_report`, `record_decision`, `fetch_live_json`.
+Shared tools via `@eve-catalog/agent-kit`: `load_dossier`, `search_records`, `analyze_records`, `write_report`, `record_decision`, `fetch_live_json`.
 
 | # | Agent | Job |
 | ---: | --- | --- |
@@ -175,10 +175,11 @@ Five eve primitive proofs. Superseded v1 demos were removed — use `reference/`
 
 | Package | Role |
 | --- | --- |
-| [`@lab/openrouter`](packages/openrouter/) | OpenRouter LanguageModel for eve (lazy env auth) |
-| [`@lab/superserve-backend`](packages/superserve-backend/) | SuperServe SandboxBackend |
-| [`@lab/monid-tools`](packages/monid-tools/) | Monid HTTP tools + budget guard |
-| [`@lab/agent-kit`](packages/agent-kit/) | Deterministic tools for catalog agents A01–A50 |
+| [`@eve-catalog/profile`](packages/profile/) | Dual-track `resolveModel()` / `resolveSandboxDefinition()` (lab vs Vercel) |
+| [`@eve-catalog/openrouter`](packages/openrouter/) | OpenRouter LanguageModel for eve (lazy env auth) |
+| [`@eve-catalog/superserve-backend`](packages/superserve-backend/) | SuperServe SandboxBackend |
+| [`@eve-catalog/monid-tools`](packages/monid-tools/) | Monid HTTP tools + budget guard |
+| [`@eve-catalog/agent-kit`](packages/agent-kit/) | Deterministic tools for catalog agents A01–A50 |
 
 ---
 
@@ -188,8 +189,8 @@ Five eve primitive proofs. Superseded v1 demos were removed — use `reference/`
 # 1. Keys in .secrets/eve.env, then:
 bash scripts/setup.sh
 
-# 2. Structural checks
-npm run verify:catalog
+# 2. Structural checks (no API keys)
+npm test
 npm run catalog:list
 
 # 3. Live runs (need OpenRouter + SuperServe keys)
@@ -212,15 +213,12 @@ agents/
   reference/          # 10 vercel/eve fixtures
   production/         # 10 Monid deep agents
   integrations/       # 5 eve primitive proofs
-packages/             # @lab/openrouter, superserve-backend, monid-tools, agent-kit
+packages/             # @eve-catalog/openrouter, superserve-backend, monid-tools, agent-kit
 scripts/              # setup, runners, catalog:list
 ```
 
 ---
 
-## Next steps
+## Roadmap
 
-1. **Deepen catalog picks** — add domain-specific tools to high-value catalog agents.
-2. **Add evals** to top catalog agents; reference fixtures already have eval coverage.
-3. **Extract `swarm_run`** — promote `integrations/20-swarm` tool to `@lab/agent-kit`.
-4. **Channels** — port Slack patterns from `integrations/10-slack` into catalog agents.
+Phase-by-phase plan (dual-track lab + Vercel deploy, top-10 deepening, CI eval gates): **[ROADMAP.md](ROADMAP.md)**.

@@ -1,4 +1,4 @@
-// @lab/openrouter — OpenRouter as an eve model provider.
+// @eve-catalog/openrouter — OpenRouter as an eve model provider.
 //
 // eve's `defineAgent({ model })` accepts a provider-authored AI-SDK LanguageModel.
 // eve pins ai@7.0.0-beta.178 (AI SDK v7 beta, provider spec v4). The OpenRouter-branded

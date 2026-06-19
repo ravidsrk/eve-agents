@@ -18,6 +18,7 @@ const requiredFiles = [
   "agent/data/dossier.json",
   "agent/data/records.json",
   "agent/lib/profile.ts",
+  "agent/lib/runtime.ts",
   "agent/skills/operating-playbook/SKILL.md",
   "agent/sandbox/sandbox.ts",
   "agent/tools/load_dossier.ts",
@@ -54,7 +55,8 @@ for (const dir of dirs) {
 
   const pkg = readJson(path.join(full, "package.json"));
   if (pkg.name !== `arch-${dir}`) fail(`${dir} package name mismatch: ${pkg.name}`);
-  if (!pkg.dependencies?.["@lab/agent-kit"]) fail(`${dir} missing @lab/agent-kit dependency`);
+  if (!pkg.dependencies?.["@eve-catalog/agent-kit"]) fail(`${dir} missing @eve-catalog/agent-kit dependency`);
+  if (!pkg.dependencies?.["@eve-catalog/profile"]) fail(`${dir} missing @eve-catalog/profile dependency`);
 
   const dossier = readJson(path.join(full, "agent/data/dossier.json"));
   if (dossier.id !== dir) fail(`${dir} dossier id mismatch: ${dossier.id}`);

@@ -1,0 +1,26 @@
+{
+  "agent": "06-incident-commander",
+  "tracks": {
+    "lab": {
+      "model": "@eve-catalog/openrouter",
+      "sandbox": "@eve-catalog/superserve-backend when SUPERSERVE_API_KEY is set"
+    },
+    "vercel": {
+      "model": "openai/gpt-5.4-mini via AI Gateway OIDC",
+      "sandbox": "eve defaultBackend() / Vercel Sandbox"
+    }
+  },
+  "evals": [
+    "evals/smoke-reply.eval.ts",
+    "evals/tools-dossier.eval.ts",
+    "evals/incident-playbook.eval.ts"
+  ],
+  "deployChecklist": [
+    "eve build",
+    "vercel deploy",
+    "curl POST /eve/v1/session",
+    "eve eval --base-url <preview> --strict",
+    "Observability → Agent Runs"
+  ],
+  "status": "ready-for-vercel-deploy"
+}

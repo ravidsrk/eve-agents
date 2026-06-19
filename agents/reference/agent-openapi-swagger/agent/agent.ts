@@ -1,5 +1,5 @@
 import { defineAgent } from "eve";
-import { orModel } from "@lab/openrouter";
+import { orModel } from "@eve-catalog/openrouter";
 
 // Ported from vercel/eve e2e/fixtures — model swapped to OpenRouter.
 // Upstream: https://github.com/vercel/eve/tree/main/e2e/fixtures

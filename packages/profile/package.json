@@ -1,0 +1,23 @@
+{
+  "name": "@eve-catalog/profile",
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "description": "Dual-track runtime helpers: AI Gateway on Vercel, OpenRouter + SuperServe locally.",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@eve-catalog/openrouter": "*",
+    "@eve-catalog/superserve-backend": "*"
+  },
+  "peerDependencies": {
+    "eve": "^0.11.4"
+  }
+}

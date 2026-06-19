@@ -1,5 +1,5 @@
 import { defineAgent } from "eve";
-import { orModel } from "@lab/openrouter";
+import { orModel } from "@eve-catalog/openrouter";
 
 export default defineAgent({
   model: orModel(),

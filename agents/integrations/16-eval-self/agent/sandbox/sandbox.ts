@@ -1,5 +1,5 @@
 import { defineSandbox } from "eve/sandbox";
-import { superserveBackend } from "@lab/superserve-backend";
+import { superserveBackend } from "@eve-catalog/superserve-backend";
 
 export default defineSandbox({
   backend: superserveBackend({

@@ -2,7 +2,7 @@
 // an archetype's agent/tools/<name>.ts so the filename sets the tool name, e.g.:
 //
 //   // agent/tools/monid_discover.ts
-//   export { monidDiscoverTool as default } from "@lab/monid-tools/tools";
+//   export { monidDiscoverTool as default } from "@eve-catalog/monid-tools/tools";
 
 import { defineTool } from "eve/tools";
 import { z } from "zod";

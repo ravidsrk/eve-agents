@@ -24,7 +24,9 @@ node_modules/
 .next/
 out/
 
-# Logs & local data (we keep curated run.log files explicitly via git add -f)
+# Logs & local data
+run.log
+**/run.log
 *.local.log
 npm-debug.log*
 .agent-artifacts/

@@ -1,4 +1,4 @@
-// @lab/superserve-backend — a custom eve SandboxBackend backed by SuperServe
+// @eve-catalog/superserve-backend — a custom eve SandboxBackend backed by SuperServe
 // (Firecracker microVMs with persistent, resumable filesystems).
 //
 // Why this exists: on hosts without Docker or KVM, eve's local sandbox backends

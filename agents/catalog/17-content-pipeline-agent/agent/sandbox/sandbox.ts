@@ -1,9 +1,11 @@
 import { defineSandbox } from "eve/sandbox";
-import { superserveBackend } from "@lab/superserve-backend";
+import { resolveSandboxDefinition } from "@eve-catalog/profile";
 
-export default defineSandbox({
-  backend: superserveBackend({
-    fromTemplate: "superserve/python-ml",
-    timeoutSeconds: 1800,
+export default defineSandbox(
+  resolveSandboxDefinition({
+    superserve: {
+      fromTemplate: "superserve/python-ml",
+      timeoutSeconds: 1800,
+    },
   }),
-});
+);

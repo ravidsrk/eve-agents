@@ -1,1 +1,1 @@
-export { monidInspectTool as default } from "@lab/monid-tools/tools";
+export { monidInspectTool as default } from "@eve-catalog/monid-tools/tools";

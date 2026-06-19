@@ -37,9 +37,9 @@ cat > "$DEST/package.json" <<EOF
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "3.0.0-beta.57",
-    "@lab/openrouter": "*",
-    "@lab/superserve-backend": "*",
-    "@lab/monid-tools": "*",
+    "@eve-catalog/openrouter": "*",
+    "@eve-catalog/superserve-backend": "*",
+    "@eve-catalog/monid-tools": "*",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
     "zod": "4.4.3"
@@ -72,7 +72,7 @@ cp "$ROOT/agents/reference/agent-tools/.gitignore" "$DEST/.gitignore"
 
 cat > "$DEST/agent/agent.ts" <<'EOF'
 import { defineAgent } from "eve";
-import { orModel } from "@lab/openrouter";
+import { orModel } from "@eve-catalog/openrouter";
 
 export default defineAgent({
   model: orModel(),
@@ -87,7 +87,7 @@ for tool in monid_discover monid_inspect monid_run; do
     monid_run) export from="monidRunTool" ;;
   esac
   cat > "$DEST/agent/tools/${tool}.ts" <<EOF
-export { ${from} as default } from "@lab/monid-tools/tools";
+export { ${from} as default } from "@eve-catalog/monid-tools/tools";
 EOF
 done
 

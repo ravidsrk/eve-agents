@@ -1,5 +1,5 @@
 import { defineSandbox } from "eve/sandbox";
-import { superserveBackend } from "@lab/superserve-backend";
+import { superserveBackend } from "@eve-catalog/superserve-backend";
 
 /**
  * Sandbox lifecycle fixture exercising the surfaces an agent author relies
@@ -16,7 +16,7 @@ import { superserveBackend } from "@lab/superserve-backend";
  *   template.
  *
  * In eve-exploration this fixture runs on SuperServe `python-ml` microVMs
- * (real Python/Node) via `@lab/superserve-backend`, matching the upstream
+ * (real Python/Node) via `@eve-catalog/superserve-backend`, matching the upstream
  * intent of exercising a real-binary sandbox environment.
  */
 export const SANDBOX_MARKER_PATH = "/workspace/smoke-marker.txt";

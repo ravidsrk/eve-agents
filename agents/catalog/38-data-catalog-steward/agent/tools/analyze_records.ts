@@ -1,1 +1,1 @@
-export { analyzeRecordsTool as default } from "@lab/agent-kit/tools";
+export { analyzeRecordsTool as default } from "@eve-catalog/agent-kit/tools";

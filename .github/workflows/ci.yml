@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  verify:
+  structure:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,5 +20,50 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Verify catalog structure (no API keys)
-        run: npm test
+      - name: Structure + profile unit tests
+        run: npm run test:structure
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck workspaces
+        run: npm run typecheck
+
+  # Optional: enable by setting repo variables VERCEL_DEPLOY_ENABLED=true
+  # and secrets VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_FLAGSHIP.
+  deploy-preview:
+    if: github.event_name == 'pull_request' && vars.VERCEL_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    needs: [structure, typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build flagship
+        working-directory: agents/catalog/06-incident-commander
+        run: npm run build
+
+      - name: Deploy flagship preview
+        working-directory: agents/catalog/06-incident-commander
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_FLAGSHIP }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel deploy --token "$VERCEL_TOKEN" --yes

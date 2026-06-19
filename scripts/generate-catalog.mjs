@@ -94,13 +94,15 @@ function packageJson(spec) {
       build: "eve build",
       start: "eve start",
       typecheck: "tsgo",
+      "test:evals": "eve eval --strict",
     },
     dependencies: {
       "@ai-sdk/openai-compatible": "3.0.0-beta.57",
-      "@lab/openrouter": "*",
-      "@lab/superserve-backend": "*",
-      "@lab/monid-tools": "*",
-      "@lab/agent-kit": "*",
+      "@eve-catalog/profile": "*",
+      "@eve-catalog/openrouter": "*",
+      "@eve-catalog/superserve-backend": "*",
+      "@eve-catalog/monid-tools": "*",
+      "@eve-catalog/agent-kit": "*",
       ai: "7.0.0-beta.178",
       eve: "^0.11.4",
       zod: "4.4.3",
@@ -131,13 +133,11 @@ function tsconfig() {
 
 function agentTs() {
   return `import { defineAgent } from "eve";
-import { orModel } from "@lab/openrouter";
+import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-catalog/profile";
 
 export default defineAgent({
-  // Official templates use a single agent-level model config. This lab swaps the
-  // default gateway id for an OpenRouter-backed AI SDK LanguageModel.
-  model: orModel(),
-  modelContextWindowTokens: 131072,
+  model: resolveModel(),
+  modelContextWindowTokens: DEFAULT_CONTEXT_WINDOW,
 });
 `;
 }
@@ -161,14 +161,16 @@ export default eveChannel({
 
 function sandboxTs() {
   return `import { defineSandbox } from "eve/sandbox";
-import { superserveBackend } from "@lab/superserve-backend";
+import { resolveSandboxDefinition } from "@eve-catalog/profile";
 
-export default defineSandbox({
-  backend: superserveBackend({
-    fromTemplate: "superserve/python-ml",
-    timeoutSeconds: 1800,
+export default defineSandbox(
+  resolveSandboxDefinition({
+    superserve: {
+      fromTemplate: "superserve/python-ml",
+      timeoutSeconds: 1800,
+    },
   }),
-});
+);
 `;
 }
 
@@ -231,7 +233,7 @@ ${tags.join(", ")}
 
 function profileTs(spec) {
   const [num, slug, title, owner, job, tags, rule] = spec;
-  return `// Generated from scripts/generate-real-world-archetypes.mjs.
+  return `// Generated from scripts/generate-catalog.mjs.
 // Keep static agent metadata here so tools/channels can share it without
 // duplicating strings across the project.
 
@@ -243,6 +245,20 @@ export const profile = {
   rule: ${JSON.stringify(rule)},
   tags: ${JSON.stringify(tags)},
 } as const;
+`;
+}
+
+function runtimeTs() {
+  return `// Dual-track runtime: AI Gateway on Vercel, OpenRouter + SuperServe locally.
+export {
+  DEFAULT_CONTEXT_WINDOW,
+  DEFAULT_VERCEL_MODEL,
+  isVercelRuntime,
+  resolveModel,
+  resolveSandboxDefinition,
+  resolveSuperserveBackend,
+  shouldUseSuperserve,
+} from "@eve-catalog/profile";
 `;
 }
 
@@ -355,8 +371,8 @@ function dossier(spec) {
     ],
     samplePrompt: `Review the current ${title.toLowerCase()} queue and write a prioritized action report.`,
     liveIntegrations: {
-      openrouter: "Model inference through @lab/openrouter when OPENROUTER_API_KEY is configured.",
-      superserve: "Sandbox execution through @lab/superserve-backend when SUPERSERVE_API_KEY is configured.",
+      openrouter: "Model inference through @eve-catalog/openrouter when OPENROUTER_API_KEY is configured.",
+      superserve: "Sandbox execution through @eve-catalog/superserve-backend when SUPERSERVE_API_KEY is configured.",
       monid: "Optional live tool discovery/run when MONID_API_KEY is valid.",
     },
   };
@@ -462,6 +478,7 @@ function writeAgent(spec) {
   write(path.join(dir, "agent", "instructions.md"), instructions(spec));
   write(path.join(dir, "agent", "skills", "operating-playbook", "SKILL.md"), skill(spec));
   write(path.join(dir, "agent", "lib", "profile.ts"), profileTs(spec));
+  write(path.join(dir, "agent", "lib", "runtime.ts"), runtimeTs());
   write(path.join(dir, "agent", "sandbox", "sandbox.ts"), sandboxTs());
   write(path.join(dir, "agent", "data", "dossier.json"), json(dossier(spec)));
   write(path.join(dir, "agent", "data", "records.json"), json(records(spec)));
@@ -475,7 +492,7 @@ function writeAgent(spec) {
     fetch_live_json: "fetchLiveJsonTool",
   };
   for (const [file, exportName] of Object.entries(toolMap)) {
-    write(path.join(dir, "agent", "tools", `${file}.ts`), `export { ${exportName} as default } from "@lab/agent-kit/tools";\n`);
+    write(path.join(dir, "agent", "tools", `${file}.ts`), `export { ${exportName} as default } from "@eve-catalog/agent-kit/tools";\n`);
   }
 }
 

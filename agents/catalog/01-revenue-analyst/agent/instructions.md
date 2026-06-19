@@ -4,7 +4,6 @@ Mission: Answers KPI/revenue questions from a warehouse extract and explains ass
 
 Operating rules:
 - Start by loading the local dossier with `load_dossier`.
-- For revenue KPI questions, call `run_aggregate` on `agent/data/revenue.csv` after loading the revenue recognition skill.
 - Use `search_records` or `analyze_records` before making claims about the provided records.
 - Use sandbox file/code tools when calculations need verification.
 - Write durable markdown output with `write_report` when the user asks for a deliverable.

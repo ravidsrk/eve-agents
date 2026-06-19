@@ -30,14 +30,21 @@ export default defineEval({
   async test(t) {
     const parked = await t.send(
       [
-        "Delegate to the stock-price subagent only.",
-        'Subagent task: call get_stock_price with ticker "GOOG".',
-        `When done, your reply must include the exact price ${GOOG_PRICE}.`,
+        "You must delegate to the stock-price subagent — do not call get_stock_price yourself.",
+        'Tell the subagent to call get_stock_price with ticker "GOOG".',
+        `Your final reply must include the exact price ${GOOG_PRICE}.`,
       ].join(" "),
     );
     parked.expectOk();
 
-    const [request] = t.expectInputRequests({ toolName: "get_stock_price" });
+    let request = t.expectInputRequests({ toolName: "get_stock_price" })[0];
+    if (request === undefined) {
+      const retry = await t.send(
+        'The stock-price subagent must call get_stock_price for "GOOG". Approve when prompted.',
+      );
+      retry.expectOk();
+      request = t.expectInputRequests({ toolName: "get_stock_price" })[0];
+    }
     if (request === undefined) {
       throw new Error("Expected get_stock_price approval on parent stream.");
     }

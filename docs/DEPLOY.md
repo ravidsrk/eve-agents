@@ -35,7 +35,7 @@ curl -X POST "$URL/eve/v1/session" \
 Eval against deployment:
 
 ```bash
-npx eve eval --base-url "$URL" --strict
+npx eve eval --url "$URL" --strict
 ```
 
 ## Live verification (lab)

@@ -3,4 +3,5 @@ import { referenceJudgeModel } from "../../_shared/judge-model.ts";
 
 export default defineEvalConfig({
   judge: { model: referenceJudgeModel() },
+  maxConcurrency: 1,
 });

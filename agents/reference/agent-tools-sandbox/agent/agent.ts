@@ -1,9 +1,9 @@
 import { defineAgent } from "eve";
-import { orModel } from "@eve-catalog/openrouter";
+import { MODELS, orModel } from "@eve-catalog/openrouter";
 
 // Ported from vercel/eve e2e/fixtures — model swapped to OpenRouter.
 // Upstream: https://github.com/vercel/eve/tree/main/e2e/fixtures
 export default defineAgent({
-  model: orModel(),
+  model: orModel(process.env.OPENROUTER_SANDBOX_MODEL ?? MODELS.strong),
   modelContextWindowTokens: 131072,
 });

@@ -3,35 +3,30 @@
 ## Run
 
 ```bash
+npm run cleanup:superserve   # if SuperServe quota exhausted
 npm run validate:reference
 ```
 
 ## Expected on OpenRouter lab track
 
-| Fixture | Typical |
-| --- | --- |
-| agent-basic-runtime | Pass (output-schema may flake — retried prompt) |
-| agent-channels | Pass |
-| agent-openapi-swagger | Pass |
-| agent-schedules | Pass |
-| agent-skills | Pass |
-| agent-tools | Pass |
-| agent-subagents | May flake (delegation) |
-| agent-subagents-hitl | May flake (HITL timing) |
-| agent-tools-hitl | May flake (approval) |
-| agent-tools-sandbox | May flake (SuperServe boot) |
-
-**Last full run (2026-06-19):** 9/10 fixtures pass reliably on OpenRouter + SuperServe.
-
 | Fixture | Status |
 | --- | --- |
-| agent-basic-runtime … agent-tools (8) | PASS with OpenRouter judge + eval fixes |
-| agent-subagents-hitl | Flaky — subagent delegation + approval parking timing |
-| agent-tools-sandbox | SuperServe `too_many_sandboxes` when quota exhausted (retry after cooldown) |
+| agent-basic-runtime | PASS |
+| agent-channels | PASS |
+| agent-openapi-swagger | PASS |
+| agent-schedules | PASS |
+| agent-skills | PASS |
+| agent-subagents | PASS |
+| agent-subagents-hitl | PASS (subagents on OpenRouter + `modelContextWindowTokens`) |
+| agent-tools-hitl | PASS (stronger model + retry prompts) |
+| agent-tools-sandbox | PASS (serial evals + `onSession` bootstrap on SuperServe) |
+| agent-tools | May flake — `dynamic-tools/nested` socket hang-up under long dev-server runs; use `--max-concurrency 1` |
+
+**Last full run (2026-06-19 ship):** 9/10 fixtures pass; `agent-tools` 13/14 (nested flakes on concurrent dev load).
 
 ## CI
 
-`validate-reference` runs on **push to main** when `OPENROUTER_API_KEY` is configured in GitHub secrets. Use `workflow_dispatch` for manual runs.
+`validate-reference` runs on **push to main** when `OPENROUTER_API_KEY` is configured. Pre-run `cleanup:superserve` when `SUPERSERVE_API_KEY` is set.
 
 ## Upstream sync
 

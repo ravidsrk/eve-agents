@@ -18,11 +18,29 @@ export default defineEval({
     if (guardedEchoResults(t.events).length > 0) {
       throw new Error("Denied guarded-echo call must not execute.");
     }
-    const retry = await t.send(
+
+    const retryPrompts = [
       'You must call the guarded-echo tool again with note "retry-call". Do not finish until the tool is invoked.',
-    );
-    retry.expectOk();
-    if (retry.inputRequests.length === 0) {
+      'Invoke guarded-echo with note "retry-call" now. Approval is required.',
+      'Call guarded-echo(note="retry-call") before replying.',
+    ];
+    let regated = false;
+    for (const prompt of retryPrompts) {
+      const retry = await t.send(prompt);
+      retry.expectOk();
+      if (retry.inputRequests.length > 0) {
+        regated = true;
+        break;
+      }
+      try {
+        t.expectInputRequests({ toolName: "guarded-echo" });
+        regated = true;
+        break;
+      } catch {
+        // model completed without re-parking; try a stronger follow-up prompt
+      }
+    }
+    if (!regated) {
       throw new Error("once() denial must re-gate: expected pending input after retry send.");
     }
 

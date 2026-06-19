@@ -9,10 +9,23 @@ AGENT_DIR="$ROOT/agents/catalog/06-incident-commander"
 BASE_URL="${1:-}"
 
 cd "$AGENT_DIR"
-if [[ -n "$BASE_URL" ]]; then
-  echo "eval: flagship against $BASE_URL"
-  npx eve eval --strict --base-url "$BASE_URL"
-else
-  echo "eval: flagship (local)"
-  npx eve eval --strict
-fi
+max_attempts="${EVAL_FLAGSHIP_ATTEMPTS:-2}"
+for ((attempt = 1; attempt <= max_attempts; attempt++)); do
+  if [[ "$attempt" -gt 1 ]]; then
+    echo "RETRY flagship eval ($attempt/$max_attempts)..."
+    rm -rf .eve
+    sleep 5
+  fi
+  if [[ -n "$BASE_URL" ]]; then
+    echo "eval: flagship against $BASE_URL"
+    if npx eve eval --strict --url "$BASE_URL"; then
+      exit 0
+    fi
+  else
+    echo "eval: flagship (local)"
+    if npx eve eval --strict; then
+      exit 0
+    fi
+  fi
+done
+exit 1

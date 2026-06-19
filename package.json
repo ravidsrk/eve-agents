@@ -54,6 +54,7 @@
     "test:durable": "bash scripts/durable_test.sh",
     "smoke:production": "node scripts/smoke-production-monid.mjs",
     "validate:reference": "bash scripts/validate-reference.sh",
+    "cleanup:superserve": "node scripts/cleanup-superserve.mjs",
     "run:production": "bash scripts/run-production-agent.sh",
     "run:production:all": "bash scripts/run-all-production.sh",
     "catalog:list": "node scripts/list-catalog.mjs",

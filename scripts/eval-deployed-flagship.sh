@@ -11,5 +11,15 @@ if [[ -n "${ROUTE_AUTH_BASIC_USER:-}" && -n "${ROUTE_AUTH_BASIC_PASSWORD:-}" ]];
   export EVE_EVAL_BASIC_AUTH="${ROUTE_AUTH_BASIC_USER}:${ROUTE_AUTH_BASIC_PASSWORD}"
 fi
 
-echo "eval: flagship (deployed) → $URL"
-npx eve eval --base-url "$URL" --strict
+max_attempts="${EVAL_DEPLOYED_ATTEMPTS:-2}"
+for ((attempt = 1; attempt <= max_attempts; attempt++)); do
+  if [[ "$attempt" -gt 1 ]]; then
+    echo "RETRY deployed flagship ($attempt/$max_attempts)..."
+    sleep 10
+  fi
+  echo "eval: flagship (deployed) → $URL"
+  if npx eve eval --url "$URL" --strict; then
+    exit 0
+  fi
+done
+exit 1

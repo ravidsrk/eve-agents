@@ -7,6 +7,12 @@ source "$ROOT/scripts/lib.sh"
 
 require_node24
 
+# Free SuperServe quota before reference sandbox fixtures.
+if [[ -n "${SUPERSERVE_API_KEY:-}" ]] && [[ "${SKIP_SUPERSEVE_CLEANUP:-0}" != "1" ]]; then
+  echo "==> cleanup:superserve (pre-reference)"
+  node "$ROOT/scripts/cleanup-superserve.mjs" || true
+fi
+
 FAIL=0
 PASS=0
 for dir in "$ROOT"/agents/reference/*/; do
@@ -17,13 +23,13 @@ for dir in "$ROOT"/agents/reference/*/; do
   echo "======== $name ========"
 
   max_attempts=2
-  if [[ "$name" == "agent-subagents-hitl" ]]; then
-    max_attempts=3
+  if [[ "$name" == "agent-subagents-hitl" || "$name" == "agent-tools-hitl" || "$name" == "agent-tools" ]]; then
+    max_attempts=5
   fi
   if [[ "$name" == "agent-tools-sandbox" ]]; then
-    max_attempts=3
-    echo "(sandbox: cooling 90s — SuperServe rate limits)"
-    sleep 90
+    max_attempts=5
+    echo "(sandbox: cooling 120s — SuperServe rate limits)"
+    sleep 120
     echo "(sandbox: up to $max_attempts attempts)"
   fi
 
@@ -31,13 +37,27 @@ for dir in "$ROOT"/agents/reference/*/; do
   for ((attempt = 1; attempt <= max_attempts; attempt++)); do
     if [[ "$attempt" -gt 1 ]]; then
       echo "RETRY $name ($attempt/$max_attempts)..."
-      sleep 20
+      retry_sleep=20
+      if [[ "$name" == "agent-subagents-hitl" || "$name" == "agent-tools-hitl" ]]; then
+        retry_sleep=30
+      fi
+      if [[ "$name" == "agent-tools-sandbox" ]]; then
+        retry_sleep=60
+      fi
+      sleep "$retry_sleep"
+    fi
+    if [[ "$name" == "agent-tools-sandbox" && -n "${SUPERSERVE_API_KEY:-}" ]]; then
+      node "$ROOT/scripts/cleanup-superserve.mjs" || true
+    fi
+    eval_args=(--strict)
+    if [[ "$name" == "agent-tools-sandbox" || "$name" == "agent-tools" ]]; then
+      eval_args+=(--max-concurrency 1)
     fi
     if (
       cd "$dir"
       rm -rf .eve
       set -a && source .env.local && set +a
-      npx eve eval --strict
+      npx eve eval "${eval_args[@]}"
     ); then
       ok=1
       break

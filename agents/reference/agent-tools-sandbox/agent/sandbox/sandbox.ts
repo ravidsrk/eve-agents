@@ -50,26 +50,33 @@ export default defineSandbox({
   }),
   // Bump when the bootstrap output changes so the reusable template snapshot
   // is rebuilt rather than served stale.
-  revalidationKey: () => "agent-tools-sandbox-bootstrap-v2",
+  revalidationKey: () => "agent-tools-sandbox-bootstrap-v3",
   async bootstrap({ use }) {
-    const sandbox = await use();
-    await sandbox.writeTextFile({
-      path: SANDBOX_MARKER_PATH,
-      content: SANDBOX_MARKER_TOKEN,
-    });
-    // Install a custom CLI onto the PATH and make it executable. Later
-    // sessions inherit it from the template without re-running bootstrap.
-    await sandbox.writeTextFile({ path: SANDBOX_CLI_PATH, content: CLI_SCRIPT });
-    const chmod = await sandbox.run({ command: `chmod +x ${SANDBOX_CLI_PATH}` });
-    if (chmod.exitCode !== 0) {
-      throw new Error(`bootstrap: chmod of ${SANDBOX_CLI_PATH} failed: ${chmod.stderr}`);
-    }
+    await provisionBootstrapArtifacts(await use());
   },
   async onSession({ use }) {
     const sandbox = await use();
+    // SuperServe lab track does not bake bootstrap into a reusable template snapshot
+    // (see @eve-catalog/superserve-backend). Re-provision bootstrap artifacts each session.
+    await provisionBootstrapArtifacts(sandbox);
     await sandbox.writeTextFile({
       path: SANDBOX_SESSION_MARKER_PATH,
       content: SANDBOX_SESSION_MARKER_TOKEN,
     });
   },
 });
+
+async function provisionBootstrapArtifacts(sandbox: {
+  writeTextFile: (input: { path: string; content: string }) => Promise<void>;
+  run: (input: { command: string }) => Promise<{ exitCode: number; stderr: string }>;
+}) {
+  await sandbox.writeTextFile({
+    path: SANDBOX_MARKER_PATH,
+    content: SANDBOX_MARKER_TOKEN,
+  });
+  await sandbox.writeTextFile({ path: SANDBOX_CLI_PATH, content: CLI_SCRIPT });
+  const chmod = await sandbox.run({ command: `chmod +x ${SANDBOX_CLI_PATH}` });
+  if (chmod.exitCode !== 0) {
+    throw new Error(`bootstrap: chmod of ${SANDBOX_CLI_PATH} failed: ${chmod.stderr}`);
+  }
+}

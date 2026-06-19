@@ -32,6 +32,7 @@ fi
 
 require_node24
 ensure_env_local "$DIR"
+export EVE_KILL_SANDBOX_ON_DISPOSE=1
 
 LOG="/tmp/eve-archetype-${PORT}.log"
 OUT="$DIR/run.log"

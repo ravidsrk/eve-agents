@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
+const catalogDir = path.join(root, "agents", "catalog");
+const customizedMarker = ".generated=false";
 
 const agents = [
   ["01", "revenue-analyst", "Revenue analyst", "Finance", "Answers KPI/revenue questions from a warehouse extract and explains assumptions.", ["finance", "analytics"], "Use the revenue recognition skill before answering revenue questions."],
@@ -458,9 +460,82 @@ function dryRun(spec) {
   });
 }
 
+function agentDir(spec) {
+  const [num, slug] = spec;
+  return path.join(catalogDir, `${num}-${slug}`);
+}
+
+function isCustomizedAgent(spec) {
+  return existsSync(path.join(agentDir(spec), customizedMarker));
+}
+
+function generatedPaths(spec) {
+  const toolFiles = [
+    "load_dossier",
+    "search_records",
+    "analyze_records",
+    "write_report",
+    "record_decision",
+    "fetch_live_json",
+  ];
+  return [
+    "package.json",
+    "tsconfig.json",
+    ".env.example",
+    ".vercelignore",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md",
+    "agent/agent.ts",
+    "agent/channels/eve.ts",
+    "agent/instructions.md",
+    "agent/skills/operating-playbook/SKILL.md",
+    "agent/lib/profile.ts",
+    "agent/lib/runtime.ts",
+    "agent/sandbox/sandbox.ts",
+    "agent/data/dossier.json",
+    "agent/data/records.json",
+    "evidence/dry-run.json",
+    ...toolFiles.map((file) => `agent/tools/${file}.ts`),
+    "evals/evals.config.ts",
+    "evals/smoke-dossier.eval.ts",
+  ];
+}
+
+function cleanAgent(spec) {
+  const dir = agentDir(spec);
+  for (const rel of generatedPaths(spec)) {
+    const file = path.join(dir, rel);
+    if (existsSync(file)) rmSync(file, { force: true });
+  }
+}
+
+function cleanCatalog(start, end) {
+  mkdirSync(catalogDir, { recursive: true });
+
+  const knownIds = new Set(agents.map(([num, slug]) => `${num}-${slug}`));
+  for (const entry of readdirSync(catalogDir, { withFileTypes: true })) {
+    if (!entry.isDirectory() || !/^\d{2}-/.test(entry.name)) continue;
+    if (knownIds.has(entry.name)) continue;
+    const full = path.join(catalogDir, entry.name);
+    if (existsSync(path.join(full, customizedMarker))) continue;
+    rmSync(full, { recursive: true, force: true });
+  }
+
+  for (const spec of agents) {
+    const n = Number(spec[0]);
+    if (n < start || n > end) continue;
+    if (isCustomizedAgent(spec)) {
+      console.log(`skip clean ${spec[0]}-${spec[1]} (${customizedMarker})`);
+      continue;
+    }
+    cleanAgent(spec);
+  }
+}
+
 function writeAgent(spec) {
   const [num, slug] = spec;
-  const dir = path.join(root, "agents", "catalog", `${num}-${slug}`);
+  const dir = agentDir(spec);
   write(path.join(dir, "package.json"), packageJson(spec));
   write(path.join(dir, "tsconfig.json"), tsconfig());
   write(path.join(dir, ".env.example"), envExample());
@@ -524,14 +599,20 @@ export default defineEval({
 `;
 }
 
+const [start, end] = parseRange();
+
 if (hasFlag("--clean")) {
-  rmSync(path.join(root, "agents", "catalog"), { recursive: true, force: true });
+  cleanCatalog(start, end);
 }
 
-const [start, end] = parseRange();
 for (const spec of agents) {
   const n = Number(spec[0]);
-  if (n >= start && n <= end) writeAgent(spec);
+  if (n < start || n > end) continue;
+  if (isCustomizedAgent(spec)) {
+    console.log(`skip generate ${spec[0]}-${spec[1]} (${customizedMarker})`);
+    continue;
+  }
+  writeAgent(spec);
 }
 
 console.log(`generated archetypes ${String(start).padStart(2, "0")}-${String(end).padStart(2, "0")}`);

@@ -23,6 +23,7 @@ if [ ! -f "$DIR/package.json" ]; then
 fi
 
 require_node24
+export EVE_KILL_SANDBOX_ON_DISPOSE=1
 ensure_env_local "$DIR"
 
 LOG="/tmp/eve-production-${PORT}.log"

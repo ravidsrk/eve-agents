@@ -5,6 +5,7 @@
 // enforces a per-process USD budget cap and logs every paid call to a JSONL cost ledger.
 
 import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+import os from "node:os";
 import { dirname, join } from "node:path";
 
 function readEnvLocalValue(key, startDir = process.cwd()) {
@@ -33,20 +34,33 @@ export const BUDGET_USD = Number(process.env.MONID_BUDGET_USD ?? "5");
 /** Max USD a single `run` is allowed to cost. Override with MONID_MAX_CALL_USD. */
 export const MAX_CALL_USD = Number(process.env.MONID_MAX_CALL_USD ?? "0.25");
 
-const COST_LOG = process.env.MONID_COST_LOG || "/workspace/.monid-costs.jsonl";
+const COST_LOG = process.env.MONID_COST_LOG || join(os.tmpdir(), "monid-costs.jsonl");
 
 let _spent = 0;
+/** Serializes concurrent `run()` budget reserve/reconcile so check-then-act cannot race. */
+let _runQueue = Promise.resolve();
+let _costLogWarned = false;
 
 export function amountSpent() {
   return _spent;
+}
+
+/** @internal resets module state between unit tests */
+export function __testReset({ spent = 0, costLogWarned = false } = {}) {
+  _spent = spent;
+  _runQueue = Promise.resolve();
+  _costLogWarned = costLogWarned;
 }
 
 function logCost(entry) {
   try {
     mkdirSync(dirname(COST_LOG), { recursive: true });
     appendFileSync(COST_LOG, JSON.stringify({ ts: new Date().toISOString(), ...entry }) + "\n");
-  } catch {
-    /* logging is best-effort */
+  } catch (err) {
+    if (!_costLogWarned) {
+      _costLogWarned = true;
+      console.warn(`monid-tools: failed to write cost ledger (${COST_LOG}):`, err);
+    }
   }
 }
 
@@ -102,33 +116,49 @@ function estimateCost(priceObj) {
   return priceObj.amount; // PER_RESULT is per result; we treat amount as the upper-bound unit cost
 }
 
+function enqueueRun(fn) {
+  const next = _runQueue.then(fn, fn);
+  _runQueue = next.catch(() => {});
+  return next;
+}
+
 /**
  * Execute a paid Monid endpoint, enforcing budget caps and logging the cost.
  * @param {object} args { provider, endpoint, input, price? }
  */
 export async function run({ provider, endpoint, input, query, path, price }) {
-  const unit = estimateCost(price);
-  if (unit > MAX_CALL_USD) {
-    throw new Error(
-      `Monid run refused: estimated $${unit} exceeds per-call cap $${MAX_CALL_USD} (${provider}${endpoint}).`,
-    );
-  }
-  if (_spent + unit > BUDGET_USD) {
-    throw new Error(
-      `Monid run refused: would exceed budget cap $${BUDGET_USD} (spent $${_spent.toFixed(4)}).`,
-    );
-  }
-  const payload = { provider, endpoint };
-  if (input != null) payload.input = input;
-  if (query != null) payload.queryParams = query;
-  if (path != null) payload.pathParams = path;
-  const result = await monidFetch("/v1/run", payload);
-  // Prefer the server-reported cost when present.
-  const charged =
-    (result && (result.cost?.amount ?? result.price?.amount)) ?? unit ?? 0;
-  _spent += charged;
-  logCost({ provider, endpoint, estUsd: unit, chargedUsd: charged, totalSpentUsd: _spent });
-  return result;
+  return enqueueRun(async () => {
+    const unit = estimateCost(price);
+    if (unit > MAX_CALL_USD) {
+      throw new Error(
+        `Monid run refused: estimated $${unit} exceeds per-call cap $${MAX_CALL_USD} (${provider}${endpoint}).`,
+      );
+    }
+    if (_spent + unit > BUDGET_USD) {
+      throw new Error(
+        `Monid run refused: would exceed budget cap $${BUDGET_USD} (spent $${_spent.toFixed(4)}).`,
+      );
+    }
+
+    _spent += unit;
+
+    try {
+      const payload = { provider, endpoint };
+      if (input != null) payload.input = input;
+      if (query != null) payload.queryParams = query;
+      if (path != null) payload.pathParams = path;
+      const result = await monidFetch("/v1/run", payload);
+      // Prefer the server-reported cost when present.
+      const charged =
+        (result && (result.cost?.amount ?? result.price?.amount)) ?? unit ?? 0;
+      _spent += charged - unit;
+      logCost({ provider, endpoint, estUsd: unit, chargedUsd: charged, totalSpentUsd: _spent });
+      return result;
+    } catch (err) {
+      _spent -= unit;
+      throw err;
+    }
+  });
 }
 
 export const config = { BASE_URL, BUDGET_USD, MAX_CALL_USD, COST_LOG };

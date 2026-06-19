@@ -27,7 +27,6 @@ const requiredFiles = [
   "agent/tools/write_report.ts",
   "agent/tools/record_decision.ts",
   "agent/tools/fetch_live_json.ts",
-  "evidence/dry-run.json",
 ];
 
 function fail(message) {
@@ -67,8 +66,11 @@ for (const dir of dirs) {
   const records = readJson(path.join(full, "agent/data/records.json"));
   if (!Array.isArray(records) || records.length < 3) fail(`${dir} needs at least three records`);
 
-  const dryRun = readJson(path.join(full, "evidence/dry-run.json"));
-  if (dryRun.agent !== dir) fail(`${dir} dry-run agent mismatch: ${dryRun.agent}`);
+  const dryRunPath = path.join(full, "evidence/dry-run.json");
+  if (existsSync(dryRunPath)) {
+    const dryRun = readJson(dryRunPath);
+    if (dryRun.agent !== dir) fail(`${dir} dry-run agent mismatch: ${dryRun.agent}`);
+  }
 }
 
 if (!process.exitCode) {

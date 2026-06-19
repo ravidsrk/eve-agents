@@ -1,8 +1,7 @@
 #!/bin/bash
 # Reproducible setup from a fresh clone.
 #   1) requires Node 24+ (eve engines), npm, and API keys in env or .secrets/eve.env
-#   2) copies .secrets/eve.env → .env.local for every agent app
-#   3) npm install
+#   2) npm ci (agents load secrets via upward walk to .secrets/eve.env)
 set -e
 cd "$(dirname "$0")/.."
 
@@ -19,19 +18,15 @@ SUPERSERVE_API_KEY=${SUPERSERVE_API_KEY:-}
 MONID_API_KEY=${MONID_API_KEY:-}
 VERCEL_API_KEY=${VERCEL_API_KEY:-}
 OPENROUTER_MODEL=${OPENROUTER_MODEL:-openai/gpt-oss-120b}
-MONID_BUDGET_USD=${MONID_BUDGET_USD:-500}
-MONID_MAX_CALL_USD=${MONID_MAX_CALL_USD:-5}
+MONID_BUDGET_USD=${MONID_BUDGET_USD:-5}
+MONID_MAX_CALL_USD=${MONID_MAX_CALL_USD:-0.25}
 EOF
   chmod 600 .secrets/eve.env
   echo "Wrote .secrets/eve.env (from environment). Edit it if any key is blank."
 fi
 
-for d in agents/catalog/*/ agents/reference/*/ agents/production/*/ agents/integrations/*/; do
-  [ -d "$d" ] && cp .secrets/eve.env "$d/.env.local"
-done
-
 echo "Installing workspace dependencies..."
-npm install
+npm ci
 
 echo "Setup complete."
 echo "  Catalog:          cat AGENT_CATALOG.md"

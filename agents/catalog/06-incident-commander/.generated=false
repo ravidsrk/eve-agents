@@ -1,0 +1,1 @@
+Hand-authored flagship agent. scripts/generate-catalog.mjs skips --clean and regeneration for this directory.

@@ -21,9 +21,6 @@ echo "==> eve build ($AGENT_ID, VERCEL=1 → .vercel/output)"
 (cd "$AGENT_DIR" && VERCEL=1 npm run build)
 
 DEPLOY_ARGS=(--yes --prebuilt)
-if [[ -n "${VERCEL_TOKEN:-}" ]]; then
-  DEPLOY_ARGS+=(--token "$VERCEL_TOKEN")
-fi
 
 echo "==> vercel deploy --prebuilt ($AGENT_ID)"
 (

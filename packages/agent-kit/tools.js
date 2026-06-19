@@ -1,18 +1,98 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { isIP } from "node:net";
 import { defineTool } from "eve/tools";
 import { always } from "eve/tools/approval";
 import { Sandbox } from "@superserve/sdk";
 import { z } from "zod";
 
-function appRoot() {
+function hasAgentStructure(dir) {
+  return (
+    existsSync(path.join(dir, "package.json")) &&
+    existsSync(path.join(dir, "agent", "data", "dossier.json"))
+  );
+}
+
+/** COUP-001: resolve agent package root independent of launch cwd. */
+export function resolveAppRoot() {
+  if (process.env.EVE_APP_ROOT) {
+    return path.resolve(process.env.EVE_APP_ROOT);
+  }
+  const starts = new Set([process.cwd()]);
+  if (process.env.INIT_CWD) starts.add(process.env.INIT_CWD);
+  for (const start of starts) {
+    let dir = start;
+    for (let i = 0; i < 32 && dir !== path.dirname(dir); i++) {
+      if (hasAgentStructure(dir)) return dir;
+      dir = path.dirname(dir);
+    }
+  }
+  return process.cwd();
+}
+
+/** REL-001: writable base for report/decision artifacts (serverless-safe). */
+export function artifactsRoot() {
+  if (process.env.EVE_ARTIFACTS_DIR) {
+    return path.resolve(process.env.EVE_ARTIFACTS_DIR);
+  }
+  if (process.env.VERCEL === "1") {
+    return os.tmpdir();
+  }
   return process.cwd();
 }
 
 function readJson(relativePath, fallback) {
-  const file = path.join(appRoot(), relativePath);
+  const file = path.join(resolveAppRoot(), relativePath);
   if (!existsSync(file)) return fallback;
   return JSON.parse(readFileSync(file, "utf8"));
+}
+
+function parseFetchAllowHosts() {
+  return (process.env.FETCH_ALLOW_HOSTS ?? "")
+    .split(",")
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function normalizeHostname(hostname) {
+  return hostname.toLowerCase().replace(/^\[|\]$/g, "");
+}
+
+/** SEC-002: block private, loopback, link-local, and metadata targets. */
+export function isRestrictedFetchHost(hostname) {
+  const host = normalizeHostname(hostname);
+  if (!host) return true;
+  if (host === "localhost" || host.endsWith(".localhost")) return true;
+  if (host === "metadata.google.internal") return true;
+
+  const ipVersion = isIP(host);
+  if (ipVersion === 4) {
+    const parts = host.split(".").map((part) => Number(part));
+    if (parts.length !== 4 || parts.some((part) => !Number.isFinite(part))) return true;
+    const [a, b] = parts;
+    if (a === 127) return true;
+    if (a === 10) return true;
+    if (a === 172 && b >= 16 && b <= 31) return true;
+    if (a === 192 && b === 168) return true;
+    if (a === 169 && b === 254) return true;
+    if (a === 0) return true;
+    return false;
+  }
+  if (ipVersion === 6) {
+    if (host === "::1") return true;
+    if (host.startsWith("fe80:")) return true;
+    if (host.startsWith("fc") || host.startsWith("fd")) return true;
+    return false;
+  }
+  return false;
+}
+
+export function isFetchHostAllowlisted(hostname) {
+  const allowed = parseFetchAllowHosts();
+  if (allowed.length === 0) return false;
+  const host = normalizeHostname(hostname);
+  return allowed.some((entry) => host === entry || host.endsWith(`.${entry}`));
 }
 
 function agentSlug() {
@@ -104,7 +184,7 @@ export const writeReportTool = defineTool({
   }),
   async execute({ filename, title, markdown }) {
     const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, "-").replace(/^-+/, "") || "report.md";
-    const dir = path.join(appRoot(), ".agent-artifacts", agentSlug());
+    const dir = path.join(artifactsRoot(), ".agent-artifacts", agentSlug());
     mkdirSync(dir, { recursive: true });
     const file = path.join(dir, safeName.endsWith(".md") ? safeName : `${safeName}.md`);
     const body = `# ${title}\n\n${markdown.trim()}\n`;
@@ -123,7 +203,7 @@ export const recordDecisionTool = defineTool({
   needsApproval: always(),
   async execute({ action, target, reason }) {
     const entry = { action, target, reason, status: "recorded", at: new Date().toISOString() };
-    const dir = path.join(appRoot(), ".agent-artifacts", agentSlug());
+    const dir = path.join(artifactsRoot(), ".agent-artifacts", agentSlug());
     mkdirSync(dir, { recursive: true });
     const file = path.join(dir, "decisions.jsonl");
     writeFileSync(file, `${JSON.stringify(entry)}\n`, { flag: "a" });
@@ -148,6 +228,21 @@ export const fetchLiveJsonTool = defineTool({
     const parsed = new URL(url);
     if (parsed.protocol !== "https:") {
       return { blocked: true, reason: "Only HTTPS URLs are allowed.", url };
+    }
+    if (isRestrictedFetchHost(parsed.hostname)) {
+      return {
+        blocked: true,
+        reason: "Private, loopback, and link-local hosts are not allowed.",
+        url,
+      };
+    }
+    if (!isFetchHostAllowlisted(parsed.hostname)) {
+      return {
+        blocked: true,
+        reason:
+          "Host is not in FETCH_ALLOW_HOSTS. Set a comma-separated allowlist when ALLOW_EXTERNAL_FETCH=1.",
+        url,
+      };
     }
     const res = await fetch(url, { headers: { accept: "application/json" } });
     const text = await res.text();

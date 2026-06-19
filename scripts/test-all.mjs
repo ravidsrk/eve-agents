@@ -14,6 +14,7 @@ const steps = [
   { name: "verify:runtime", command: "node", args: ["scripts/verify-runtime.mjs"] },
   { name: "verify:evals", command: "node", args: ["scripts/verify-evals.mjs"] },
   { name: "test:profile", command: "npm", args: ["run", "test:profile"] },
+  { name: "test:monid-tools", command: "npm", args: ["run", "test", "-w", "@eve-catalog/monid-tools"] },
 ];
 
 let failed = 0;

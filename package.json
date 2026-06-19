@@ -42,6 +42,7 @@
     "eval:catalog:rotate": "node scripts/eval-catalog-rotate.mjs",
     "smoke:production:build": "bash scripts/smoke-production-all.sh",
     "test:profile": "npm run test -w @eve-catalog/profile",
+    "test:monid-tools": "npm run test -w @eve-catalog/monid-tools",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test:all",
     "test:all": "node scripts/test-all.mjs",

@@ -14,6 +14,7 @@ const out = createWriteStream(outFile, { flags: "w" });
 let buffer = "";
 let events = 0;
 let done = false;
+let failed = false;
 
 function handleLine(line) {
   if (!line.trim()) return;
@@ -25,12 +26,12 @@ function handleLine(line) {
   } catch {
     return;
   }
-  if (
-    event.type === "session.waiting" ||
-    event.type === "session.completed" ||
-    event.type === "session.failed" ||
-    event.type === "turn.failed"
-  ) {
+  if (event.type === "session.failed" || event.type === "turn.failed") {
+    done = true;
+    failed = true;
+    return;
+  }
+  if (event.type === "session.waiting" || event.type === "session.completed") {
     done = true;
   }
 }
@@ -74,6 +75,11 @@ try {
 
 if (!done && !process.exitCode) {
   console.error("stream ended before completion marker");
+  process.exitCode = 1;
+}
+
+if (failed) {
+  console.error("stream ended with session.failed or turn.failed");
   process.exitCode = 1;
 }
 

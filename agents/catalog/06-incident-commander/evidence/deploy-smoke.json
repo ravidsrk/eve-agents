@@ -12,9 +12,10 @@
   },
   "evals": [
     "evals/smoke-reply.eval.ts",
-    "evals/tools-dossier.eval.ts",
+    "evals/smoke-dossier.eval.ts",
     "evals/incident-playbook.eval.ts"
   ],
+  "liveEvalResults": "3/3 passed (smoke-reply, smoke-dossier, incident-playbook)",
   "deployChecklist": [
     "eve build",
     "vercel deploy",

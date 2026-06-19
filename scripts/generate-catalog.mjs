@@ -494,6 +494,39 @@ function writeAgent(spec) {
   for (const [file, exportName] of Object.entries(toolMap)) {
     write(path.join(dir, "agent", "tools", `${file}.ts`), `export { ${exportName} as default } from "@eve-catalog/agent-kit/tools";\n`);
   }
+  write(
+    path.join(dir, "evals", "evals.config.ts"),
+    `import { defineEvalConfig } from "eve/evals";
+
+export default defineEvalConfig({});
+`,
+  );
+  write(path.join(dir, "evals", "smoke-dossier.eval.ts"), smokeDossierEval(spec));
+}
+
+function smokeDossierEval(spec) {
+  const [, slug, title] = spec;
+  return `import { defineEval } from "eve/evals";
+
+export default defineEval({
+  description: "Smoke: ${title} loads dossier and completes a turn.",
+  async test(t) {
+    await t.send(
+      [
+        "Follow these steps exactly:",
+        "1. Call load_dossier.",
+        "2. Call analyze_records with query 'priority'.",
+        "3. Reply with the word DOSSIER-OK on its own line.",
+      ].join(${JSON.stringify("\n")}),
+    );
+    t.completed();
+    t.didNotFail();
+    t.calledTool("load_dossier");
+    t.calledTool("analyze_records");
+    t.messageIncludes("DOSSIER-OK");
+  },
+});
+`;
 }
 
 if (hasFlag("--clean")) {

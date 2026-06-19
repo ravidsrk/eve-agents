@@ -474,8 +474,9 @@ Phase 6  ░░░░░░░░░░░░░░░░░░████→  
 | Phase | Status | Notes |
 | --- | --- | --- |
 | 0 | Done | `@eve-catalog/profile`, rename `@lab/*`, dual-track on 50 agents |
-| 1 | In progress | Flagship evals + `vercel.json`; deploy pending Vercel link |
-| 2 | In progress | CI structure + typecheck; optional Vercel preview job |
+| 1 | Done (lab) | Flagship 3/3 live evals; `eve build` OK; Vercel deploy pending token |
+| 2 | Done (lab) | CI structure + typecheck; optional Vercel preview job |
+| 3 | Started | A05 `refund_charge` + `npm run eval:hitl-catalog` PASS |
 | 3 | Not started | |
 | 4 | Not started | |
 | 5 | Not started | |

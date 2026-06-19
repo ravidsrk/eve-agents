@@ -26,6 +26,8 @@ let totalEvals = 0;
 
 for (const dir of dirs) {
   const evalsDir = path.join(catalogDir, dir, "evals");
+  const configFile = path.join(evalsDir, "evals.config.ts");
+  if (!existsSync(configFile)) fail(`${dir} missing evals/evals.config.ts`);
   const evalFiles = existsSync(evalsDir)
     ? readdirSync(evalsDir).filter((f) => f.endsWith(".eval.ts"))
     : [];

@@ -52,7 +52,9 @@ VERIFY-LIVE.md    Live run evidence (catalog 50/50)
 | --- | --- |
 | `npm test` | Full structure suite: catalog + runtime + evals + profile tests |
 | `npm run test:structure` | Same as `npm test` (keyless) |
-| `npm run eval:flagship` | `eve eval --strict` on 06-incident-commander (needs keys / dev server) |
+| `npm run eval:flagship` | `eve eval --strict` on 06-incident-commander (3 evals, needs keys) |
+| `npm run eval:hitl-catalog` | HITL approval proof on 05-refund-approval-operator |
+| `npm run deploy:flagship` | `eve build` + optional `vercel deploy` for A06 |
 | `npm run catalog:list` | JSON index of all 75 agents |
 | `npm run validate:reference` | `eve eval --strict` on reference fixtures |
 | `npm run run:production:all` | Live batch production agents |

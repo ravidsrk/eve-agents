@@ -43,6 +43,7 @@
     "eval:flagship": "bash scripts/eval-flagship.sh",
     "eval:hitl-catalog": "bash scripts/eval-catalog-hitl.sh",
     "eval:s-tier": "bash scripts/eval-s-tier.sh",
+    "eval:a-tier": "bash scripts/eval-a-tier.sh",
     "test:hitl": "bash scripts/hitl_test.sh",
     "test:durable": "bash scripts/durable_test.sh",
     "smoke:production": "node scripts/smoke-production-monid.mjs",

@@ -55,9 +55,9 @@ must use `record_decision`, which pauses for human approval.
 
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Fleet registry: `agent/data/registry.json` + 3 subagents (`sales-scout`, `support-scout`, `finance-scout`).
+- `swarm_run` from `@eve-catalog/agent-kit`.
+- Evals: `fleet-routing`, `swarm-parallel`, `smoke-dossier`.
 
 ## Domain rule
 

@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { defineTool } from "eve/tools";
 import { always } from "eve/tools/approval";
+import { Sandbox } from "@superserve/sdk";
 import { z } from "zod";
 
 function appRoot() {
@@ -157,6 +158,54 @@ export const fetchLiveJsonTool = defineTool({
       json = { raw: text.slice(0, 5000) };
     }
     return { status: res.status, ok: res.ok, url, json };
+  },
+});
+
+/** Parallel isolated SuperServe sandboxes — extracted from integrations/20-swarm. */
+export const swarmRunTool = defineTool({
+  description:
+    "Run independent Python jobs in parallel, each in its own isolated SuperServe sandbox. " +
+    "Returns stdout and exit code per job.",
+  inputSchema: z.object({
+    jobs: z
+      .array(
+        z.object({
+          name: z.string().min(1),
+          code: z.string().min(1).describe("Self-contained Python that prints its result"),
+        }),
+      )
+      .min(1)
+      .max(6),
+  }),
+  async execute({ jobs }) {
+    const started = Date.now();
+    const results = await Promise.all(
+      jobs.map(async (job) => {
+        let sandbox;
+        try {
+          sandbox = await Sandbox.create({
+            name: `swarm-${job.name}`.replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 50),
+            fromTemplate: "superserve/python-ml",
+            timeoutSeconds: 300,
+          });
+          await sandbox.files.write("/workspace/job.py", job.code);
+          const r = await sandbox.commands.run("python3 /workspace/job.py", { timeoutMs: 60000 });
+          return {
+            name: job.name,
+            sandboxId: sandbox.id,
+            exitCode: r.exitCode,
+            stdout: r.stdout.trim(),
+            stderr: r.stderr.trim().slice(0, 500),
+          };
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : String(e);
+          return { name: job.name, error: msg };
+        } finally {
+          if (sandbox) await sandbox.kill().catch(() => {});
+        }
+      }),
+    );
+    return { jobCount: jobs.length, elapsedMs: Date.now() - started, results };
   },
 });
 

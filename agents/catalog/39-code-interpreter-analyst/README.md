@@ -55,9 +55,8 @@ must use `record_decision`, which pauses for human approval.
 
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Sandbox tool: `run_python` via `ctx.getSandbox()`.
+- Evals: `evals/sandbox-python.eval.ts`, `evals/smoke-dossier.eval.ts`.
 
 ## Domain rule
 

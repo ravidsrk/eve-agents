@@ -55,9 +55,8 @@ must use `record_decision`, which pauses for human approval.
 
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Schedule: `agent/schedules/inbound-lead.ts` + `evals/schedule-inbound.eval.ts`.
+- Evals: `evals/lead-research.eval.ts`, `evals/smoke-dossier.eval.ts`.
 
 ## Domain rule
 

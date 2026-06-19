@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+      "id": "sales-scout",
+      "tags": ["sales", "lead", "research"],
+      "description": "Inbound lead enrichment, fit scoring, and next-best action."
+    },
+    {
+      "id": "support-scout",
+      "tags": ["support", "ticket", "triage"],
+      "description": "Support ticket classification, KB lookup, and escalation."
+    },
+    {
+      "id": "finance-scout",
+      "tags": ["finance", "revenue", "kpi"],
+      "description": "Revenue KPI questions and warehouse extract analysis."
+    }
+  ]
+}

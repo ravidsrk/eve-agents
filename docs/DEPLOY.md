@@ -8,7 +8,7 @@
 - `vercel login` (CLI session) **or** `VERCEL_TOKEN` for scripts/CI
 - This repo cloned; agent uses dual-track profile from Phase 0 (`@eve-catalog/profile`)
 - No `OPENROUTER_API_KEY` or `SUPERSERVE_API_KEY` on Vercel — inference via AI Gateway OIDC
-- Set `VERCEL_API_KEY` on the Vercel project for `/eve/v1/*` route auth (see agent `.env.example`)
+- Set `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` on the Vercel project for HTTP session access (`catalogRouteAuth`)
 
 ## Quick path (monorepo + prebuilt)
 

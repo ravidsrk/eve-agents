@@ -1,7 +1,7 @@
 import { defineAgent } from "eve";
-import { orModel } from "@eve-catalog/openrouter";
+import { DEFAULT_CONTEXT_WINDOW, resolveModel } from "@eve-catalog/profile";
 
 export default defineAgent({
-  model: orModel(),
-  modelContextWindowTokens: 131072,
+  model: resolveModel(),
+  modelContextWindowTokens: DEFAULT_CONTEXT_WINDOW,
 });

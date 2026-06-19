@@ -39,7 +39,6 @@ jobs:
       - name: Typecheck workspaces
         run: npm run typecheck
 
-  # Optional: OPENROUTER_API_KEY + SUPERSERVE_API_KEY for live S-tier evals on catalog PRs.
   eval-s-tier:
     if: |
       github.event_name == 'pull_request' &&
@@ -64,7 +63,30 @@ jobs:
           SUPERSERVE_API_KEY: ${{ secrets.SUPERSERVE_API_KEY }}
         run: npm run eval:s-tier
 
-  # Optional: VERCEL_DEPLOY_ENABLED=true + Vercel secrets for preview deploys.
+  eval-catalog-rotate:
+    if: |
+      github.event_name == 'pull_request' &&
+      vars.EVAL_ROTATE_ENABLED == 'true' &&
+      secrets.OPENROUTER_API_KEY != ''
+    runs-on: ubuntu-latest
+    needs: [structure]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Rotating catalog smoke evals (10)
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          SUPERSERVE_API_KEY: ${{ secrets.SUPERSERVE_API_KEY }}
+        run: npm run eval:catalog:rotate -- 10 ${{ github.run_number }}
+
   deploy-preview:
     if: github.event_name == 'pull_request' && vars.VERCEL_DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
@@ -87,22 +109,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build ${{ matrix.agent }}
-        working-directory: agents/catalog/${{ matrix.agent }}
-        run: npm run build
-
-      - name: Deploy ${{ matrix.agent }} preview
-        working-directory: agents/catalog/${{ matrix.agent }}
+      - name: Prebuilt deploy ${{ matrix.agent }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets[matrix.project_secret] }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel deploy --token "$VERCEL_TOKEN" --yes
+        run: bash scripts/deploy-catalog.sh "${{ matrix.agent }}"
 
-  # Reference parity with vercel/eve fixtures. Blocking on main when keys are configured.
+      - name: Comment preview URL
+        if: matrix.agent == '06-incident-commander'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = process.env.PREVIEW_URL || '(see Vercel dashboard)';
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `**Flagship preview** — run \`npm run smoke:deployed -- <url>\` after setting ROUTE_AUTH_BASIC_* on the project.`
+            });
+
   validate-reference:
     if: |
-      (github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.REFERENCE_EVAL_ENABLED == 'true' && secrets.OPENROUTER_API_KEY != '') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.OPENROUTER_API_KEY != '') ||
       (github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     needs: [structure, typecheck]

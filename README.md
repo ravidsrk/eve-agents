@@ -32,9 +32,19 @@ Keys for live runs: `OPENROUTER_API_KEY`, `SUPERSERVE_API_KEY` in `.secrets/eve.
 | Track | When | Inference | Sandbox |
 | --- | --- | --- | --- |
 | **Lab** (today) | Local dev, CI structure | OpenRouter (`@eve-catalog/openrouter`) | SuperServe (`@eve-catalog/superserve-backend`) |
-| **Vercel** (roadmap) | `vercel deploy` | AI Gateway + OIDC | Vercel Sandbox (default) |
+| **Vercel** | `npm run deploy:flagship` | AI Gateway + OIDC | Vercel Sandbox (default) |
 
-See **[ROADMAP.md](ROADMAP.md)** for the phase-by-phase plan to add the Vercel-native track without removing the lab track.
+**Deploy incident commander in 5 minutes**
+
+```bash
+vercel login
+cd agents/catalog/06-incident-commander && vercel link --yes
+# Set ROUTE_AUTH_BASIC_USER + ROUTE_AUTH_BASIC_PASSWORD in Vercel project env
+npm run deploy:flagship
+npm run smoke:deployed -- https://eve-incident-commander.vercel.app agents/catalog/06-incident-commander
+```
+
+Production: [eve-incident-commander.vercel.app](https://eve-incident-commander.vercel.app) · Docs: [Vercel eve](https://vercel.com/docs/eve) · [DEPLOY.md](docs/DEPLOY.md)
 
 ## Layout
 
@@ -56,8 +66,11 @@ VERIFY-LIVE.md    Live run evidence (catalog 50/50)
 | `npm run eval:s-tier` | All 5 S-tier agents (strict, needs keys) |
 | `npm run eval:a-tier` | A-tier agents + HITL (needs keys) |
 | `npm run eval:hitl-catalog` | HITL approval proof on 05-refund-approval-operator |
-| `npm run deploy:flagship` | `eve build` + optional `vercel deploy` for A06 |
-| `npm run deploy:support` | Second-wave deploy for A04 |
+| `npm run deploy:flagship` | Prebuilt deploy for A06 (CLI login or `VERCEL_TOKEN`) |
+| `npm run deploy:support` | Prebuilt deploy for A04 |
+| `npm run smoke:deployed` | Health + session smoke on a deployment URL |
+| `npm run eval:catalog:rotate` | Rotating B-tier smoke evals (CI) |
+| `npm run smoke:production:build` | `eve build` all P01–P10 |
 | `npm run catalog:list` | JSON index of all 75 agents |
 | `npm run validate:reference` | `eve eval --strict` on reference fixtures |
 | `npm run run:production:all` | Live batch production agents |

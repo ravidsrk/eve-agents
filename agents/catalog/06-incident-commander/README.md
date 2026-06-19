@@ -27,14 +27,16 @@ This archetype follows the official Eve template layout:
 
 ## Deploy on Vercel
 
+**Production:** https://eve-incident-commander.vercel.app
+
 ```bash
-cd agents/catalog/06-incident-commander
-npm run build
-vercel link && vercel deploy
+npm run deploy:flagship
+npm run smoke:deployed -- https://eve-incident-commander.vercel.app .
 ```
 
+Set `ROUTE_AUTH_BASIC_USER` + `ROUTE_AUTH_BASIC_PASSWORD` on the Vercel project for HTTP session access.
 On Vercel, inference uses AI Gateway OIDC (`@eve-catalog/profile`); no OpenRouter or SuperServe keys.
-See [docs/DEPLOY.md](../../../docs/DEPLOY.md) for smoke `curl` and [docs/CONNECT.md](../../../docs/CONNECT.md) for Slack Connect.
+See [docs/DEPLOY.md](../../../docs/DEPLOY.md) and [docs/CONNECT.md](../../../docs/CONNECT.md).
 
 ## Run
 
@@ -73,7 +75,7 @@ must use `record_decision`, which pauses for human approval.
 - Deterministic fixtures: included in `agent/data/`.
 - Live evals: `npm run eval:flagship` — 5 evals (incl. webhook-alert, schedule-digest).
 - Channels: Slack (`agent/channels/slack.ts`), alert webhook (`POST /incident` on alert channel).
-- Deploy build: `npm run deploy:flagship` — `eve build` passes; `vercel deploy` needs `VERCEL_TOKEN`.
+- Production deploy: `npm run deploy:flagship` → prebuilt; Agent Runs in Vercel Observability.
 - Schedule primitive: `agent/schedules/digest.ts` + `evals/schedule-digest.eval.ts`.
 - See `evidence/deploy-smoke.json` for dual-track checklist.
 

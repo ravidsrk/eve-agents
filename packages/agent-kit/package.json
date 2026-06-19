@@ -13,6 +13,10 @@
     "./tools": {
       "types": "./tools.d.ts",
       "default": "./tools.js"
+    },
+    "./route-auth": {
+      "types": "./route-auth.d.ts",
+      "default": "./route-auth.js"
     }
   },
   "dependencies": {

@@ -1,5 +1,7 @@
 {
   "agent": "06-incident-commander",
+  "productionUrl": "https://eve-incident-commander.vercel.app",
+  "supportUrl": "https://eve-support-triage.vercel.app",
   "tracks": {
     "lab": {
       "model": "@eve-catalog/openrouter",
@@ -17,19 +19,15 @@
     "evals/schedule-digest.eval.ts",
     "evals/webhook-alert.eval.ts"
   ],
-  "liveEvalResults": "5/5 passed (smoke-reply, smoke-dossier, incident-playbook, schedule-digest, webhook-alert)",
+  "liveEvalResults": "5/5 passed locally; deployed session smoke 202 + sessionId",
+  "deployedSmoke": "npm run smoke:deployed -- https://eve-incident-commander.vercel.app",
   "primitives": [
     "agent/schedules/digest.ts",
     "agent/channels/slack.ts",
-    "agent/channels/alert.ts"
+    "agent/channels/alert.ts",
+    "agent/instrumentation.ts"
   ],
-  "connect": "docs/CONNECT.md — slack/incident-commander",
-  "deployChecklist": [
-    "eve build",
-    "vercel deploy",
-    "curl POST /eve/v1/session",
-    "eve eval --base-url <preview> --strict",
-    "Observability → Agent Runs"
-  ],
-  "status": "ready-for-vercel-deploy"
+  "connect": "evidence/connect-slack.md + docs/CONNECT.md",
+  "auth": "catalogRouteAuth — ROUTE_AUTH_BASIC_* on Vercel",
+  "status": "deployed-production"
 }

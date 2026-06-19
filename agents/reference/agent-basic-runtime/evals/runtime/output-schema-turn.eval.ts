@@ -15,7 +15,8 @@ export default defineEval({
 
   async test(t) {
     const structured = await t.send({
-      message: "Summarize this turn as structured output.",
+      message:
+        'Return structured output only. Use count: 1 and title: "Smoke" exactly.',
       outputSchema: {
         properties: { count: { type: "integer" }, title: { type: "string" } },
         required: ["title", "count"],

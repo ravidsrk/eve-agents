@@ -39,10 +39,71 @@ jobs:
       - name: Typecheck workspaces
         run: npm run typecheck
 
-  # Optional: enable by setting repo variables VERCEL_DEPLOY_ENABLED=true
-  # and secrets VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_FLAGSHIP.
+  # Optional: OPENROUTER_API_KEY + SUPERSERVE_API_KEY for live S-tier evals on catalog PRs.
+  eval-s-tier:
+    if: |
+      github.event_name == 'pull_request' &&
+      vars.EVAL_S_TIER_ENABLED == 'true' &&
+      secrets.OPENROUTER_API_KEY != ''
+    runs-on: ubuntu-latest
+    needs: [structure]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: S-tier live evals
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          SUPERSERVE_API_KEY: ${{ secrets.SUPERSERVE_API_KEY }}
+        run: npm run eval:s-tier
+
+  # Optional: VERCEL_DEPLOY_ENABLED=true + Vercel secrets for preview deploys.
   deploy-preview:
     if: github.event_name == 'pull_request' && vars.VERCEL_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    needs: [structure, typecheck]
+    strategy:
+      matrix:
+        include:
+          - agent: 06-incident-commander
+            project_secret: VERCEL_PROJECT_ID_FLAGSHIP
+          - agent: 04-support-ticket-triage
+            project_secret: VERCEL_PROJECT_ID_SUPPORT
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build ${{ matrix.agent }}
+        working-directory: agents/catalog/${{ matrix.agent }}
+        run: npm run build
+
+      - name: Deploy ${{ matrix.agent }} preview
+        working-directory: agents/catalog/${{ matrix.agent }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets[matrix.project_secret] }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel deploy --token "$VERCEL_TOKEN" --yes
+
+  # Reference parity with vercel/eve fixtures. Blocking on main when keys are configured.
+  validate-reference:
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.REFERENCE_EVAL_ENABLED == 'true' && secrets.OPENROUTER_API_KEY != '') ||
+      (github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     needs: [structure, typecheck]
     steps:
@@ -56,14 +117,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build flagship
-        working-directory: agents/catalog/06-incident-commander
-        run: npm run build
-
-      - name: Deploy flagship preview
-        working-directory: agents/catalog/06-incident-commander
+      - name: Reference evals (strict)
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_FLAGSHIP }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel deploy --token "$VERCEL_TOKEN" --yes
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          SUPERSERVE_API_KEY: ${{ secrets.SUPERSERVE_API_KEY }}
+        run: npm run validate:reference

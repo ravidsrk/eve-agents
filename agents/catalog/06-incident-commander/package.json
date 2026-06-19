@@ -24,7 +24,8 @@
     "@eve-catalog/superserve-backend": "*",
     "@eve-catalog/monid-tools": "*",
     "@eve-catalog/agent-kit": "*",
-    "@eve-catalog/profile": "*"
+    "@eve-catalog/profile": "*",
+    "@vercel/connect": "^0.2.2"
   },
   "devDependencies": {
     "@types/node": "24.x",

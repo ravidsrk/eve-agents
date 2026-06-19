@@ -38,7 +38,9 @@ npm run eval:flagship          # 4/4 evals on 06-incident-commander
 npm run eval:s-tier            # all 5 S-tier agents (strict)
 npm run eval:a-tier            # A-tier agents + HITL (02, 33, 39, 50, 05)
 npm run eval:hitl-catalog      # HITL approval on 05-refund-approval-operator
-npm run deploy:flagship        # eve build (+ vercel deploy if VERCEL_TOKEN set)
+npm run deploy:flagship        # A06 eve build (+ vercel deploy if VERCEL_TOKEN set)
+npm run deploy:support         # A04 second-wave deploy
+npm run deploy:catalog -- 06-incident-commander  # generic catalog deploy
 ```
 
 ## Observability
@@ -47,7 +49,7 @@ After deploy, open **Vercel dashboard → Observability → Agent Runs** for ses
 
 ## Connect (Phase 4)
 
-Slack/GitHub channels use [Vercel Connect](https://vercel.com/connect). See [ROADMAP.md](../ROADMAP.md#phase-4--channels-connect--second-deploy-wave) and `agents/integrations/10-slack/README.md` for the lab-proven pattern.
+Slack on A06 and GitHub on A11 use [Vercel Connect](https://vercel.com/connect). See [CONNECT.md](./CONNECT.md).
 
 ## Full plan
 

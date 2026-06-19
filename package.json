@@ -35,6 +35,8 @@
     "scaffold:evals": "node scripts/scaffold-catalog-evals.mjs",
     "scaffold:eval-config": "node scripts/scaffold-eval-config.mjs",
     "deploy:flagship": "bash scripts/deploy-flagship.sh",
+    "deploy:support": "bash scripts/deploy-support.sh",
+    "deploy:catalog": "bash scripts/deploy-catalog.sh",
     "test:profile": "npm run test -w @eve-catalog/profile",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test:all",

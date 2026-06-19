@@ -7,7 +7,7 @@ const catalogDir = path.join(root, "agents", "catalog");
 
 /** Flagship requires multiple scored evals. */
 const FLAGSHIP = "06-incident-commander";
-const MIN_EVALS_FLAGSHIP = 3;
+const MIN_EVALS_FLAGSHIP = 5;
 const MIN_EVALS_CATALOG = 1;
 
 function fail(message) {

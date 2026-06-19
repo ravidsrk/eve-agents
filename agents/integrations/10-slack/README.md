@@ -1,5 +1,7 @@
 # 10 · Slack Channel Agent (customer support)
 
+> **Superseded for new work** by [`agents/catalog/06-incident-commander`](../../catalog/06-incident-commander/) — same Connect pattern, full incident playbook + evals. This integration remains a minimal lab proof.
+
 **Rationale.** A channel agent that lives where the team works. `agent/channels/slack.ts` wires
 eve's Slack channel (`slackChannel` + `connectSlackCredentials`), which answers `@mentions`/DMs in
 threads and renders HITL prompts as buttons. The default HTTP channel serves the *same* agent, so

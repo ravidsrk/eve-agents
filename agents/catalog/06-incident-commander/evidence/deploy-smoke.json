@@ -14,10 +14,16 @@
     "evals/smoke-reply.eval.ts",
     "evals/smoke-dossier.eval.ts",
     "evals/incident-playbook.eval.ts",
-    "evals/schedule-digest.eval.ts"
+    "evals/schedule-digest.eval.ts",
+    "evals/webhook-alert.eval.ts"
   ],
-  "liveEvalResults": "4/4 passed (smoke-reply, smoke-dossier, incident-playbook, schedule-digest)",
-  "primitives": ["agent/schedules/digest.ts"],
+  "liveEvalResults": "5/5 passed (smoke-reply, smoke-dossier, incident-playbook, schedule-digest, webhook-alert)",
+  "primitives": [
+    "agent/schedules/digest.ts",
+    "agent/channels/slack.ts",
+    "agent/channels/alert.ts"
+  ],
+  "connect": "docs/CONNECT.md — slack/incident-commander",
   "deployChecklist": [
     "eve build",
     "vercel deploy",

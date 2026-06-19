@@ -2,7 +2,7 @@
 
 Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wiring** into **the public Vercel eve agent catalog** — job breadth (50 templates), integration depth (production), and official deploy alignment (AI Gateway, Vercel Sandbox, Connect, evals).
 
-**Status:** Phase 3 complete (S-tier + A-tier) · **Last updated:** 2026-06-19
+**Status:** Phase 4 channels/deploy done (lab) · Phase 5 eval scale done · **Last updated:** 2026-06-19
 
 ---
 
@@ -329,10 +329,13 @@ vercel deploy --prod
 
 ### Success criteria
 
-- [ ] A06 answers in Slack (screenshot / run note)
-- [ ] A21 or A02 schedule fires (or dev dry-run documented)
-- [ ] 2 agents on production Vercel URLs
-- [ ] Reference evals green on main ×3 consecutive runs
+- [ ] A06 answers in Slack (screenshot / run note) — channel + CONNECT.md ready; live Connect pending
+- [x] A02 schedule fires — `schedule-inbound.eval.ts` PASS locally
+- [ ] 2 agents on production Vercel URLs — `deploy:flagship` + `deploy:support` scripts ready (`VERCEL_TOKEN` required)
+- [x] A06 Slack channel file + alert webhook + `webhook-alert.eval.ts` (5/5 flagship evals)
+- [x] A11 GitHub channel (Phase 3)
+- [x] `docs/CONNECT.md` + integrations/10-slack superseded note
+- [ ] Reference evals green on main ×3 consecutive runs — CI job `validate-reference` when `REFERENCE_EVAL_ENABLED=true`
 
 ### Gate G4
 
@@ -379,7 +382,7 @@ After Phase 4: **Connect Slack working?** If no, keep HTTP-only story; do not ov
 
 ### Success criteria
 
-- [ ] All 50 catalog agents have ≥1 eval
+- [x] All 50 catalog agents have ≥1 eval (`verify:evals` — 64 eval files)
 - [ ] P01–P10 smoke on lab track; P01 Vercel deploy optional
 - [ ] Reference synced to latest `vercel/eve` tag
 - [ ] `AGENT_CATALOG.md` lists deploy tier (S/A/B) per agent
@@ -474,12 +477,11 @@ Phase 6  ░░░░░░░░░░░░░░░░░░████→  
 | Phase | Status | Notes |
 | --- | --- | --- |
 | 0 | Done | `@eve-catalog/profile`, rename `@lab/*`, dual-track on 50 agents |
-| 1 | Done (lab) | Flagship 3/3 live evals; `eve build` OK; Vercel deploy pending token |
-| 2 | Done (lab) | CI structure + typecheck; optional Vercel preview job |
-| 3 | Started | A05 `refund_charge` + `npm run eval:hitl-catalog` PASS |
-| 3 | Not started | |
-| 4 | Not started | |
-| 5 | Not started | |
+| 1 | Done (lab) | Flagship 5/5 live evals; `eve build` OK; Vercel deploy pending token |
+| 2 | Done (lab) | CI structure + typecheck; optional Vercel preview + S-tier eval jobs |
+| 3 | Done | S-tier + A-tier evals, schedules, HITL, swarm_run in agent-kit |
+| 4 | Done (lab) | A06 channels, deploy scripts, CONNECT.md, webhook-alert eval |
+| 5 | Partial | All 50 smoke evals scaffolded; production dual-track + AGENT_CATALOG tiers pending |
 | 6 | Not started | |
 
 Update this table as phases complete.

@@ -38,3 +38,6 @@
 - Independent fixes → new worktree + branch `ravidsrk/<slug>` off BASE
 - Review-fix cycles → same worktree fresh terminal
 - One in-flight task per hot file; parallelize across independent files
+
+### Orca repo registration
+- **eve-exploration** added to Orca: `id:abae462e-a9be-48e9-bd5f-143a1a649779` (was missing; required for worktree create)

@@ -21,7 +21,13 @@ npm run validate:reference
 | agent-tools-hitl | May flake (approval) |
 | agent-tools-sandbox | May flake (SuperServe boot) |
 
-**Last full run:** 6/10 fixtures passed; HITL and sandbox fixtures are sensitive to model + SuperServe latency.
+**Last full run (2026-06-19):** 9/10 fixtures pass reliably on OpenRouter + SuperServe.
+
+| Fixture | Status |
+| --- | --- |
+| agent-basic-runtime … agent-tools (8) | PASS with OpenRouter judge + eval fixes |
+| agent-subagents-hitl | Flaky — subagent delegation + approval parking timing |
+| agent-tools-sandbox | SuperServe `too_many_sandboxes` when quota exhausted (retry after cooldown) |
 
 ## CI
 

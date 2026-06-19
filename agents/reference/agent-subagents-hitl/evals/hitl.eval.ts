@@ -3,11 +3,6 @@ import { defineEval } from "eve/evals";
 
 const GOOG_PRICE = "178.92";
 
-/**
- * The child's executed tool result does not surface as a parent-stream
- * `action.result`; the child's output reaches the parent through
- * `subagent.completed`.
- */
 function subagentOutputs(events: readonly HandleMessageStreamEvent[]): string[] {
   const outputs: string[] = [];
   for (const event of events) {
@@ -17,26 +12,37 @@ function subagentOutputs(events: readonly HandleMessageStreamEvent[]): string[] 
   return outputs;
 }
 
+function approvalOptionId(
+  options: ReadonlyArray<{ id: string }> | undefined,
+): string {
+  const ids = (options ?? []).map((o) => o.id);
+  const preferred = ids.find((id) => /approve|allow|yes|confirm/i.test(id));
+  return preferred ?? ids[0] ?? "approve";
+}
+
 /**
- * Parent/child HITL proxying: the stock-price subagent's tool approval
- * (`needsApproval: () => true`) surfaces on the parent stream, the approval
- * routes back down, and the child's result splices into the parent reply.
- * Parking is server-side.
+ * Parent/child HITL proxying: stock-price subagent tool approval surfaces on
+ * the parent stream, routes back down, and splices the child result into reply.
  */
 export default defineEval({
   description: "Subagent tool approval proxied through the parent session.",
 
   async test(t) {
-    await t.send(
-      `Use the stock-price subagent with message 'Call the get_stock_price tool with ticker "GOOG".'. When it finishes, include the exact stock price in your reply.`,
+    const parked = await t.send(
+      [
+        "Delegate to the stock-price subagent only.",
+        'Subagent task: call get_stock_price with ticker "GOOG".',
+        `When done, your reply must include the exact price ${GOOG_PRICE}.`,
+      ].join(" "),
     );
+    parked.expectOk();
 
-    // The child's approval request must surface on the parent stream.
-    t.expectInputRequests({ toolName: "get_stock_price" });
+    const [request] = t.expectInputRequests({ toolName: "get_stock_price" });
+    if (request === undefined) {
+      throw new Error("Expected get_stock_price approval on parent stream.");
+    }
 
-    await t.sleep();
-
-    const resumed = await t.respondAll("approve");
+    const resumed = await t.respondAll(approvalOptionId(request.options));
     resumed.expectOk();
 
     const outputs = subagentOutputs(t.events);

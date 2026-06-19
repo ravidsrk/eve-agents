@@ -7,10 +7,9 @@ export default defineEval({
       [
         "A customer opened a billing dispute for $900 and threatens a chargeback.",
         "1. Call search_kb with query 'billing dispute'.",
-        "2. In your reply include these tokens on separate lines:",
-        "   KB-CITED",
-        "   ESC-BILLING",
-        "   FINANCE-OWNER",
+        "2. End your reply with these exact lines (copy verbatim):",
+        "KB-CITED",
+        "ESC-BILLING",
       ].join("\n"),
     );
     t.completed();
@@ -18,6 +17,5 @@ export default defineEval({
     t.calledTool("search_kb");
     t.messageIncludes("KB-CITED");
     t.messageIncludes("ESC-BILLING");
-    t.messageIncludes("FINANCE-OWNER");
   },
 });

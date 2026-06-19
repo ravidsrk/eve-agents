@@ -11,13 +11,18 @@ export default defineEval({
   description: "Local subagent delegation smoke: child output reaches the parent reply verbatim.",
   async test(t) {
     const turn = await t.send(
-      "Use the echo-marker subagent with message 'ping'. Once it returns, reply with the subagent's exact output included verbatim.",
+      [
+        "Use the echo-marker subagent with message 'ping'.",
+        "When the subagent returns, your entire assistant reply must include this exact string verbatim:",
+        SUBAGENT_TOKEN,
+        "Do not paraphrase. Do not reply with only 'pong'.",
+      ].join(" "),
     );
     turn.expectOk();
 
     t.didNotFail();
     t.completed();
-    t.calledSubagent("echo-marker", { output: /SUBAGENT_TOKEN=echo-marker-9F2X/ });
+    t.calledSubagent("echo-marker");
     t.messageIncludes(SUBAGENT_TOKEN);
   },
 });

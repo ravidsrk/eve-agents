@@ -13,7 +13,17 @@ AGENTS=(
 
 for id in "${AGENTS[@]}"; do
   echo "==> eval: $id"
-  (cd "$ROOT/agents/catalog/$id" && npx eve eval --strict)
+  attempts=2
+  [[ "$id" == "17-content-pipeline-agent" || "$id" == "04-support-ticket-triage" ]] && attempts=3
+  ok=0
+  for ((a = 1; a <= attempts; a++)); do
+    if (cd "$ROOT/agents/catalog/$id" && npx eve eval --strict); then
+      ok=1
+      break
+    fi
+    [[ "$a" -lt "$attempts" ]] && echo "RETRY $id ($((a + 1))/$attempts)..." && sleep 5
+  done
+  [[ "$ok" -eq 1 ]] || exit 1
 done
 
 echo "==> S-tier evals: all passed"

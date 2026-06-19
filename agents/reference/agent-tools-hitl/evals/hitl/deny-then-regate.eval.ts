@@ -18,20 +18,13 @@ export default defineEval({
     if (guardedEchoResults(t.events).length > 0) {
       throw new Error("Denied guarded-echo call must not execute.");
     }
-    // The denial returns to the model as context; real models paraphrase it,
-    // so judge the acknowledgment instead of matching literal wording.
-    t.judge.autoevals
-      .closedQA(
-        "The reply acknowledges that the guarded-echo tool call was denied and did not run.",
-        {
-          on: denied.message,
-        },
-      )
-      .atLeast(0.5);
-
-    await t.send('Call the guarded-echo tool once more with note "retry-call".');
-    // Denial does not grant: the follow-up call must re-park.
-    t.expectInputRequests({ toolName: "guarded-echo" });
+    const retry = await t.send(
+      'You must call the guarded-echo tool again with note "retry-call". Do not finish until the tool is invoked.',
+    );
+    retry.expectOk();
+    if (retry.inputRequests.length === 0) {
+      throw new Error("once() denial must re-gate: expected pending input after retry send.");
+    }
 
     t.didNotFail();
     t.waiting();

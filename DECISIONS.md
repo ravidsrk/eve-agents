@@ -41,4 +41,3 @@
 
 ### Orca repo registration
 - **eve-agents** registered in Orca: `id:db33b07b-194a-4fa4-8d0b-f01efd0f164b` at `/Users/ravindra/projects/eve-agents`
-- Legacy `eve-exploration` entry (`id:abae462e-a9be-48e9-bd5f-143a1a649779`) is stale after folder rename — use the new repo id

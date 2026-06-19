@@ -35,7 +35,7 @@ Production alias: `https://eve-incident-commander.vercel.app`
 
 ```bash
 URL="https://eve-incident-commander.vercel.app"
-USER="eve-catalog"
+USER="eve-agents"
 PASS="your-basic-auth-password"
 
 curl -u "$USER:$PASS" -X POST "$URL/eve/v1/session" \

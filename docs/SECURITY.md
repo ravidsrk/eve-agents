@@ -27,7 +27,7 @@ chmod 600 .secrets/eve.env
 3. Optional `httpBasic()` when both are set:
 
 ```bash
-ROUTE_AUTH_BASIC_USER=eve-catalog
+ROUTE_AUTH_BASIC_USER=eve-agents
 ROUTE_AUTH_BASIC_PASSWORD=<strong-password>
 ```
 

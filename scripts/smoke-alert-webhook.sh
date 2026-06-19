@@ -9,8 +9,13 @@ PORT="${1:-3206}"
 require_node24
 
 echo "==> Alert webhook smoke on port $PORT"
+CURL_HEADERS=(-H 'content-type: application/json')
+if [[ -n "${ALERT_WEBHOOK_SECRET:-}" ]]; then
+  CURL_HEADERS+=(-H "x-alert-webhook-secret: ${ALERT_WEBHOOK_SECRET}")
+fi
+
 RESP=$(curl -s -XPOST "http://127.0.0.1:${PORT}/incident" \
-  -H 'content-type: application/json' \
+  "${CURL_HEADERS[@]}" \
   -d '{"title":"Synthetic latency spike","reference":"INC-SMOKE-1","severity":"high"}')
 
 echo "$RESP" | node -e '

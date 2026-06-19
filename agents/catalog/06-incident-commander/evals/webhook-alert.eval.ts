@@ -1,5 +1,5 @@
 import { defineEval } from "eve/evals";
-import { postChannel } from "./channel-shared.ts";
+import { alertWebhookHeaders, postChannel, postChannelRaw } from "./channel-shared.ts";
 
 export default defineEval({
   description: "Alert webhook ingests incident payload and starts investigation session.",
@@ -10,11 +10,31 @@ export default defineEval({
       return;
     }
 
-    const payload = await postChannel<{ ok: boolean; sessionId?: string }>(t.target, "/incident", {
+    const unauth = await postChannelRaw(t.target, "/incident", {
       title: "API latency spike",
-      reference: "INC-TEST-42",
+      reference: "INC-TEST-UNAUTH",
       severity: "high",
     });
+    if (unauth.status !== 401) {
+      throw new Error(`Expected unauthenticated POST /incident to return 401, got ${unauth.status}`);
+    }
+
+    const secret = process.env.ALERT_WEBHOOK_SECRET?.trim();
+    if (!secret) {
+      t.log("ALERT_WEBHOOK_SECRET not set; skipping authenticated alert webhook flow.");
+      return;
+    }
+
+    const payload = await postChannel<{ ok: boolean; sessionId?: string }>(
+      t.target,
+      "/incident",
+      {
+        title: "API latency spike",
+        reference: "INC-TEST-42",
+        severity: "high",
+      },
+      { headers: alertWebhookHeaders(secret) },
+    );
     if (payload.ok !== true || typeof payload.sessionId !== "string") {
       throw new Error(`Unexpected alert response: ${JSON.stringify(payload)}`);
     }

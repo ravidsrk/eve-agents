@@ -37,6 +37,7 @@ Requires:
 ## Tools and data
 
 - `load_dossier`: loads `agent/data/dossier.json`.
+- `search_kb`: grounded retrieval from `agent/kb/articles.json` with source citations.
 - `search_records`: searches `agent/data/records.json`.
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
@@ -55,9 +56,8 @@ must use `record_decision`, which pauses for human approval.
 
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Document corpus: `agent/kb/articles.json`.
+- Evals: `evals/smoke-dossier.eval.ts`, `evals/rag-citation.eval.ts`.
 
 ## Domain rule
 

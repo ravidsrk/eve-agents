@@ -37,6 +37,7 @@ Requires:
 ## Tools and data
 
 - `load_dossier`: loads `agent/data/dossier.json`.
+- `run_aggregate`: sums/averages recognized revenue from `agent/data/revenue.csv`.
 - `search_records`: searches `agent/data/records.json`.
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
@@ -53,11 +54,14 @@ The agent should load the dossier, inspect records, identify the highest-priorit
 assumptions and uncertainty, and write a report. For any action that changes an external system, it
 must use `record_decision`, which pauses for human approval.
 
+## Deploy on Vercel
+
+S-tier showcase — dual-track via `@eve-catalog/profile`. Sandbox optional for ad-hoc bash; KPI answers use `run_aggregate` on seeded CSV.
+
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Warehouse extract: `agent/data/revenue.csv`.
+- Evals: `evals/smoke-dossier.eval.ts`, `evals/revenue-aggregate.eval.ts`.
 
 ## Domain rule
 

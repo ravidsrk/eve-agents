@@ -21,6 +21,7 @@ This archetype follows the official Eve template layout:
 - `agent/lib/profile.ts` for reusable static metadata,
 - `agent/tools/*.ts` for typed tools,
 - `agent/sandbox/sandbox.ts` for SuperServe-backed execution.
+- `agent/channels/github.ts` for GitHub App PR/issue @mentions (Vercel deploy).
 
 ## Run
 
@@ -37,6 +38,7 @@ Requires:
 ## Tools and data
 
 - `load_dossier`: loads `agent/data/dossier.json`.
+- `analyze_diff`: risk labels and reviewer suggestions from `agent/data/pr-patch.diff`.
 - `search_records`: searches `agent/data/records.json`.
 - `analyze_records`: scores local records for risk and opportunity.
 - `write_report`: writes a markdown artifact under `.agent-artifacts/`.
@@ -53,11 +55,15 @@ The agent should load the dossier, inspect records, identify the highest-priorit
 assumptions and uncertainty, and write a report. For any action that changes an external system, it
 must use `record_decision`, which pauses for human approval.
 
+## Deploy on Vercel
+
+S-tier showcase — set `GITHUB_APP_*` env vars; webhook at `/eve/v1/github`. Pattern from [vercel-labs/eve-pr-triage-agent-template](https://github.com/vercel-labs/eve-pr-triage-agent-template).
+
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Seeded patch: `agent/data/pr-patch.diff`.
+- Evals: `evals/smoke-dossier.eval.ts`, `evals/pr-triage.eval.ts`.
+- GitHub channel: `agent/channels/github.ts` (HTTP channel proves agent locally).
 
 ## Domain rule
 

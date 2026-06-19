@@ -42,6 +42,7 @@
     "test:structure": "npm run verify:catalog && npm run verify:runtime && npm run verify:evals && npm run test:profile",
     "eval:flagship": "bash scripts/eval-flagship.sh",
     "eval:hitl-catalog": "bash scripts/eval-catalog-hitl.sh",
+    "eval:s-tier": "bash scripts/eval-s-tier.sh",
     "test:hitl": "bash scripts/hitl_test.sh",
     "test:durable": "bash scripts/durable_test.sh",
     "smoke:production": "node scripts/smoke-production-monid.mjs",

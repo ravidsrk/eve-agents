@@ -1,0 +1,19 @@
+diff --git a/src/auth/session.ts b/src/auth/session.ts
+index 1a2b3c4..5d6e7f8 100644
+--- a/src/auth/session.ts
++++ b/src/auth/session.ts
+@@ -12,7 +12,7 @@ export function validateSession(token: string): Session {
+-  return decodeLegacyToken(token);
++  return decodeJwtToken(token);
+ }
+ 
+ export function refreshSession(session: Session): Session {
+diff --git a/src/api/users.ts b/src/api/users.ts
+index 9aa9aa9..bbbbbbb 100644
+--- a/src/api/users.ts
++++ b/src/api/users.ts
+@@ -4,6 +4,7 @@ export async function listUsers() {
+   const rows = await db.query("SELECT id, email FROM users");
++  await auditLog.write("users.list");
+   return rows;
+ }

@@ -275,8 +275,8 @@ Week 6: A11 + A17 + A02 + A50
 
 ### Success criteria
 
-- [ ] 10 agents have `evals/` with ≥2 passing evals locally (3/10: A06, A04, A05 shell HITL)
-- [ ] 5 S-tier agents documented for Vercel deploy (2/5: A06, A04)
+- [ ] 10 agents have `evals/` with ≥2 passing evals locally (7/10: A06, A04, A01, A11, A17, A33, A05 HITL)
+- [x] 5 S-tier agents documented for Vercel deploy (A06, A04, A01, A11, A17)
 - [x] A05 HITL eval passes (`npm run eval:hitl-catalog`)
 - [ ] A50 subagent eval passes
 - [ ] `swarm_run` in agent-kit (if needed for A50)

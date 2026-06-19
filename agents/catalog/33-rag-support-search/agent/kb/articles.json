@@ -1,0 +1,26 @@
+[
+  {
+    "id": "doc-reset-password",
+    "title": "Reset your password",
+    "source": "kb/password-reset.md",
+    "summary": "Self-serve password reset via Settings → Security → Reset password.",
+    "body": "Users receive an email link valid for 30 minutes. Escalate to Identity if MFA lockout persists after two attempts.",
+    "tags": ["identity", "how-to"]
+  },
+  {
+    "id": "doc-billing-proration",
+    "title": "Billing proration FAQ",
+    "source": "kb/billing-proration.md",
+    "summary": "Plan upgrades prorate to the day; downgrades apply next cycle.",
+    "body": "Quote doc-billing-proration when customers ask about mid-cycle plan changes. Cite the doc id in replies.",
+    "tags": ["billing", "faq"]
+  },
+  {
+    "id": "doc-data-export",
+    "title": "GDPR data export SLA",
+    "source": "kb/gdpr-export.md",
+    "summary": "Data export requests fulfilled within 30 days.",
+    "body": "Route urgent legal requests to Privacy queue. Always cite doc-data-export when stating SLA.",
+    "tags": ["privacy", "legal"]
+  }
+]

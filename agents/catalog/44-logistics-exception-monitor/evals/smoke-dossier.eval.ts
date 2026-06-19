@@ -7,7 +7,7 @@ export default defineEval({
       [
         "Follow these steps exactly. Do not call record_decision.",
         "1. Call load_dossier.",
-        "2. Call analyze_records with query 'priority'.",
+        "2. Call analyze_records with limit 5.",
         "3. Reply with the word DOSSIER-OK on its own line.",
       ].join("\n"),
     );

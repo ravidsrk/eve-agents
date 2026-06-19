@@ -1,0 +1,6 @@
+region,product,revenue,recognized
+NA,SaaS,120000,true
+EMEA,SaaS,85000,true
+APAC,Services,42000,false
+NA,Services,31000,true
+APAC,SaaS,28000,true

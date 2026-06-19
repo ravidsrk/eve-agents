@@ -53,11 +53,13 @@ The agent should load the dossier, inspect records, identify the highest-priorit
 assumptions and uncertainty, and write a report. For any action that changes an external system, it
 must use `record_decision`, which pauses for human approval.
 
+## Deploy on Vercel
+
+S-tier showcase — dual-track via `@eve-catalog/profile`. Multi-turn drafts run over the default HTTP channel.
+
 ## Evidence status
 
-- Deterministic fixtures: included in `agent/data/`.
-- Live OpenRouter/SuperServe run: pending until those keys are available in this workspace.
-- Monid live research: pending because the currently available Monid key is rejected by the API.
+- Evals: `evals/smoke-dossier.eval.ts`, `evals/content-pipeline.eval.ts` (3-turn draft → review → revise).
 
 ## Domain rule
 

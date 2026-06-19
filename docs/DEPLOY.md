@@ -35,6 +35,7 @@ npx eve eval --base-url "$URL" --strict
 
 ```bash
 npm run eval:flagship          # 4/4 evals on 06-incident-commander
+npm run eval:s-tier            # all 5 S-tier agents (strict)
 npm run eval:hitl-catalog      # HITL approval on 05-refund-approval-operator
 npm run deploy:flagship        # eve build (+ vercel deploy if VERCEL_TOKEN set)
 ```

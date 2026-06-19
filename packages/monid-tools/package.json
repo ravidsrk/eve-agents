@@ -14,6 +14,9 @@
       "default": "./tools.js"
     }
   },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
   "peerDependencies": {
     "eve": "^0.11.4",
     "zod": "^4.0.0"

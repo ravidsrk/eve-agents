@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterEach, beforeEach, describe, it } from "node:test";
 
@@ -180,5 +180,63 @@ describe("cost ledger (COST-003)", () => {
     } catch {
       /* best-effort */
     }
+  });
+
+  it("seeds spent total from an existing cost ledger on cold start", () => {
+    const seedLog = join(mkdtempSync(join(tmpdir(), "monid-seed-")), "costs.jsonl");
+    writeFileSync(
+      seedLog,
+      [
+        JSON.stringify({ chargedUsd: 0.4, provider: "a", endpoint: "/x" }),
+        JSON.stringify({ chargedUsd: 0.35, provider: "b", endpoint: "/y" }),
+        "not-json",
+        JSON.stringify({ chargedUsd: -1 }),
+      ].join("\n") + "\n",
+    );
+
+    const script = `
+      process.env.MONID_API_KEY = "test-key";
+      process.env.MONID_BUDGET_USD = "1";
+      process.env.MONID_MAX_CALL_USD = "1";
+      process.env.MONID_COST_LOG = ${JSON.stringify(seedLog)};
+      const { amountSpent, seedSpentFromLedger, BUDGET_USD, run } = await import(${JSON.stringify(join(pkgRoot, "index.js"))});
+      const seeded = seedSpentFromLedger(${JSON.stringify(seedLog)});
+      if (Math.abs(seeded - 0.75) > 1e-9) {
+        console.error("seed mismatch", seeded);
+        process.exit(2);
+      }
+      if (Math.abs(amountSpent() - 0.75) > 1e-9) {
+        console.error("module spent not seeded", amountSpent());
+        process.exit(3);
+      }
+      globalThis.fetch = async () =>
+        new Response(JSON.stringify({ cost: { amount: 0.3 } }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      let refused = false;
+      try {
+        await run({
+          provider: "p",
+          endpoint: "/e",
+          input: {},
+          price: { type: "PER_CALL", amount: 0.3, currency: "USD" },
+        });
+      } catch (err) {
+        refused = /would exceed budget cap/.test(String(err.message));
+      }
+      if (!refused) {
+        console.error("expected budget refusal after seed; spent=", amountSpent(), "cap=", BUDGET_USD);
+        process.exit(4);
+      }
+    `;
+
+    const result = spawnSync(process.execPath, ["--input-type=module", "-e", script], {
+      encoding: "utf8",
+      env: { ...process.env, MONID_COST_LOG: seedLog },
+    });
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    rmSync(dirname(seedLog), { recursive: true, force: true });
   });
 });

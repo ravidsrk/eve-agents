@@ -1,4 +1,4 @@
-import { defineSandbox } from "eve/sandbox";
+import { defineSandbox, type SandboxSession } from "eve/sandbox";
 import { superserveBackend } from "@eve-agents/superserve-backend";
 
 /**
@@ -66,10 +66,7 @@ export default defineSandbox({
   },
 });
 
-async function provisionBootstrapArtifacts(sandbox: {
-  writeTextFile: (input: { path: string; content: string }) => Promise<void>;
-  run: (input: { command: string }) => Promise<{ exitCode: number; stderr: string }>;
-}) {
+async function provisionBootstrapArtifacts(sandbox: SandboxSession) {
   await sandbox.writeTextFile({
     path: SANDBOX_MARKER_PATH,
     content: SANDBOX_MARKER_TOKEN,

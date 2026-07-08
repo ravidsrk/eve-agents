@@ -3,21 +3,20 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "dist",
-    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
     "noEmit": true,
     "types": [
       "node"
-    ]
+    ],
+    "allowImportingTsExtensions": true
   },
   "include": [
     "agent/**/*.ts",
     "evals/**/*.ts",
-    ".eve/**/*.d.ts"
+    ".eve/**/*.d.ts",
+    "../_shared/**/*.ts"
   ]
 }

@@ -23,6 +23,7 @@ const steps = [
     args: ["run", "test", "-w", "@eve-agents/superserve-backend"],
   },
   { name: "test:stream-until-done", command: "node", args: ["scripts/test-stream-until-done.mjs"] },
+  { name: "test:run-typecheck", command: "node", args: ["scripts/test-run-typecheck.mjs"] },
 ];
 
 let failed = 0;

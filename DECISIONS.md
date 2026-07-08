@@ -40,6 +40,13 @@
 - Wired remaining acceptance into keyless CI: `verify:production`, `@eve-agents/agent-kit` tests, superserve `toCommand` tests, REL-002 stream-capture unit tests, SEC-001 smoke rejects unauthenticated/wrong secret.
 - Updated readiness/ops docs: BASE→main promotion is done; remaining work is human OPS only.
 
+## 2026-07-08 — Phase 7 hardening
+
+- **Next after closeout:** make DEP-001 and Monid spend durable without requiring human OPS for every cold start.
+- Dependabot for npm + Actions; `run-typecheck.mjs` prefers `tsgo` and falls back to `tsc --noEmit`.
+- Monid `seedSpentFromLedger()` so budget caps survive process restarts when the ledger path is sticky.
+- Human-only leftovers: `ALERT_WEBHOOK_SECRET` on Vercel, paid gateway evals, optional tsgo vendor mirror.
+
 ### Placement defaults
 - Independent fixes → new worktree + branch `ravidsrk/<slug>` off BASE
 - Review-fix cycles → same worktree fresh terminal

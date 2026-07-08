@@ -1,0 +1,30 @@
+# Dependabot — keep pre-release toolchain and Actions pins visible (DEP-001).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      typescript-toolchain:
+        patterns:
+          - "@typescript/native-preview"
+          - "typescript"
+          - "@types/node"
+      eve-runtime:
+        patterns:
+          - "eve"
+          - "ai"
+          - "@ai-sdk/*"
+    ignore:
+      # Workspace agents pin "*" for local packages; Dependabot should not churn them.
+      - dependency-name: "@eve-agents/*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5

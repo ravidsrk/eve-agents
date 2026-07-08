@@ -47,10 +47,11 @@
     "test:monid-tools": "npm run test -w @eve-agents/monid-tools",
     "test:superserve-backend": "npm run test -w @eve-agents/superserve-backend",
     "test:stream-until-done": "node scripts/test-stream-until-done.mjs",
+    "test:run-typecheck": "node scripts/test-run-typecheck.mjs",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test:all",
     "test:all": "node scripts/test-all.mjs",
-    "test:structure": "npm run verify:catalog && npm run verify:runtime && npm run verify:evals && npm run verify:production && npm run test:profile && npm run test:agent-kit && npm run test:monid-tools && npm run test:superserve-backend && npm run test:stream-until-done",
+    "test:structure": "npm run verify:catalog && npm run verify:runtime && npm run verify:evals && npm run verify:production && npm run test:profile && npm run test:agent-kit && npm run test:monid-tools && npm run test:superserve-backend && npm run test:stream-until-done && npm run test:run-typecheck",
     "eval:flagship": "bash scripts/eval-flagship.sh",
     "eval:hitl-catalog": "bash scripts/eval-catalog-hitl.sh",
     "eval:s-tier": "bash scripts/eval-s-tier.sh",
@@ -68,6 +69,7 @@
   },
   "devDependencies": {
     "just-bash": "^3.0.1",
-    "microsandbox": "^0.5.7"
+    "microsandbox": "^0.5.7",
+    "typescript": "^5.9.3"
   }
 }

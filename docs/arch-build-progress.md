@@ -1,13 +1,14 @@
 # Architecture Build Progress — FRESH RUN 2026-06-19
 
 ## PHASE
-VERIFY
+CLOSED (promoted to main)
 
 ## RUN META
 - REPO_ROOT: `/Users/ravindra/projects/eve-agents`
-- BASE: `ravidsrk/adversarial-fresh`
+- BASE: `ravidsrk/adversarial-fresh` (merged to `main` via PR #9)
 - MAINTAINER: Ravindra Kumar `<ravidsrk@gmail.com>`
 - Review frozen: 500c5c2 (skeptic e8c1bd9)
+- Closeout follow-up: 2026-07-08 (CI acceptance wiring + docs)
 
 ## CLOSE-INDEX
 
@@ -35,4 +36,4 @@ All fix tasks terminal: CODED=t PR_OPEN=t REVIEWED=t MERGED=t ACCEPT=t (fixture/
 See `docs/arch-ops-actions.md`
 
 ## CONTEXT HANDOFF
-Run complete. Readiness: `docs/arch-build-readiness.md`. BASE pushed with 6 merged PRs + follow-up commits for verify-catalog + REL-003 killOnDispose + DEP-001 ci check.
+Engineering complete on `main`. Readiness: `docs/arch-build-readiness.md`. Remaining items are human OPS only (secrets, toolchain mirror, paid gateway evals).

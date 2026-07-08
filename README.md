@@ -87,6 +87,7 @@ AGENT_CATALOG.md  Full agent index with tiers and ports (folder paths unchanged)
 | `npm test` | Full structure suite |
 | `npm run verify:catalog` | 50 catalog agents — layout + dossier |
 | `npm run verify:runtime` | Dual-track snippets in agent source |
+| `npm run verify:production` | Production agents — channel auth + profile |
 | `npm run catalog:list` | JSON index of all 75 agents |
 
 ### Eval (needs keys)

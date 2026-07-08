@@ -45,5 +45,6 @@ Guides for developing, deploying, and operating the Eve Agents library.
 | Doc | Purpose |
 | --- | --- |
 | [adversarial-review-fresh.md](./adversarial-review-fresh.md) | Code-grounded architecture review (2026-06) |
-| [arch-build-readiness.md](./arch-build-readiness.md) | Finding close-out after review fixes |
-| [arch-ops-actions.md](./arch-ops-actions.md) | Human-owned OPS queue (not automated) |
+| [arch-build-readiness.md](./arch-build-readiness.md) | Finding close-out after review fixes (on `main`) |
+| [arch-ops-actions.md](./arch-ops-actions.md) | Remaining human OPS (secrets, toolchain mirror) |
+| [arch-build-progress.md](./arch-build-progress.md) | Orchestration ledger for the FRESH review run |

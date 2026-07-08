@@ -13,8 +13,16 @@ const steps = [
   { name: "verify:catalog", command: "node", args: ["scripts/verify-catalog.mjs"] },
   { name: "verify:runtime", command: "node", args: ["scripts/verify-runtime.mjs"] },
   { name: "verify:evals", command: "node", args: ["scripts/verify-evals.mjs"] },
+  { name: "verify:production", command: "node", args: ["scripts/verify-production.mjs"] },
   { name: "test:profile", command: "npm", args: ["run", "test:profile"] },
+  { name: "test:agent-kit", command: "npm", args: ["run", "test", "-w", "@eve-agents/agent-kit"] },
   { name: "test:monid-tools", command: "npm", args: ["run", "test", "-w", "@eve-agents/monid-tools"] },
+  {
+    name: "test:superserve-backend",
+    command: "npm",
+    args: ["run", "test", "-w", "@eve-agents/superserve-backend"],
+  },
+  { name: "test:stream-until-done", command: "node", args: ["scripts/test-stream-until-done.mjs"] },
 ];
 
 let failed = 0;

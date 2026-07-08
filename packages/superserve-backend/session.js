@@ -21,7 +21,7 @@ function resolvePath(p) {
 }
 
 // Extract a command string from the AI-SDK run/spawn options.
-function toCommand(options) {
+export function toCommand(options) {
   if (typeof options === "string") return options;
   if (options?.command) {
     if (Array.isArray(options.command)) {

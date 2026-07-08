@@ -29,10 +29,16 @@
 
 ### Safety rails (non-negotiable)
 - Testnet/staging/fixtures only for acceptance
-- Merge ≠ deploy; BASE→main is human-owned
+- Merge ≠ deploy; BASE→main is human-owned (completed via PR #9)
 - Infra apply = OPS (record in `docs/arch-ops-actions.md`, not executed)
 - No secrets in commits; gitleaks before push
 - Preserve merge commits; never squash
+
+## 2026-07-08 — Adversarial closeout on main
+
+- Confirmed all CODE findings from `docs/adversarial-review-fresh.md` are present on `main`.
+- Wired remaining acceptance into keyless CI: `verify:production`, `@eve-agents/agent-kit` tests, superserve `toCommand` tests, REL-002 stream-capture unit tests, SEC-001 smoke rejects unauthenticated/wrong secret.
+- Updated readiness/ops docs: BASE→main promotion is done; remaining work is human OPS only.
 
 ### Placement defaults
 - Independent fixes → new worktree + branch `ravidsrk/<slug>` off BASE

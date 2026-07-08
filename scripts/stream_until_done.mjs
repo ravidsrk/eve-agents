@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 import { createWriteStream } from "node:fs";
+import {
+  handleStreamLine,
+  streamExitCode,
+} from "./lib/stream-capture.mjs";
 
 const [url, outFile, timeoutSeconds = "180"] = process.argv.slice(2);
 if (!url || !outFile) {
@@ -11,40 +15,26 @@ const timeoutMs = Number(timeoutSeconds) * 1000;
 const controller = new AbortController();
 const timer = setTimeout(() => controller.abort(), timeoutMs);
 const out = createWriteStream(outFile, { flags: "w" });
+const state = {
+  events: 0,
+  done: false,
+  failed: false,
+  write: (line) => {
+    out.write(`${line}\n`);
+  },
+};
 let buffer = "";
-let events = 0;
-let done = false;
-let failed = false;
-
-function handleLine(line) {
-  if (!line.trim()) return;
-  events += 1;
-  out.write(`${line}\n`);
-  let event;
-  try {
-    event = JSON.parse(line);
-  } catch {
-    return;
-  }
-  if (event.type === "session.failed" || event.type === "turn.failed") {
-    done = true;
-    failed = true;
-    return;
-  }
-  if (event.type === "session.waiting" || event.type === "session.completed") {
-    done = true;
-  }
-}
+let httpFailed = false;
 
 try {
   const res = await fetch(url, { signal: controller.signal });
   if (!res.ok) {
     console.error(`stream HTTP ${res.status}`);
-    process.exitCode = 1;
+    httpFailed = true;
   } else {
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
-    while (!done) {
+    while (!state.done) {
       const { done: streamDone, value } = await reader.read();
       if (streamDone) break;
       buffer += decoder.decode(value, { stream: true });
@@ -52,37 +42,44 @@ try {
       while ((idx = buffer.indexOf("\n")) !== -1) {
         const line = buffer.slice(0, idx);
         buffer = buffer.slice(idx + 1);
-        handleLine(line);
-        if (done) {
-          await reader.cancel();
+        handleStreamLine(line, state);
+        if (state.done) {
+          try {
+            await reader.cancel();
+          } catch {
+            // cancel may surface as AbortError; terminal state already recorded
+          }
           break;
         }
       }
     }
-    if (buffer.trim()) handleLine(buffer);
+    if (buffer.trim()) handleStreamLine(buffer, state);
   }
 } catch (error) {
-  if (error?.name === "AbortError" && events > 0) {
-    console.error(`stream timed out after ${timeoutSeconds}s with ${events} events`);
-  } else {
+  if (error?.name === "AbortError" && state.events > 0 && !state.done) {
+    console.error(`stream timed out after ${timeoutSeconds}s with ${state.events} events`);
+  } else if (!state.done) {
     console.error(`stream failed: ${error}`);
   }
-  process.exitCode = done ? 0 : 1;
+  if (!state.done) httpFailed = true;
 } finally {
   clearTimeout(timer);
   await new Promise((resolve) => out.end(resolve));
 }
 
-if (!done && !process.exitCode) {
+const code = streamExitCode({
+  done: state.done,
+  failed: state.failed,
+  exitCode: httpFailed ? 1 : 0,
+});
+
+if (!state.done) {
   console.error("stream ended before completion marker");
-  process.exitCode = 1;
 }
-
-if (failed) {
+if (state.failed) {
   console.error("stream ended with session.failed or turn.failed");
-  process.exitCode = 1;
 }
-
-if (!process.exitCode) {
-  console.log(`stream captured ${events} events`);
+if (code === 0) {
+  console.log(`stream captured ${state.events} events`);
 }
+process.exitCode = code;

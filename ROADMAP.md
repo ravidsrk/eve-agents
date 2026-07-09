@@ -2,7 +2,7 @@
 
 Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wiring** into **the public Eve Agents library for Vercel eve**.
 
-**Status:** Phases 0–5 complete · Phase 6 operational docs shipped · **Last updated:** 2026-06-19
+**Status:** Phases 0–6 complete · Phase 7 in progress · **Last updated:** 2026-07-08
 
 ---
 
@@ -17,6 +17,7 @@ Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wir
 | 4 Channels + deploy | Done | 100% |
 | 5 Scale + production | Done | 100% |
 | 6 Fleet + observability | Done (v1) | 100% |
+| 7 Hardening + durability | In progress | ~85% |
 
 **Production URLs:** [eve-incident-commander.vercel.app](https://eve-incident-commander.vercel.app) · [eve-support-triage.vercel.app](https://eve-support-triage.vercel.app)
 
@@ -99,6 +100,22 @@ Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wir
 
 ---
 
+## Phase 7 — Hardening & durability 🚧
+
+Close remaining adversarial OPS gaps and make spend/typecheck durable across cold starts.
+
+- [x] Adversarial CODE findings closed + acceptance in keyless CI (PR #10)
+- [x] Dependabot for npm + GitHub Actions (DEP-001 visibility)
+- [x] `scripts/run-typecheck.mjs` — `tsgo` with `tsc --noEmit` fallback
+- [x] Root `typescript` pin so fallback resolves without native-preview
+- [x] Monid budget seeds from cost ledger on cold start (sticky `/tmp` / shared volume)
+- [x] Fleet `npm run typecheck` green (profile sandbox types, reference tsconfigs, A06 eval API)
+- [ ] Human: set `ALERT_WEBHOOK_SECRET` on flagship Vercel project
+- [ ] Human: optional paid AI Gateway credits for `eval:deployed:flagship`
+- [ ] Optional: vendor/mirror a known-good `tsgo` binary if npm unpublishes the pin
+
+---
+
 ## Manual follow-ups (optional)
 
 | Item | Action |
@@ -107,6 +124,7 @@ Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wir
 | CI vars | `EVAL_S_TIER_ENABLED`, `VERCEL_DEPLOY_ENABLED`, `EVAL_ROTATE_ENABLED` |
 | Live Slack | `vercel connect` on A06 — see `docs/CONNECT.md` |
 | Reference 10/10 | HITL/sandbox fixtures may flake on OpenRouter — see `docs/VERIFY-REFERENCE.md` |
+| Flagship webhook | Set `ALERT_WEBHOOK_SECRET` — see `docs/SECURITY.md` |
 
 ---
 
@@ -121,3 +139,4 @@ Phase-by-phase plan to evolve this repo from **75 eve-shaped agents with lab wir
 | 4 | Done | 2 production URLs, channels |
 | 5 | Done | 50 evals, P01–P10, CONTRIBUTING |
 | 6 | Done | OTel hook, cost/rollback runbooks |
+| 7 | In progress | Dependabot, typecheck fallback, Monid ledger seed |

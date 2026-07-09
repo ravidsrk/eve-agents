@@ -61,7 +61,7 @@ npm run validate:reference
 ## PR checklist
 
 - [ ] `npm test` (structure + package unit tests)
-- [ ] `npm run typecheck`
+- [ ] `npm run typecheck` (uses `tsgo`, falls back to `tsc` via `scripts/run-typecheck.mjs`)
 - [ ] No secrets, tokens, or `run.log` in the diff
 - [ ] Gitleaks passes (CI job on `main`)
 - [ ] Flagship changes: `npm run eval:flagship` (needs keys)

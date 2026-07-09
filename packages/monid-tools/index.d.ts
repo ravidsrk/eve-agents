@@ -1,5 +1,7 @@
 export declare const BUDGET_USD: number;
 export declare const MAX_CALL_USD: number;
+/** Sum chargedUsd from an existing JSONL cost ledger (cold-start seed). */
+export declare function seedSpentFromLedger(logPath?: string): number;
 export declare function amountSpent(): number;
 export declare function discover(query: string, limit?: number): Promise<any>;
 export declare function inspect(provider: string, endpoint: string): Promise<any>;

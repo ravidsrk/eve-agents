@@ -39,9 +39,8 @@ export default defineEval({
       throw new Error(`Unexpected alert response: ${JSON.stringify(payload)}`);
     }
 
-    const session = await t.target.attachSession(payload.sessionId);
-    const turn = await session.readTurn();
-    turn.expectOk();
+    // attachSession consumes the turn into the eval run; assert via t.* helpers.
+    await t.target.attachSession(payload.sessionId);
 
     t.didNotFail();
     t.completed();

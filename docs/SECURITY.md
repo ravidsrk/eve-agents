@@ -59,9 +59,9 @@ ALERT_WEBHOOK_SECRET=your-secret bash scripts/smoke-alert-webhook.sh
 
 ## Monid budget (production agents)
 
-Defaults in code: `MONID_BUDGET_USD=5`, `MONID_MAX_CALL_USD=0.25` per process.
+Defaults in code: `MONID_BUDGET_USD=5`, `MONID_MAX_CALL_USD=0.25`.
 
-Paid `run()` calls are serialized and logged to `MONID_COST_LOG` (defaults to OS tmpdir).
+Paid `run()` calls are serialized and logged to `MONID_COST_LOG` (defaults to OS tmpdir). Cold starts re-seed spent totals from that ledger when the file still exists.
 
 ## SuperServe quota
 

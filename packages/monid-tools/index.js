@@ -2,7 +2,8 @@
 //
 // Monid exposes discover / inspect / run over an HTTP API authenticated with a Bearer key.
 // `discover` and `inspect` are free; `run` is PAID (PER_CALL or PER_RESULT). This client
-// enforces a per-process USD budget cap and logs every paid call to a JSONL cost ledger.
+// enforces a USD budget cap (seeded from the cost ledger when present) and logs every paid
+// call to a JSONL cost ledger.
 
 import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import os from "node:os";
@@ -29,14 +30,41 @@ function readEnvLocalValue(key, startDir = process.cwd()) {
 
 const BASE_URL = process.env.MONID_BASE_URL || "https://api.monid.ai";
 
-/** USD budget cap for paid `run` calls in this process. Override with MONID_BUDGET_USD. */
+/** USD budget cap for paid `run` calls. Override with MONID_BUDGET_USD. */
 export const BUDGET_USD = Number(process.env.MONID_BUDGET_USD ?? "5");
 /** Max USD a single `run` is allowed to cost. Override with MONID_MAX_CALL_USD. */
 export const MAX_CALL_USD = Number(process.env.MONID_MAX_CALL_USD ?? "0.25");
 
 const COST_LOG = process.env.MONID_COST_LOG || join(os.tmpdir(), "monid-costs.jsonl");
 
-let _spent = 0;
+/**
+ * Sum chargedUsd from an existing JSONL cost ledger so cold starts inherit prior spend
+ * when the ledger path is durable across process restarts (e.g. shared volume / sticky /tmp).
+ * @param {string} logPath
+ */
+export function seedSpentFromLedger(logPath = COST_LOG) {
+  if (!existsSync(logPath)) return 0;
+  let total = 0;
+  try {
+    const text = readFileSync(logPath, "utf8");
+    for (const line of text.split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+      try {
+        const entry = JSON.parse(trimmed);
+        const charged = Number(entry.chargedUsd);
+        if (Number.isFinite(charged) && charged > 0) total += charged;
+      } catch {
+        /* skip corrupt lines */
+      }
+    }
+  } catch {
+    return 0;
+  }
+  return total;
+}
+
+let _spent = seedSpentFromLedger(COST_LOG);
 /** Serializes concurrent `run()` budget reserve/reconcile so check-then-act cannot race. */
 let _runQueue = Promise.resolve();
 let _costLogWarned = false;
@@ -46,8 +74,8 @@ export function amountSpent() {
 }
 
 /** @internal resets module state between unit tests */
-export function __testReset({ spent = 0, costLogWarned = false } = {}) {
-  _spent = spent;
+export function __testReset({ spent = 0, costLogWarned = false, reseedsFromLedger = false } = {}) {
+  _spent = reseedsFromLedger ? seedSpentFromLedger(COST_LOG) : spent;
   _runQueue = Promise.resolve();
   _costLogWarned = costLogWarned;
 }

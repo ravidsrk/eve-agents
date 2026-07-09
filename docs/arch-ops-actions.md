@@ -6,8 +6,11 @@
 
 ## DEP-001 — Toolchain mirror (VERIFY_AT_SCALE)
 - **Finding:** `@typescript/native-preview` dev build may be unpublished from npm.
-- **Code shipped:** CI `typecheck` job runs `npx tsgo --version` after `npm ci` to fail early on unresolvable toolchain.
-- **OPS:** Mirror or vendor `tsgo` binary; add Renovate/Dependabot for pre-release pins.
+- **Code shipped:**
+  - CI `typecheck` probes `tsgo` then allows `tsc` fallback via `scripts/run-typecheck.mjs`.
+  - Root `typescript` pin so fallback resolves without native-preview.
+  - Dependabot weekly PRs for npm + GitHub Actions (`.github/dependabot.yml`).
+- **OPS (optional):** Mirror or vendor a known-good `tsgo` binary if npm unpublishes the pin.
 
 ## SEC-001 — Alert webhook secret
 - **OPS:** Set `ALERT_WEBHOOK_SECRET` on Vercel project `eve-incident-commander` and rotate if exposed.

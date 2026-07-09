@@ -95,7 +95,7 @@ function packageJson(spec) {
       dev: "eve dev",
       build: "eve build",
       start: "eve start",
-      typecheck: "tsgo",
+      typecheck: "node ../../../scripts/run-typecheck.mjs",
       "test:evals": "eve eval --strict",
     },
     dependencies: {

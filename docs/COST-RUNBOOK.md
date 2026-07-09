@@ -34,11 +34,13 @@ Catalog agents do **not** call Monid. Production p01–p10 use `@eve-agents/moni
 
 | Env | Default | Meaning |
 | --- | --- | --- |
-| `MONID_BUDGET_USD` | `5` | Max spend per Node process |
+| `MONID_BUDGET_USD` | `5` | Max spend (seeded from ledger when present) |
 | `MONID_MAX_CALL_USD` | `0.25` | Max single `run()` charge |
 | `MONID_COST_LOG` | `<tmpdir>/monid-costs.jsonl` | Append-only ledger |
 
 `run()` refuses calls that would exceed caps and serializes concurrent requests.
+
+On cold start, `_spent` is seeded by summing `chargedUsd` from `MONID_COST_LOG`. That makes the budget durable across process restarts when the ledger path survives (sticky `/tmp`, shared volume, or an explicit durable path). On ephemeral Vercel `/tmp` the seed resets with the filesystem — set `MONID_COST_LOG` to a durable store if you need a global cap.
 
 ## Recommended alerts
 

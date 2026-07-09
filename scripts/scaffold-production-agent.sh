@@ -33,7 +33,7 @@ cat > "$DEST/package.json" <<EOF
     "dev": "eve dev",
     "build": "eve build",
     "start": "eve start",
-    "typecheck": "tsgo",
+    "typecheck": "node ../../../scripts/run-typecheck.mjs",
     "test:e2e": "eve eval --strict"
   },
   "dependencies": {

@@ -68,7 +68,7 @@
     "run:catalog": "bash scripts/run-catalog-agent.sh"
   },
   "devDependencies": {
-    "just-bash": "^3.0.1",
+    "just-bash": "^3.1.0",
     "microsandbox": "^0.5.7",
     "typescript": "^5.9.3"
   }

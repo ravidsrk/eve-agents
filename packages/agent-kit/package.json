@@ -23,7 +23,7 @@
     "@superserve/sdk": "0.8.0"
   },
   "peerDependencies": {
-    "eve": "^0.11.4",
+    "eve": "^0.28.0",
     "zod": "^4.0.0"
   },
   "scripts": {

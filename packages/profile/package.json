@@ -18,6 +18,6 @@
     "@eve-agents/superserve-backend": "*"
   },
   "peerDependencies": {
-    "eve": "^0.11.4"
+    "eve": "^0.28.0"
   }
 }

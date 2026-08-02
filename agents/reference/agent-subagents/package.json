@@ -11,12 +11,12 @@
     "test:e2e": "eve eval --strict"
   },
   "dependencies": {
-    "@ai-sdk/openai-compatible": "3.0.0-beta.57",
+    "@ai-sdk/openai-compatible": "3.0.17",
     "@eve-agents/openrouter": "*",
     "@eve-agents/superserve-backend": "*",
     "@eve-agents/monid-tools": "*",
-    "ai": "7.0.0-beta.178",
-    "eve": "^0.11.4",
+    "ai": "7.0.42",
+    "eve": "^0.28.0",
     "zod": "4.4.3"
   },
   "devDependencies": {

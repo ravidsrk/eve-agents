@@ -139,7 +139,7 @@ jobs:
 
       - name: Comment preview URL
         if: matrix.agent == '06-incident-commander'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const url = process.env.PREVIEW_URL || '(see Vercel dashboard)';

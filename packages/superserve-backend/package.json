@@ -11,7 +11,7 @@
     }
   },
   "dependencies": {
-    "@superserve/sdk": "0.7.4"
+    "@superserve/sdk": "0.8.0"
   },
   "peerDependencies": {
     "eve": "^0.11.4"

@@ -25,7 +25,7 @@
     "@eve-agents/monid-tools": "*",
     "@eve-agents/agent-kit": "*",
     "@eve-agents/profile": "*",
-    "@vercel/connect": "^0.3.2"
+    "@vercel/connect": "^0.6.0"
   },
   "devDependencies": {
     "@types/node": "26.x",

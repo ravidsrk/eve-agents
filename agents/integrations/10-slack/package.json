@@ -16,16 +16,16 @@
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "3.0.0-beta.57",
+    "@eve-agents/agent-kit": "*",
+    "@eve-agents/monid-tools": "*",
     "@eve-agents/openrouter": "*",
     "@eve-agents/superserve-backend": "*",
-    "@eve-agents/monid-tools": "*",
-    "@eve-agents/agent-kit": "*",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.4",
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@types/node": "26.x",
+    "@types/node": "^26.1.2",
     "@typescript/native-preview": "7.0.0-dev.20260707.2"
   },
   "engines": {
